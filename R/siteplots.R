@@ -27,6 +27,7 @@ ni_mpa <- wampa[wampa$NAME %in% c("Ningaloo", "Hamelin Pool", "Shark Bay",
 nw_mpa <- aumpa[aumpa$NetName %in% c("South-west", "North-west"), ]             # just W nat parks
 ni_nmp <- nw_mpa[nw_mpa$ResName %in% c("Abrolhos", "Shark Bay", "Ningaloo", 
                                        "Gascoyne", "Montebello", "Dampier"), ]  # just nat parks nearby
+cwatr  <- readRDS('output/coastal_waters_limit_trimmed.rds')                    # coastal waters line trimmined in 'R/GA_coast_trim.R'
 bathdf <- readRDS("output/ga_bathy_trim.rds")                                   # bathymetry trimmed in 'R/GA_coast_trim.R'
 colnames(bathdf)[3] <- "Depth"
 st_crs(aus)         <- st_crs(aumpa)
@@ -85,6 +86,7 @@ p1 <- ggplot() +
   new_scale_fill() +
   geom_sf(data = ni_nmp, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
   nmpa_cols +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.1) +
   coord_sf(xlim = c(111, 116), ylim = c(-25, -20)) +
   labs(x = NULL, y = NULL, fill = "Commonwealth") +
   guides(fill = guide_legend(order = 1)) +
@@ -117,7 +119,6 @@ p1
 p2 <- ggplot(data = aus) +
   geom_sf(fill = "seashell1", colour = "grey90", size = 0.05, alpha = 4/5) +
   geom_sf(data = nw_mpa, alpha = 5/6, colour = "grey85", size = 0.02) +
-  # geom_sf(data = ab_mpa, alpha = 4/5, colour = "grey85") +
   coord_sf(xlim = c(108, 125), ylim = c(-37, -13)) +
   annotate("rect", xmin = 111, xmax = 116, ymin = -25, ymax = -20, 
            colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
@@ -153,17 +154,18 @@ snmpa_cols <- scale_fill_manual(values = c(#"Habitat Protection Zone" = "#fff8a3
                                           "Recreational Use Zone" = "#ffb36b"
 ))
 
-swampa_cols <- scale_fill_manual(values = c(#"Habitat Protection Zone" = "#fffbcc",
-                                           # "Fish Habitat Protection Area" = "#fbff85",
-                                           # "National Park Zone" = "#a4d194",
-                                           "General Use Zone" = "#e7f6fe",
-                                           "Recreation Zone" = "#ffd7b3",
-                                           "Sanctuary Zone" = "#fce8f1",
-                                           # "Conservation Area" = "#fce8f1",
-                                           "Special Purpose Zone" = "#b8d8fa",
-                                           "Unassigned/Unclassified" = "#ddccff",
-                                           "Special Purpose Zone\n(Shore Based Activities)" = "#ba3030"
-))
+swampa_cols <- scale_fill_manual(values = c(#"Habitat Protection Zone" = "#fffbcc",# State MPA colours
+                                            # "Fish Habitat Protection Area" = "#fbff85",
+                                            # "National Park Zone" = "#a4d194",
+                                            "General Use Zone" = "#bddde1",
+                                            "Recreation Zone" = "#f4e952",
+                                            "Sanctuary Zone" = "#bfd054",
+                                            # "Conservation Area" = "#b3a63d",
+                                            "Special Purpose Zone" = "#c5bcc9",
+                                            # "Marine Management Area" = "#b7cfe1",
+                                            "Unassigned/Unclassified" = "#ddccff",
+                                            "Special Purpose Zone\n(Shore Based Activities)" = "#ba3030"
+                                            ))
 
 # use finer bathy for detailed site map
 sitebathy <- readRDS('output/ga_bathy_fine.rds')
@@ -184,6 +186,7 @@ p3 <- ggplot() +
           alpha = 3/5, colour = NA) +
   snmpa_cols +
   geom_sf(data = aus, fill = "seashell2", colour = NA) +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.15) +
   annotate("rect", xmin = 113.4, xmax = 113.7, ymin = -22.85, ymax = -22.6, 
            colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
   annotate("text", x = 113.86, y = -22.38, size = 3, 
@@ -212,7 +215,7 @@ ggsave("figures/siteplot.png", dpi = 200, width = 9, height = 12)
 
 # even finer bathy for detailed site map
 fsitebathy <- sitebathy[sitebathy$Depth > -1200, ]
-sswampa_cols <- scale_fill_manual(values = c("Sanctuary Zone" = "#fce8f1",
+sswampa_cols <- scale_fill_manual(values = c("Sanctuary Zone" = "#bfd054",
                                              "Unassigned/Unclassified" = "#ddccff",
                                              "Special Purpose Zone\n(Shore Based Activities)" = "#ba3030"))
 
@@ -231,6 +234,7 @@ p4 <- ggplot() +
           alpha = 3/5, colour = NA) +
   snmpa_cols +
   geom_sf(data = aus, fill = "seashell2", colour = "grey80") +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.15) +
   geom_point(data = pcbruv, shape = 10, alpha = 0.9,
              aes(Longitude, Latitude, colour = "BRUV")) +
   geom_point(data = pcboss, shape = 10, alpha = 0.9,
@@ -277,6 +281,7 @@ p5 <- ggplot() +
           alpha = 2/5, colour = "grey90", size = 0.15) +
   snmpa_cols +
   geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.05) +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.15) +
   geom_point(data = pcboss, shape = 10, alpha = 4/5,
              aes(Longitude, Latitude, colour = "Drop Camera")) +
   geom_point(data = tsboss, shape = 10, alpha = 4/5,

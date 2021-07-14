@@ -33,3 +33,10 @@ fbath_df <- as.data.frame(fbath, xy = TRUE)
 saveRDS(fbath_df, 'output/ga_bathy_fine.rds')
 
 rm(cbathy, bath_r, aggbath, abath_df, fbath)
+
+
+# also trim down coastal waters line
+
+cwatr <- st_read("data/spatial/shp/amb_coastal_waters_limit.shp")               # coastal waters line
+cwatr <- st_crop(cwatr, c(xmin = 110, xmax = 117, ymin = -26, ymax = -19))      # crop down the coastal waters line to general project area
+saveRDS(cwatr, 'output/coastal_waters_limit_trimmed.rds')
