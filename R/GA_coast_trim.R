@@ -8,6 +8,7 @@
 ##
 
 library(raster)
+library(sf)
 
 # download relevant tiles from: https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/metadata/67703
 # read in and merge GA coarse bathy tiles
