@@ -9,6 +9,7 @@
 
 library(raster)
 library(sf)
+library(fields)
 
 # download relevant tiles from: https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/metadata/67703
 # read in and merge GA coarse bathy tiles
@@ -39,10 +40,33 @@ rm(cbathy, bath_r, aggbath, abath_df, fbath)
 
 ffbath <- raster("data/spatial/raster/depth_195_50m.tif")
 ffbath <- flip(ffbath, direction = "y")
-ptc_ex <- extent(750000, 780000, 7450000, 7510000)
+ptc_ex <- extent(750000, 790000, 7450000, 7550000)
 ffbath <- crop(ffbath, ptc_ex)
 plot(ffbath)
 saveRDS(ffbath, 'output/ptcloates_50mbathy.rds')
+
+# 5m bathy layer - bring in and merge relevant panes
+# pt cloates panes
+# fbatha <- raster("data/spatial/raster/ningaloo_nesp_all_5m.120.tif")
+fbathb <- raster("data/spatial/raster/ningaloo_nesp_all_5m.130.tif")
+# fbathc <- raster("data/spatial/raster/ningaloo_nesp_all_5m.140.tif")
+# fbaths <- merge(fbatha, fbathb)
+plot(fbathb) # just work here for now (hopefully)
+
+# interpolate to fill holes in the 5m data using TPS - be aware that this step is very slow
+
+fbathten <- aggregate(fbathb, 20)
+plot(fbathten)
+fbath_df <- as.data.frame(fbathten, xy = TRUE, na.rm = TRUE)
+fb_tps   <- fastTps(x = cbind(fbath_df$x, fbath_df$y), 
+                    Y = fbath_df$ningaloo_nesp_all_5m.130) # if this creates error, may have to use Tps (slow)
+bathi    <- interpolate(fbathb, fb_tps)
+plot(bathi)
+bathy_orig <- mask(bathi, fbathb, inverse = TRUE) # select non-holes
+bathy_merg <- merge(bathi, bathy_orig)
+plot(bathy_merg)
+
+saveRDS(bathy_merg, "output/nesp_5m_bathy_interp_ptcloates.rds")
 
 # also trim down coastal waters line
 
