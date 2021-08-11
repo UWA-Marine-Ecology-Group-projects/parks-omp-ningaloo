@@ -35,6 +35,14 @@ saveRDS(fbath_df, 'output/ga_bathy_fine.rds')
 
 rm(cbathy, bath_r, aggbath, abath_df, fbath)
 
+# 50m bathy layer - trim to pt cloates project area
+
+ffbath <- raster("data/spatial/raster/depth_195_50m.tif")
+ffbath <- flip(ffbath, direction = "y")
+ptc_ex <- extent(750000, 780000, 7450000, 7510000)
+ffbath <- crop(ffbath, ptc_ex)
+plot(ffbath)
+saveRDS(ffbath, 'output/ptcloates_50mbathy.rds')
 
 # also trim down coastal waters line
 
