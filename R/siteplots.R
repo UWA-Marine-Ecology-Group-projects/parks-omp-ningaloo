@@ -1,16 +1,15 @@
 
 ###
-# Project: Parks - Abrolhos Post-Survey
+# Project: Parks - Ningaloo Post-Survey
 # Data:    BRUVS, BOSS
 # Task:    Overview maps
 # author:  Kingsley Griffin
-# date:    Jun 2021
+# date:    Jun/July 2021
 ##
 
 library(sf)
 library(rgeos)
 library(ggplot2)
-library(viridis)
 library(patchwork)
 library(raster)
 library(ggnewscale)
