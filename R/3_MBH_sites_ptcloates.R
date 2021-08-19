@@ -25,10 +25,10 @@ cellStats(inp_overall, "sum")
 
 # fix design parameters
 nbruv <- 30
-# boss - 100m w/ bait - 150m without
+# bruv >350m apart - adding a few extra sites, manually remove any that are too near
 
 ## select sites
-set.seed(42)
+set.seed(42) # boss is using seed 40, 33. 42 was ok, 66, 70, 23 too close
 
 tha_sites <- quasiSamp(n = nbruv, 
                        potential.sites = coordinates(inp_overall), 
@@ -70,4 +70,23 @@ sites_wgs <- spTransform(tha_sites_sp, wgscrs)
 sites_df  <- as.data.frame(sites_wgs, xy = TRUE)
 
 write.csv(sites_df, 'output/planned/ptcloates_bruv_mbh.csv')
+
+# output to shapefile for field
+colnames(sites_df) <- c("easting", "northing", "p_inclusion", 
+                        "ID", "lon", "lat", "xy")
+sites_df$sites     <- c("PC")
+sites_df$site      <- c("PointCloates")
+sites_df$methods   <- c("BRUV")
+sites_df$method    <- c("BRUV")
+sites_df$pointnum  <- c(1:nrow(sites_df))
+sites_df$dropcode  <- interaction(sites_df$sites, sites_df$methods, 
+                                  sites_df$pointnum, sep = "")
+sites_df <- sites_df[ , colnames(sites_df) %in% 
+                        c("lon", "lat", "dropcode", "site", 
+                          "method", "pointnum")]
+sites_df$selected <- c("MBH")
+head(sites_df)
+
+sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
+shapefile(sites_sp, "output/planned/ptcloates_bruv_mbh", overwrite = TRUE)
 
