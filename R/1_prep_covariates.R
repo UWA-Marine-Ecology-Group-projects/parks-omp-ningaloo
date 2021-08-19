@@ -80,8 +80,8 @@ saveRDS(preds, 'output/ptc_covariate_rasts.rds')
 
 ## Yardie Creek -----
 # define yardie project area
-ysite <- newstrip(c(782200, 7528300), xdim = 1500, ydim = 8000, 
-                       heading = 26, siteID = "SiteA", projcrs = sppcrs)
+ysite <- newstrip(c(781900, 7528400), xdim = 1000, ydim = 8000, 
+                       heading = 28, siteID = "SiteA", projcrs = sppcrs)
 y_df  <- fortify(ysite, xy = TRUE)
 plot(ybath)
 plot(ysite, add=T)
@@ -90,7 +90,7 @@ plot(wampa, add=T)
 # prepare predictors 
 extent(ybath)
 extent(ysite)
-y_ext  <- extent(c(778702.5, 784692.5, 7523497, 7532207))                           # round to nearest 50m/res of bathy
+y_ext  <- extent(c(778702.5, 784692.5, 7524307, 7532907))                           # round to nearest 50m/res of bathy
 y_rast <- Blank.Raster(y_ext, sppcrs, res(fbath))
 
 # MP zone coding: 1 = Rec Use, 2 = NPZ

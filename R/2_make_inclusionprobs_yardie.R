@@ -26,14 +26,14 @@ nbruv <- 16
 # convert covariates to categorical layers with breaks that define areas of interest, or evenly using quantiles
 # then define stratification bias by weighting the number of sampling sites that will ideally fall within each category
 hist(preds$depth, breaks = 50)
-bathy_qs   <- c(0, 0.2, 0.4, 0.6, 0.8, 1)                                                 # mainly interested in middle band around old coast
+bathy_qs   <- c(0, 0.3, 0.45, 0.8, 1)                                                 # mainly interested in middle band around old coast
 bathy_cuts <- quantile(preds$depth, bathy_qs)
 bathy_cuts
 cat_bathy  <- cut(preds$depth, breaks = bathy_cuts, na.rm = TRUE)
 plot(stack(preds$depth, cat_bathy))                                             # compare categorical with original data
 bathy_split <- data.frame(zones = unique(cat_bathy),
-                          split = c(0.1, 0.2, 0.5, 0.1, 0.1))                             # split sampling among zones
-bathy_split$zbruv <- bathy_split$split * nbruv                                  # n samples in each zone
+                          split = c(0.06, 0.25, 0.55, 0.14))                             # split sampling among zones
+bathy_split$zbruv <- round(bathy_split$split * nbruv)                                  # n samples in each zone
 bathy_split
 
 hist(preds$slope)

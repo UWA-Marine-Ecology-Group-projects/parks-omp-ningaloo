@@ -71,3 +71,22 @@ sites_df  <- as.data.frame(sites_wgs, xy = TRUE)
 
 write.csv(sites_df, 'output/planned/yardie_bruv_mbh.csv')
 
+# output to shapefile for field
+colnames(sites_df) <- c("easting", "northing", "p_inclusion", 
+                        "ID", "lon", "lat", "xy")
+sites_df$sites     <- c("Y")
+sites_df$site      <- c("Yardie")
+sites_df$methods   <- c("BRUV")
+sites_df$method    <- c("BRUV")
+sites_df$pointnum  <- c(1:nrow(sites_df))
+sites_df$dropcode  <- interaction(sites_df$sites, sites_df$methods, 
+                                  sites_df$pointnum, sep = "")
+sites_df <- sites_df[ , colnames(sites_df) %in% 
+                        c("lon", "lat", "dropcode", "site", 
+                          "method", "pointnum")]
+sites_df$selected <- c("MBH")
+head(sites_df)
+
+sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
+shapefile(sites_sp, "output/planned/yardie_bruv_mbh", overwrite = TRUE)
+
