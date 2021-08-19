@@ -89,5 +89,4 @@ sites_df$selected <- c("MBH")
 head(sites_df)
 
 sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
-shapefile(sites_sp, "output/planned/ptcloates_flashboss_mbh")
-writeOGR(sites_sp, "output/planned/ptcloates_flashboss_mbh", driver = "shapefile")
+shapefile(sites_sp, "output/planned/ptcloates_flashboss_mbh", overwrite = TRUE)
