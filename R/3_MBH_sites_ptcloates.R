@@ -25,6 +25,7 @@ cellStats(inp_overall, "sum")
 
 # fix design parameters
 nbruv <- 30
+# boss - 100m w/ bait - 150m without
 
 ## select sites
 set.seed(42)
@@ -32,7 +33,7 @@ set.seed(42)
 tha_sites <- quasiSamp(n = nbruv, 
                        potential.sites = coordinates(inp_overall), 
                        inclusion.probs = values(inp_overall), 
-                       nSampsToConsider = 2000)
+                       nSampsToConsider = 10000)
 
 tha_sites_sp <- SpatialPointsDataFrame(coords = cbind(tha_sites[1:2]), data = tha_sites)
 

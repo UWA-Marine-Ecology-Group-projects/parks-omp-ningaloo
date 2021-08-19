@@ -32,7 +32,7 @@ bathy_cuts
 cat_bathy  <- cut(preds$depth, breaks = bathy_cuts, na.rm = TRUE)
 plot(stack(preds$depth, cat_bathy))                                             # compare categorical with original data
 bathy_split <- data.frame(zones = unique(cat_bathy),
-                          split = c(0.1, 0.3, 0.1, 0.4, 0.1))                             # split sampling among zones
+                          split = c(0.1, 0.2, 0.1, 0.5, 0.1))                             # split sampling among zones
 bathy_split$zbruv <- bathy_split$split * nbruv                                  # n samples in each zone
 bathy_split
 
@@ -90,8 +90,8 @@ rough_split
 
 # create inclusion probability rasters for levels of each covariate
 # choose carefully here - if you can make do with less rasters for selection, do that
-ic_rasts        <- stack(cat_bathy, cat_slope, cat_tpi, cat_roughness, cat_aspect)
-names(ic_rasts) <- c("cat_bathy", "cat_slope", "cat_tpi", "cat_rough", "cat_aspect")
+ic_rasts        <- stack(cat_bathy, cat_slope)
+names(ic_rasts) <- c("cat_bathy", "cat_slope")
 plot(ic_rasts)
 
 icr_df <- as.data.frame(ic_rasts, xy = TRUE)

@@ -17,17 +17,23 @@ source("R/functions.R")
 
 # get and sort spatial boundaries
 aumpa  <- readOGR("data/spatial/shp/AustraliaNetworkMarineParks.shp")           # all aus mpas
+wampa  <- readOGR("data/spatial/shp/WA_MPA_2018.shp")
 fbath  <- readRDS("output/nesp_5m_bathy_interp_ptcloates.rds")
+ybath  <- readRDS("output/nesp_5m_bathy_interp_yardie.rds")
 wgscrs <- CRS("+proj=longlat +datum=WGS84")
 sppcrs <- CRS("+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs")       # crs for sp objects
 
 # clean data and sort out crs issues
 aumpa <- aumpa[aumpa$ResName %in% c("Ningaloo"), ]
+wampa <- wampa[wampa$NAME %in% c("Ningaloo"), ]
 fbath[fbath[] < -150] <- NA
+ybath[ybath[] < -150] <- NA
 fbdf  <- as.data.frame(fbath, xy = TRUE)
 colnames(fbdf)[3]   <- "Depth"
 proj4string(aumpa)  <- wgscrs
+proj4string(wampa)  <- wgscrs
 aumpa               <- spTransform(aumpa, sppcrs)
+wampa               <- spTransform(wampa, sppcrs)
 
 ## Pt Cloates ----
 # define pt cloates project area
@@ -74,31 +80,25 @@ saveRDS(preds, 'output/ptc_covariate_rasts.rds')
 
 ## Yardie Creek -----
 # define yardie project area
-ysite <- newstrip(c(783000, 7533400), xdim = 2500, ydim = 10000, 
-                       heading = 25, siteID = "SiteA", projcrs = sppcrs)
+ysite <- newstrip(c(782200, 7528300), xdim = 1500, ydim = 8000, 
+                       heading = 26, siteID = "SiteA", projcrs = sppcrs)
 y_df  <- fortify(ysite, xy = TRUE)
-
-# plot yardie site area
-p1 <- ggplot() +
-  geom_raster(data = fbdf, aes(x, y, fill = Depth)) +
-  scale_fill_viridis(option = "D") +
-  geom_contour(data = fbdf, aes(x = x, y = y, z = Depth),
-               binwidth = 10, colour = "white", alpha = 3/5, size = 0.1) +
-  geom_polygon(data = aumpa, aes(long, lat, group = group), alpha = 4/5) +
-  geom_polygon(data = y_df, aes(long, lat),  fill = NA, colour = "red") +
-  coord_equal(xlim = c(776000, 786000), ylim= c(7510000, 7540000)) +
-  theme_minimal()
-p1 
+plot(ybath)
+plot(ysite, add=T)
+plot(wampa, add=T)
 
 # prepare predictors 
+extent(ybath)
 extent(ysite)
-y_ext  <- extent(c(779550, 786350, 7528350, 7538400))                           # round to nearest 50m/res of bathy
+y_ext  <- extent(c(778702.5, 784692.5, 7523497, 7532207))                           # round to nearest 50m/res of bathy
 y_rast <- Blank.Raster(y_ext, sppcrs, res(fbath))
 
 # MP zone coding: 1 = Rec Use, 2 = NPZ
-mprast <- rasterize(x = aumpa, y = y_rast, field = 'inside') 
+wampa$inside <- c(1)
+wampa$inside[wampa$COMMENTS == "Osprey Sanctuary Zone"] <- 2
+mprast <- rasterize(x = wampa, y = y_rast, field = 'inside') 
 
-y_bath <- crop(fbath, y_ext)
+y_bath <- crop(ybath, y_ext)
 y_terr <- terrain(y_bath, neighbours = 8, unit = "degrees",
                     opt = c("slope", "aspect", "TPI", "TRI", "roughness"))
 

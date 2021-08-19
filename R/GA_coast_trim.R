@@ -68,6 +68,27 @@ plot(bathy_merg)
 
 saveRDS(bathy_merg, "output/nesp_5m_bathy_interp_ptcloates.rds")
 
+# Yardie Ck area
+
+# pt cloates panes
+ybatha <- raster("data/spatial/raster/ningaloo_nesp_all_5m.82.tif")
+ybathb <- raster("data/spatial/raster/ningaloo_nesp_all_5m.92.tif")
+ybaths <- merge(ybatha, ybathb)
+plot(ybaths) # just work here for now (hopefully)
+
+# interpolate to fill holes in the 5m data using TPS - be aware that this step is very slow
+ybathag <- aggregate(ybaths, 20)
+# yag_df  <- as.data.frame(ybathag, xy = TRUE, na.rm = TRUE)
+# yc_tps  <- Tps(x = yag_df[1:2], Y = yag_df[3])     # hashing this in favour of aggregated vals
+# yint    <- interpolate(ybaths, fb_tps)
+# plot(yint)
+ybathdag <- disaggregate(ybathag, 20)
+y_orig <- mask(ybathdag, ybaths, inverse = TRUE) # select hole contents from 20m aggregated raster
+y_merg <- merge(ybaths, y_orig)
+plot(y_merg)
+
+saveRDS(y_merg, "output/nesp_5m_bathy_interp_yardie.rds")
+
 # also trim down coastal waters line
 
 cwatr <- st_read("data/spatial/shp/amb_coastal_waters_limit.shp")               # coastal waters line
