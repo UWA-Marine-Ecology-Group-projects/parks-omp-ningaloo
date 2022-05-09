@@ -71,3 +71,22 @@ Blank.Raster <- function(extent, crsobj, resolution){
   return(rast)
 }
 
+
+# Convert decimal degrees to Lat/Long CPLOT format
+DDtolatlon <- function(coordxy){
+  require(measurements)
+  coordxy[ , 1] <- measurements::conv_unit(coordxy[, 1], 
+                                           from = "dec_deg", 
+                                           to = "deg_dec_min")
+  coordxy[ , 2] <- coordxy[ , 2] * -1
+  coordxy[ , 2] <- measurements::conv_unit(coordxy[, 2], 
+                                           from = "dec_deg", 
+                                           to = "deg_dec_min")
+  coordxy[ , 1] <- gsub(' ', '.', coordxy[ , 1])
+  coordxy[ , 2] <- gsub(' ', '.', coordxy[ , 2])
+  coordxy[ , 1] <- substr(coordxy[ , 1], start = 1, stop = 11)
+  coordxy[ , 1] <- paste0(coordxy[ , 1], "E", sep = "")
+  coordxy[ , 2] <- substr(coordxy[ , 2], start = 1, stop = 10)
+  coordxy[ , 2] <- paste0(coordxy[ , 2], "S", sep = "")
+  return(coordxy)
+  }

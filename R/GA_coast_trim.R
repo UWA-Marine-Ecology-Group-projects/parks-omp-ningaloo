@@ -13,13 +13,14 @@ library(fields)
 
 # download relevant tiles from: https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/metadata/67703
 # read in and merge GA coarse bathy tiles
-cbaths <- list.files("data/spatial/raster", "*tile", full.names = TRUE)
+cbaths <- list.files("data/spatial/raster/SS", "*tile", full.names = TRUE)
 cbathy <- lapply(cbaths, 
                  function(x){read.table(file = x, header = TRUE, sep = ",")})
 cbathy <- do.call("rbind", lapply(cbathy, as.data.frame)) 
-cbathy <- cbathy[cbathy$Z <= 5 & cbathy$X < 117, ]                             # remove elevation and crop to w.coast
+cbathy <- cbathy[cbathy$Z <= 5 & cbathy$X < 115 & cbathy$X > 112 &
+                   cbathy$Y > -23.5 & cbathy$Y < -21, ]                             # remove elevation and crop to w.coast
 bath_r <- rasterFromXYZ(cbathy)
-# plot(bath_r)
+plot(bath_r)
 
 # aggregate raster to reduce size and plotting time etc
 aggbath  <- aggregate(bath_r, 10, fun = max, na.rm = TRUE)
