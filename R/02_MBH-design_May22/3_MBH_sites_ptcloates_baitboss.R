@@ -76,16 +76,22 @@ colnames(sites_df) <- c("easting", "northing", "p_inclusion",
                         "ID", "lon", "lat", "xy")
 sites_df$sites     <- c("PC")
 sites_df$site      <- c("PointCloates")
-sites_df$methods   <- c("BB")
-sites_df$method    <- c("Baited Boss")
-sites_df$pointnum  <- c(1:nrow(sites_df))
-sites_df$dropcode  <- interaction(sites_df$sites, sites_df$methods, 
+sites_df$methods   <- c("N")
+sites_df$method    <- c("Naked Boss")
+sites_df$pointnum  <- c(201:(nrow(sites_df) + 200))
+sites_df$dropcode  <- interaction(sites_df$methods, 
                                   sites_df$pointnum, sep = "")
-sites_df <- sites_df[ , colnames(sites_df) %in% 
-                        c("lon", "lat", "dropcode", "site", 
-                          "method", "pointnum")]
 sites_df$selected <- c("MBH")
+sites_df <- sites_df[ , colnames(sites_df) %in% 
+                        c("lon", "lat",
+                          "method", "selected", "dropcode")]
 head(sites_df)
+
+pref_df <- readRDS("output/2205_MBHDesign/preferential_sitecodes.rds")
+pref_df$dropcode <- interaction(c("N"), c((201 + nrow(sites_df)):((200 + nrow(sites_df)) + nrow(pref_df))), sep = "")
+pref_df$method <- c("Naked Boss")
+
+sites_df <- rbind(sites_df, pref_df)
 
 sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh", overwrite = TRUE)
