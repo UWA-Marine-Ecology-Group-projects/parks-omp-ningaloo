@@ -69,8 +69,6 @@ wgscrs <- CRS("+proj=longlat +datum=WGS84")
 sites_wgs <- spTransform(tha_sites_sp, wgscrs)
 sites_df  <- as.data.frame(sites_wgs, xy = TRUE)
 
-write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh.csv')
-
 # output to shapefile for field
 colnames(sites_df) <- c("easting", "northing", "p_inclusion", 
                         "ID", "lon", "lat", "xy")
@@ -92,6 +90,9 @@ pref_df$dropcode <- interaction(c("N"), c((201 + nrow(sites_df)):((200 + nrow(si
 pref_df$method <- c("Naked Boss")
 
 sites_df <- rbind(sites_df, pref_df)
+head(sites_df)
+
+write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh.csv')
 
 sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh", overwrite = TRUE)

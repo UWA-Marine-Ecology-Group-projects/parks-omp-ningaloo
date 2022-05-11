@@ -85,8 +85,6 @@ sites_wgs <- spTransform(tha_sites_sp, wgscrs)
 sites_df  <- as.data.frame(sites_wgs, xy = TRUE)
 head(sites_df)
 
-# write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_bruv_mbh.csv')
-
 # output to shapefile for field
 colnames(sites_df) <- c("easting", "northing", "p_inclusion", 
                         "ID", "lon", "lat", "xy")
@@ -104,8 +102,8 @@ sites_df$selected <- c("MBH")
 head(sites_df)
 
 # tidy preferential site info and join
-pref_df$method <- c("BRUV")
-pref_df$methods <- c("B")
+pref_df$method   <- c("BRUV")
+pref_df$methods  <- c("B")
 pref_df$selected <- c("Preferential")
 pref_df$pointnum <- c((nrow(sites_df) + 1):(nrow(sites_df) + nrow(pref_df)))
 pref_df$dropcode <- interaction(pref_df$methods, pref_df$pointnum, sep = "")
@@ -117,7 +115,10 @@ head(sites_df)
 saveRDS(pref_df, "output/2205_MBHDesign/preferential_sitecodes.rds")
 
 sites_df <- rbind(sites_df, pref_df)
-sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
+head(sites_df)
 
+write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_bruv_mbh.csv')
+
+sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_bruv_mbh", overwrite = TRUE)
 

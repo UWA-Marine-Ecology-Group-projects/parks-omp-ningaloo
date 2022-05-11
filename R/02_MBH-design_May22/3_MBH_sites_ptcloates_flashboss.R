@@ -70,7 +70,6 @@ proj4string(tha_sites_sp) <- sppcrs
 wgscrs <- CRS("+proj=longlat +datum=WGS84")
 sites_wgs <- spTransform(tha_sites_sp, wgscrs)
 sites_df  <- as.data.frame(sites_wgs, xy = TRUE)
-write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_squidboss_mbh.csv')
 
 # output to shapefile for field
 colnames(sites_df) <- c("easting", "northing", "p_inclusion", 
@@ -93,7 +92,7 @@ pref_df$method <- c("Squid Boss")
 head(pref_df)
 
 sites_df <- rbind(sites_df, pref_df)
-
+write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_squidboss_mbh.csv')
 
 sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_squidboss_mbh", overwrite = TRUE)
