@@ -79,20 +79,36 @@ sites_df$site      <- c("PointCloates")
 sites_df$methods   <- c("S")
 sites_df$method    <- c("Squid Boss")
 sites_df$pointnum  <- c(101:(nrow(sites_df) + 100))
-sites_df$dropcode  <- interaction(sites_df$methods, 
-                                  sites_df$pointnum, sep = "")
-sites_df <- sites_df[ , colnames(sites_df) %in% 
-                        c("lon", "lat", "method", "dropcode")]
+sites_df$dropcode  <- interaction(sites_df$methods, sites_df$pointnum, sep = "")
+sites_df <- merge(sites_df, site_covs, by = "ID")
 sites_df$selected <- c("MBH")
-head(sites_df)
+
+sites_short <- sites_df[ , colnames(sites_df) %in% c("lon", "lat", "method", 
+                                                  "dropcode", "selected")]
+head(sites_short)
 
 pref_df <- readRDS("output/2205_MBHDesign/preferential_sitecodes.rds")
 pref_df$dropcode <- interaction(c("S"), c((101 + nrow(sites_df)):((100 + nrow(sites_df)) + nrow(pref_df))), sep = "")
 pref_df$method <- c("Squid Boss")
 head(pref_df)
 
-sites_df <- rbind(sites_df, pref_df)
+sites_short <- rbind(sites_short, pref_df)
 write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_squidboss_mbh.csv')
 
 sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_squidboss_mbh", overwrite = TRUE)
+
+
+# save out a version with some of the covariates
+sites_wcov <- sites_df[ , colnames(sites_df) %in% c("lon", "lat", 
+                                                    "method", "dropcode", 
+                                                    "selected", "depth", 
+                                                    "slope", "p_inclusion")]
+
+pref_wcov <- readRDS("output/2205_MBHDesign/preferential_site_covs.rds")
+pref_wcov$method <- c("Squid Boss")
+
+sites_wcov <- rbind(sites_wcov, pref_wcov)
+write.csv(sites_wcov, "output/2205_MBHDesign/planned/ptcloates_squidboss_sites_wcovs.csv")
+
+

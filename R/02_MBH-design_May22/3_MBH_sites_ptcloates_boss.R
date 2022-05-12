@@ -79,21 +79,35 @@ sites_df$method    <- c("Naked Boss")
 sites_df$pointnum  <- c(201:(nrow(sites_df) + 200))
 sites_df$dropcode  <- interaction(sites_df$methods, 
                                   sites_df$pointnum, sep = "")
+sites_df <- merge(sites_df, site_covs, by = "ID")
 sites_df$selected <- c("MBH")
-sites_df <- sites_df[ , colnames(sites_df) %in% 
-                        c("lon", "lat",
-                          "method", "selected", "dropcode")]
-head(sites_df)
 
-pref_df <- readRDS("output/2205_MBHDesign/preferential_sitecodes.rds")
-pref_df$dropcode <- interaction(c("N"), c((201 + nrow(sites_df)):((200 + nrow(sites_df)) + nrow(pref_df))), sep = "")
-pref_df$method <- c("Naked Boss")
+sites_short <- sites_df[ , colnames(sites_df) %in% c("lon", "lat", "method", 
+                                                     "dropcode", "selected")]
+head(sites_short)
 
-sites_df <- rbind(sites_df, pref_df)
-head(sites_df)
+pref_short <- readRDS("output/2205_MBHDesign/preferential_sitecodes.rds")
+pref_short$dropcode <- interaction(c("N"), c((201 + nrow(sites_df)):((200 + nrow(sites_df)) + nrow(pref_df))), sep = "")
+pref_short$method <- c("Naked Boss")
 
-write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh.csv')
+sites_short <- rbind(sites_short, pref_short)
+head(sites_short)
+
+write.csv(sites_short, 'output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh.csv')
 
 sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh", overwrite = TRUE)
+
+# save out a version with some of the covariates
+sites_wcov <- sites_df[ , colnames(sites_df) %in% c("lon", "lat", 
+                                                    "method", "dropcode", 
+                                                    "selected", "depth", 
+                                                    "slope", "p_inclusion")]
+
+pref_wcov <- readRDS("output/2205_MBHDesign/preferential_site_covs.rds")
+pref_wcov$method <- c("Naked Boss")
+
+sites_wcov <- rbind(sites_wcov, pref_wcov)
+write.csv(sites_wcov, "output/2205_MBHDesign/planned/ptcloates_nakedboss_sites_wcovs.csv")
+
 

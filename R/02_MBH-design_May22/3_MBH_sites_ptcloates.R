@@ -48,7 +48,7 @@ plot(tha_sites_sp, add = TRUE)
 
 # bring in pref sites from previous survey - sites selected manually to preference seabed features
 pref_ptc <- readOGR("output/planned/ptcloates_bruv_pref.shp")
-pref_df  <- as.data.frame(pref_ptc, xy= TRUE)
+pref_df  <- as.data.frame(pref_ptc, xy = TRUE)
 head(pref_df)
 pref_spdf <- SpatialPointsDataFrame(pref_ptc, data = pref_df)
 proj4string(pref_spdf) <- wgscrs
@@ -95,30 +95,47 @@ sites_df$method    <- c("BRUV")
 sites_df$pointnum  <- c(1:nrow(sites_df))
 sites_df$dropcode  <- interaction(sites_df$methods, 
                                   sites_df$pointnum, sep = "")
-sites_df <- sites_df[ , colnames(sites_df) %in% 
-                        c("lon", "lat",
-                          "method", "dropcode")]
+sites_df <- merge(sites_df, site_covs, by = "ID")
 sites_df$selected <- c("MBH")
-head(sites_df)
+
+sites_short <- sites_df[ , colnames(sites_df) %in% c("lon", "lat", "method", 
+                                                     "dropcode", "selected")]
+head(sites_short)
 
 # tidy preferential site info and join
+pref_df <- merge(pref_df, pref_covs, by = "id")
+
 pref_df$method   <- c("BRUV")
 pref_df$methods  <- c("B")
-pref_df$selected <- c("Preferential")
 pref_df$pointnum <- c((nrow(sites_df) + 1):(nrow(sites_df) + nrow(pref_df)))
 pref_df$dropcode <- interaction(pref_df$methods, pref_df$pointnum, sep = "")
 colnames(pref_df)[3:4] <- c("lon", "lat")
-pref_df <- pref_df[ , colnames(pref_df) %in% c("lon", "lat", 
+pref_df$selected <- c("Preferential")
+pref_short <- pref_df[ , colnames(pref_df) %in% c("lon", "lat", 
                                                "method", "dropcode", "selected")]
-head(pref_df)
-head(sites_df)
-saveRDS(pref_df, "output/2205_MBHDesign/preferential_sitecodes.rds")
+head(pref_short)
+head(sites_short)
+saveRDS(pref_short, "output/2205_MBHDesign/preferential_sitecodes.rds")
 
-sites_df <- rbind(sites_df, pref_df)
-head(sites_df)
+sites_short <- rbind(sites_short, pref_short)
+head(sites_short)
 
-write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_bruv_mbh.csv')
+write.csv(sites_short, 'output/2205_MBHDesign/planned/ptcloates_bruv_mbh.csv')
 
 sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_bruv_mbh", overwrite = TRUE)
 
+# save out a version with some of the covariates
+sites_wcov <- sites_df[ , colnames(sites_df) %in% c("lon", "lat", 
+                                                    "method", "dropcode", 
+                                                    "selected", "depth", 
+                                                    "slope", "p_inclusion")]
+pref_df$p_inclusion <- c(NA)
+pref_wcov <- pref_df[ , colnames(pref_df) %in% c("lon", "lat", 
+                                                    "method", "dropcode", 
+                                                    "selected", "depth", 
+                                                    "slope", "p_inclusion")]
+saveRDS(pref_wcov, "output/2205_MBHDesign/preferential_site_covs.rds")
+
+sites_wcov <- rbind(sites_wcov, pref_wcov)
+write.csv(sites_wcov, "output/2205_MBHDesign/planned/ptcloates_bruv_sites_wcovs.csv")
