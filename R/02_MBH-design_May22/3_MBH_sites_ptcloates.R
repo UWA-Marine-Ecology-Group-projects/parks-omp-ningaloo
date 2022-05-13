@@ -122,7 +122,7 @@ head(sites_short)
 
 write.csv(sites_short, 'output/2205_MBHDesign/planned/ptcloates_bruv_mbh.csv')
 
-sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
+sites_sp <- SpatialPointsDataFrame(coords = sites_df[5:6], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_bruv_mbh", overwrite = TRUE)
 
 # save out a version with some of the covariates

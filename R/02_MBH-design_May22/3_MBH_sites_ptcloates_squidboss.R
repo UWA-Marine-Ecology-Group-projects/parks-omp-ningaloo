@@ -95,7 +95,7 @@ head(pref_df)
 sites_short <- rbind(sites_short, pref_df)
 write.csv(sites_df, 'output/2205_MBHDesign/planned/ptcloates_squidboss_mbh.csv')
 
-sites_sp <- SpatialPointsDataFrame(coords = sites_df[1:2], data = sites_df)
+sites_sp <- SpatialPointsDataFrame(coords = sites_df[5:6], data = sites_df)
 shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_squidboss_mbh", overwrite = TRUE)
 
 
