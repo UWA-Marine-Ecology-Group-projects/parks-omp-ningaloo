@@ -163,3 +163,5 @@ cellStats(inp_overall, 'sum') # to make it equal 1?
 
 saveRDS(inp_overall, "output/2205_MBHDesign/ptcloates_inclusionp_rast.rds")
 
+writeRaster(inp_overall, "output/2205_MBHDesign/ptcloates_inclusionp_rast.tif")
+
