@@ -95,9 +95,6 @@ head(sites_short)
 
 write.csv(sites_short, 'output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh.csv')
 
-sites_sp <- SpatialPointsDataFrame(coords = sites_df[5:6], data = sites_df)
-shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh", overwrite = TRUE)
-
 # save out a version with some of the covariates
 sites_wcov <- sites_df[ , colnames(sites_df) %in% c("lon", "lat", 
                                                     "method", "dropcode", 
@@ -110,4 +107,7 @@ pref_wcov$method <- c("Naked Boss")
 sites_wcov <- rbind(sites_wcov, pref_wcov)
 write.csv(sites_wcov, "output/2205_MBHDesign/planned/ptcloates_nakedboss_sites_wcovs.csv")
 
+# output to shapefile
+sites_sp <- SpatialPointsDataFrame(coords = sites_wcov[2:3], data = sites_wcov)
+shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh", overwrite = TRUE)
 

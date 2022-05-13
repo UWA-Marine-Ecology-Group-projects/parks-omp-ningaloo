@@ -122,9 +122,6 @@ head(sites_short)
 
 write.csv(sites_short, 'output/2205_MBHDesign/planned/ptcloates_bruv_mbh.csv')
 
-sites_sp <- SpatialPointsDataFrame(coords = sites_df[5:6], data = sites_df)
-shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_bruv_mbh", overwrite = TRUE)
-
 # save out a version with some of the covariates
 sites_wcov <- sites_df[ , colnames(sites_df) %in% c("lon", "lat", 
                                                     "method", "dropcode", 
@@ -139,3 +136,7 @@ saveRDS(pref_wcov, "output/2205_MBHDesign/preferential_site_covs.rds")
 
 sites_wcov <- rbind(sites_wcov, pref_wcov)
 write.csv(sites_wcov, "output/2205_MBHDesign/planned/ptcloates_bruv_sites_wcovs.csv")
+
+# output shapefile
+sites_sp <- SpatialPointsDataFrame(coords = sites_wcov[2:3], data = sites_wcov)
+shapefile(sites_sp, "output/2205_MBHDesign/planned/ptcloates_bruv_mbh", overwrite = TRUE)
