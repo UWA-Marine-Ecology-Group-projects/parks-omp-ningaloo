@@ -111,7 +111,7 @@ write.table(cplot_y_bruv , "output/2205_MBHDesign/planned/y_bruv_cplot.txt", sep
 y_nboss <- readOGR("output/2109_planned/yardie_flashboss_mbh.shp")
 ynb_df  <- as.data.frame(y_nboss)
 ynb_df  <- rbind(ynb_df, ypref)
-ynb_df$dropcode <- interaction(c("N"), ynb_df$pointnum, sep="")
+ynb_df$dropcode <- interaction(c("N"), seq(1:nrow(ynb_df)), sep="")
 head(ynb_df)
 
 ynb_df <- ynb_df[, c(1,2,6,7)]
@@ -135,7 +135,7 @@ y_bboss <- readOGR("output/2109_planned/yardie_baitboss_mbh.shp")
 ysb_df  <- as.data.frame(y_bboss)
 head(ysb_df)
 ysb_df  <- rbind(ysb_df, ypref)
-ysb_df$dropcode <- interaction(c("S"), ysb_df$pointnum, sep="")
+ysb_df$dropcode <- interaction(c("S"), seq(1:nrow(ysb_df)), sep="")
 head(ysb_df)
 
 ysb_df <- ysb_df[, c(1,2,6,7)]
@@ -157,22 +157,21 @@ write.table(cplot_y_sboss , "output/2205_MBHDesign/planned/y_sboss_cplot.txt", s
 
 
 
-
 # # couldn't figure out how to get this to work with the quotation marks so I just pasted manually
-# cplot_header <- c("TMQ CPlot Chart Type 2   ",
-#                   "Description: Ningaloo      ",
-#                   "Bounds: 21.30.0000S,113.20.0000E,22.55.0000S,114.20.0000E      ",
-#                   "Format: NM3      ",
-#                   "Rev. Date: 110819/160554     ",
-#                   "Scale: 1:00      ",
-#                   "Mag. Variation: 0     ",
-#                   "Cautions:       ",
-#                   "  "  ,
-#                     "<EOH>       ")
-# 
-# cplot_header[3] <- paste0("Bounds: "21.30.0000S,113.20.0000E,22.55.0000S,114.20.0000E"      ")
+# "TMQ CPlot Chart Type 2   ",
+# "Description: Ningaloo      ",
+# "Bounds: 21.30.0000S,113.20.0000E,22.55.0000S,114.20.0000E      ",
+# "Format: NM3      ",
+# "Rev. Date: 110819/160554     ",
+# "Scale: 1:00      ",
+# "Mag. Variation: 0     ",
+# "Cautions:       ",
+# "  "  ,
+# "<EOH>       "
 
-# copy each file and convert the copy to .MRK file
+# then manually move this file to the cplot folder (avoids missing any files! erk)
+
+# then run this to duplicate each file and convert the copy to .MRK file
 txts <- list.files("output/2205_MBHDesign/planned/cplot", "*.txt", full.names = T)
 for(filei in txts){
 file.copy(filei, paste(gsub(".txt", ".MRK", filei)))
