@@ -5,152 +5,160 @@
 # Data:    BRUVS, BOSS
 # Task:    Preparing shapefiles for CPLOT Plotter
 # author:  Kingsley Griffin
-# date:    Aug 2021
+# date:    May 2022
 ##
 
-library(sp)
+# library(sp)
 library(rgdal)
 source('R/functions.R')
 
-# Pt Cloates - preferential sites 
-ptc_pref <- readOGR("output/planned/ptcloates_pref.shp")
-ptcp_df  <- as.data.frame(ptc_pref)
-
-cplot_ptc_pref <- data.frame("mark" = c("mark"),
-                             "PXYCSLM" = c("PXYCSLM"),
-                             DDtolatlon(ptcp_df[, 2:3]),
-                             "symbol" = c("Red Star"),
-                             "ptcode" = ptcp_df$dropcode,
-                             c(0))
-head(cplot_ptc_pref)
-cplot_ptc_pref <- interaction(cplot_ptc_pref, sep = " ")
-
-write.table(cplot_ptc_pref , "output/planned/cplot/ptc_pref_cplot.txt", sep = "", 
-            col.names = FALSE, row.names = FALSE, quote = FALSE)
-
 # Pt Cloates - bruv sites 
-ptc_bruv <- readOGR("output/planned/ptcloates_bruv_mbh_spaced.shp")
+ptc_bruv <- readOGR("output/2205_MBHDesign/planned/ptcloates_bruv_mbh_spaced.shp")
+
 ptcbr_df  <- as.data.frame(ptc_bruv)
 head(ptcbr_df)
+ptcbr_df <- ptcbr_df[, -c(1, 2)]
+colnames(ptcbr_df)[2:5] <- c("dropcode", "selected", "lon", "lat")
+
+# export csv first
+head(ptcbr_df)
+
+write.csv(ptcbr_df, "output/2205_MBHDesign/planned/ptcloates_bruv_mbh_spaced.csv")
+
+# sort and export to 
 cplot_ptc_bruv <- data.frame("mark" = c("mark"),
                              "PXYCSLM" = c("PXYCSLM"),
-                             DDtolatlon(ptcbr_df[, 1:2]),
+                             DDtolatlon(ptcbr_df[, 4:5]),
                              "symbol" = c("Pink Star"),
                              "ptcode" = ptcbr_df$dropcode,
                              c(0))
 head(cplot_ptc_bruv)
 cplot_ptc_bruv <- interaction(cplot_ptc_bruv, sep = " ")
 head(cplot_ptc_bruv)
-write.table(cplot_ptc_bruv , "output/planned/cplot/ptc_bruv_cplot.txt", sep = "", 
+write.table(cplot_ptc_bruv , "output/2205_MBHDesign/planned/ptc_bruv_cplot.txt", sep = "", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
 
-# Pt Cloates - flash boss sites 
-ptc_boss <- readOGR("output/planned/ptcloates_flashboss_mbh.shp")
+# Pt Cloates - squid boss sites 
+ptc_boss <- readOGR("output/2205_MBHDesign/planned/ptcloates_squidboss_mbh.shp")
 ptcfb_df  <- as.data.frame(ptc_boss)
 head(ptcfb_df)
 cplot_ptc_boss <- data.frame("mark" = c("mark"),
                              "PXYCSLM" = c("PXYCSLM"),
-                             DDtolatlon(ptcfb_df[, 1:2]),
+                             DDtolatlon(ptcfb_df[, 2:3]),
                              "symbol" = c("Black Star"),
-                             "ptcode" = ptcfb_df$dropcode,
+                             "ptcode" = ptcfb_df$dropcod,
                              c(0))
 head(cplot_ptc_boss)
 cplot_ptc_boss <- interaction(cplot_ptc_boss, sep = " ")
 head(cplot_ptc_boss)
-write.table(cplot_ptc_boss , "output/planned/cplot/ptc_fboss_cplot.txt", sep = "", 
+write.table(cplot_ptc_boss , "output/2205_MBHDesign/planned/ptc_squidboss_cplot.txt", sep = "", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
 
-# Pt Cloates - baited boss sites 
-ptc_bboss <- readOGR("output/planned/ptcloates_baitboss_mbh.shp")
+# Pt Cloates - naked boss sites 
+ptc_bboss <- readOGR("output/2205_MBHDesign/planned/ptcloates_nakedboss_mbh.shp")
 ptcbb_df  <- as.data.frame(ptc_bboss)
 head(ptcbb_df)
 cplot_ptc_bboss <- data.frame("mark" = c("mark"),
                               "PXYCSLM" = c("PXYCSLM"),
-                              DDtolatlon(ptcbb_df[, 1:2]),
+                              DDtolatlon(ptcbb_df[, 2:3]),
                               "symbol" = c("Blue Star"),
-                              "ptcode" = ptcbb_df$dropcode,
+                              "ptcode" = ptcbb_df$dropcod,
                               c(0))
 head(cplot_ptc_bboss)
 cplot_ptc_bboss <- interaction(cplot_ptc_bboss, sep = " ")
 head(cplot_ptc_bboss)
-write.table(cplot_ptc_bboss , "output/planned/cplot/ptc_bboss_cplot.txt", sep = "", 
+write.table(cplot_ptc_bboss , "output/2205_MBHDesign/planned/ptc_nakedboss_cplot.txt", sep = "", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
 
 
 # Yardie - 
-shapefile(sites_spdf, "output/planned/yardie_pref", overwrite = TRUE)
-
-# Yardie - preferential
-y_pref <- readOGR("output/planned/yardie_pref.shp")
-yp_df  <- as.data.frame(y_pref)
-head(yp_df)
-cplot_y_pref <- data.frame("mark" = c("mark"),
-                              "PXYCSLM" = c("PXYCSLM"),
-                              DDtolatlon(yp_df[, 2:3]),
-                              "symbol" = c("Red Star"),
-                              "yode" = yp_df$dropcode,
-                              c(0))
-head(cplot_y_pref)
-cplot_y_pref <- interaction(cplot_y_pref, sep = " ")
-head(cplot_y_pref)
-write.table(cplot_y_pref , "output/planned/cplot/y_pref_cplot.txt", sep = "", 
-            col.names = FALSE, row.names = FALSE, quote = FALSE)
 
 # Yardie -  BRUV
-y_bruv <- readOGR("output/planned/yardie_bruv_mbh_spaced.shp")
-ybr_df  <- as.data.frame(y_bruv)
+y_bruv <- readOGR("output/2109_planned/yardie_bruv_mbh_spaced.shp")
+y_pref <- readOGR("output/2109_planned/yardie_pref.shp")
+  
+ybr_df <- as.data.frame(y_bruv)
 head(ybr_df)
+ypref  <- as.data.frame(y_pref, xy = TRUE)
+head(ypref)
+ypref  <- ypref[ , -c(1, 11)]
+head(ypref)
+
+ybr_df <- rbind(ybr_df, ypref)
+head(ybr_df)
+ybr_df$dropcode <- interaction("B", seq(1:nrow(ybr_df)), sep = "")
+
+ybr_df <- ybr_df[ , -c(1, 2)]
+colnames(ybr_df)[6:7] <- c("lon", "lat")
+ybr_df <- ybr_df[ , -3]
+head(ybr_df)
+
+write.csv(ybr_df, "output/2205_MBHDesign/planned/yardie_bruv_renamed.csv")
+
 cplot_y_bruv <- data.frame("mark" = c("mark"),
                            "PXYCSLM" = c("PXYCSLM"),
-                           DDtolatlon(ybr_df[, 1:2]),
+                           DDtolatlon(ybr_df[, 5:6]),
                            "symbol" = c("Pink Star"),
-                           "yode" = ybr_df$dropcode,
+                           "ptcode" = ybr_df$dropcode,
                            c(0))
 head(cplot_y_bruv)
 cplot_y_bruv <- interaction(cplot_y_bruv, sep = " ")
 head(cplot_y_bruv)
-write.table(cplot_y_bruv , "output/planned/cplot/y_bruv_cplot.txt", sep = "", 
+write.table(cplot_y_bruv , "output/2205_MBHDesign/planned/y_bruv_cplot.txt", sep = "", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
 
-# Yardie -  Flash BOSS
-y_fboss <- readOGR("output/planned/yardie_flashboss_mbh.shp")
-yfb_df  <- as.data.frame(y_fboss)
-head(yfb_df)
-yfb_df$dropcode <- interaction(c("Y"), yfb_df$method, yfb_df$pointnum, sep="")
-cplot_y_fboss <- data.frame("mark" = c("mark"),
+# Yardie -  Naked BOSS
+y_nboss <- readOGR("output/2109_planned/yardie_flashboss_mbh.shp")
+ynb_df  <- as.data.frame(y_nboss)
+ynb_df  <- rbind(ynb_df, ypref)
+ynb_df$dropcode <- interaction(c("N"), ynb_df$pointnum, sep="")
+head(ynb_df)
+
+ynb_df <- ynb_df[, c(1,2,6,7)]
+head(ynb_df)
+write.csv(ynb_df, "output/2205_MBHDesign/planned/yardie_nakedboss_renamed.csv")
+
+cplot_y_nboss <- data.frame("mark" = c("mark"),
                            "PXYCSLM" = c("PXYCSLM"),
-                           DDtolatlon(yfb_df[, 1:2]),
+                           DDtolatlon(ynb_df[, 1:2]),
                            "symbol" = c("Black Star"),
-                           "yode" = yfb_df$dropcode,
+                           "ptcode" = ynb_df$dropcode,
                            c(0))
-head(cplot_y_fboss)
-cplot_y_fboss <- interaction(cplot_y_fboss, sep = " ")
-head(cplot_y_fboss)
-write.table(cplot_y_fboss , "output/planned/cplot/y_fboss_cplot.txt", sep = "", 
+head(cplot_y_nboss)
+cplot_y_nboss <- interaction(cplot_y_nboss, sep = " ")
+head(cplot_y_nboss)
+write.table(cplot_y_nboss , "output/2205_MBHDesign/planned/yardie_nboss_cplot.txt", sep = "", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
 
-# Yardie -  Baited BOSS
-y_bboss <- readOGR("output/planned/yardie_baitboss_mbh.shp")
-ybb_df  <- as.data.frame(y_bboss)
-head(ybb_df)
-ybb_df$dropcode <- interaction(c("Y"), ybb_df$method, ybb_df$pointnum, sep="")
-cplot_y_bboss <- data.frame("mark" = c("mark"),
+# Yardie -  Squid BOSS
+y_bboss <- readOGR("output/2109_planned/yardie_baitboss_mbh.shp")
+ysb_df  <- as.data.frame(y_bboss)
+head(ysb_df)
+ysb_df  <- rbind(ysb_df, ypref)
+ysb_df$dropcode <- interaction(c("S"), ysb_df$pointnum, sep="")
+head(ysb_df)
+
+ysb_df <- ysb_df[, c(1,2,6,7)]
+head(ysb_df)
+write.csv(ysb_df, "output/2205_MBHDesign/planned/yardie_squidboss_renamed.csv")
+
+cplot_y_sboss <- data.frame("mark" = c("mark"),
                             "PXYCSLM" = c("PXYCSLM"),
-                            DDtolatlon(ybb_df[, 1:2]),
+                            DDtolatlon(ysb_df[, 1:2]),
                             "symbol" = c("Blue Star"),
-                            "yode" = ybb_df$dropcode,
+                            "ptcode" = ysb_df$dropcode,
                             c(0))
-head(cplot_y_bboss)
-cplot_y_bboss <- interaction(cplot_y_bboss, sep = " ")
-head(cplot_y_bboss)
-write.table(cplot_y_bboss , "output/planned/cplot/y_bboss_cplot.txt", sep = "", 
+head(cplot_y_sboss)
+cplot_y_sboss <- interaction(cplot_y_sboss, sep = " ")
+head(cplot_y_sboss)
+write.table(cplot_y_sboss , "output/2205_MBHDesign/planned/y_sboss_cplot.txt", sep = "", 
             col.names = FALSE, row.names = FALSE, quote = FALSE)
 
 
 
 
 
-# couldn't figure out how to get this to work with the quotation marks so I just pasted manually
+# # couldn't figure out how to get this to work with the quotation marks so I just pasted manually
 # cplot_header <- c("TMQ CPlot Chart Type 2   ",
 #                   "Description: Ningaloo      ",
 #                   "Bounds: 21.30.0000S,113.20.0000E,22.55.0000S,114.20.0000E      ",
@@ -165,7 +173,7 @@ write.table(cplot_y_bboss , "output/planned/cplot/y_bboss_cplot.txt", sep = "",
 # cplot_header[3] <- paste0("Bounds: "21.30.0000S,113.20.0000E,22.55.0000S,114.20.0000E"      ")
 
 # copy each file and convert the copy to .MRK file
-txts <- list.files("output/planned/cplot", "*.txt", full.names = T)
+txts <- list.files("output/2205_MBHDesign/planned/cplot", "*.txt", full.names = T)
 for(filei in txts){
 file.copy(filei, paste(gsub(".txt", ".MRK", filei)))
 }
