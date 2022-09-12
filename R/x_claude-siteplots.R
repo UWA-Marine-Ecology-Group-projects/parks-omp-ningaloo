@@ -138,40 +138,40 @@ p2 <- ggplot() +
   theme_minimal()
 p2
 
-p1 <- ggplot() +
-  # geom_raster(data = bathdf, aes(x, y, fill = Depth), alpha = 0.9) +
-  # scale_fill_gradient(low = "black", high = "grey70") +
-  geom_contour_filled(data = bathdf, aes(x = x, y = y, z = Depth,
-                                         fill = after_stat(level)),
-                      breaks = c(0, -40, -70, -120, -7000)) +
-  # geom_contour(data = bathdf, aes(x = x, y = y, z = Depth),
-  # binwidth = 250, colour = "white", alpha = 3/5, size = 0.1) +
-  scale_fill_grey(start = 1, end = 0.5, guide = "none") +
-  geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.1) +
-  new_scale_fill() +
-  geom_sf(data = mb_mp, aes(fill = waname), alpha = 1, colour = NA) +
-  wampa_cols +
-  labs(fill = "State Marine Parks") +
-  new_scale_fill() +
-  geom_sf(data = terrnp%>%dplyr::filter(leg_catego%in%c("National Park","Nature Reserve")), 
-          aes(fill = leg_catego), alpha = 4/5, colour = NA) +
-  labs(fill = "Terrestrial Managed Areas") +
-  waterr_cols +
-  new_scale_fill() +
-  geom_sf(data = aumpa, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
-  nmpa_cols +
-  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
-  geom_contour(data = bathdf, aes(x, y, z = Depth),
-               breaks = c(0, -40, -70, -120), colour = "white",
-               alpha = 1, size = 0.1) +
-  labs(x = 'Longitude', y = 'Latitude', fill = "Australian Marine Parks") +
-  guides(fill = guide_legend(order = 1)) +
-  annotate("rect", xmin = min(metadata$longitude), xmax = max(metadata$longitude),
-           ymin = min(metadata$latitude), ymax = max(metadata$latitude),
-           colour = "grey15", fill = "white", alpha = 0.2, size = 0.1) +
-  coord_sf(xlim = c(114.75,116.25), ylim = c(-21.2,-20))+
-  theme_minimal()+
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank())
-p1
+# p3 <- ggplot() +
+#   # geom_raster(data = bathdf, aes(x, y, fill = Depth), alpha = 0.9) +
+#   # scale_fill_gradient(low = "black", high = "grey70") +
+#   geom_contour_filled(data = bathdf, aes(x = x, y = y, z = Depth,
+#                                          fill = after_stat(level)),
+#                       breaks = c(0, -40, -70, -120, -7000)) +
+#   # geom_contour(data = bathdf, aes(x = x, y = y, z = Depth),
+#   # binwidth = 250, colour = "white", alpha = 3/5, size = 0.1) +
+#   scale_fill_grey(start = 1, end = 0.5, guide = "none") +
+#   geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.1) +
+#   new_scale_fill() +
+#   geom_sf(data = mb_mp, aes(fill = waname), alpha = 1, colour = NA) +
+#   wampa_cols +
+#   labs(fill = "State Marine Parks") +
+#   new_scale_fill() +
+#   geom_sf(data = terrnp%>%dplyr::filter(leg_catego%in%c("National Park","Nature Reserve")), 
+#           aes(fill = leg_catego), alpha = 4/5, colour = NA) +
+#   labs(fill = "Terrestrial Managed Areas") +
+#   waterr_cols +
+#   new_scale_fill() +
+#   geom_sf(data = aumpa, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
+#   nmpa_cols +
+#   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
+#   geom_contour(data = bathdf, aes(x, y, z = Depth),
+#                breaks = c(0, -40, -70, -120), colour = "white",
+#                alpha = 1, size = 0.1) +
+#   labs(x = 'Longitude', y = 'Latitude', fill = "Australian Marine Parks") +
+#   guides(fill = guide_legend(order = 1)) +
+#   annotate("rect", xmin = min(metadata$longitude), xmax = max(metadata$longitude),
+#            ymin = min(metadata$latitude), ymax = max(metadata$latitude),
+#            colour = "grey15", fill = "white", alpha = 0.2, size = 0.1) +
+#   coord_sf(xlim = c(114.75,116.25), ylim = c(-21.2,-20))+
+#   theme_minimal()+
+#   theme(panel.grid.major = element_blank(), 
+#         panel.grid.minor = element_blank())
+# p3
 
