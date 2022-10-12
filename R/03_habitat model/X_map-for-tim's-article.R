@@ -27,12 +27,12 @@ library(scales) # Have to load this after terra for rescale to work
 # writeRaster(test, "data/spatial/rasters/raw bathymetry/ptcloates_5m_UTM_interp.tiff", 
 #             overwrite = T)
 
-nicbath <- rast("data/spatial/rasters/raw bathymetry/ptcloates_5m_nik-bathy.tif")
-wgscrs <- "+proj=longlat +datum=WGS84"
-sppcrs <- "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs"       # crs for sp objects
-crs(nicbath) <- sppcrs
-nicbath <- project(nicbath, wgscrs)
-ext(nicbath)
+# nicbath <- rast("data/spatial/rasters/raw bathymetry/ptcloates_5m_nik-bathy.tif")
+# wgscrs <- "+proj=longlat +datum=WGS84"
+# sppcrs <- "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs"       # crs for sp objects
+# crs(nicbath) <- sppcrs
+# nicbath <- project(nicbath, wgscrs)
+# ext(nicbath)
 
 # get data and sort spatial boundaries
 aus    <- st_read("data/spatial/shapefiles/cstauscd_r.mif") %>%                 # geodata 100k coastline available: https://data.gov.au/dataset/ds-ga-a05f7892-eae3-7506-e044-00144fdd4fa6/
@@ -171,7 +171,9 @@ p2 <- ggplot(data = aus) +
 # p2
 
 # plot both 
-p2 + p1 + plot_layout(widths = c(0.8, 2.2))
+plots <- p1 + inset_element(p2, )
+
+# p2 + p1 + plot_layout(widths = c(0.8, 2.2))
 
 # ggsave("plots/overview_map.png", dpi = 200, width = 10, height = 6)
 ggsave("figures/spatial/overview_map.png", dpi = 200, width = 10, height = 4.5) #6
