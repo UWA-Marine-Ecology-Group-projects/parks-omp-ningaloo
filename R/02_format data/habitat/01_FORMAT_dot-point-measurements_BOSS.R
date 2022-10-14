@@ -16,7 +16,7 @@ library(readr)
 library(ggplot2)
 
 # Study name ----
-study <- "2021-05_Abrolhos_BOSS" 
+study <- "Parks-Ningaloo-synthesis" 
 
 ## Set your working directory ----
 working.dir <- getwd() # this only works through github projects
@@ -34,10 +34,20 @@ setwd(em.export.dir)
 dir()
 
 # Read in metadata----
-metadata <- read_csv("2021-05_Abrolhos_BOSS_Metadata.csv") %>% # read in the file
-  ga.clean.names() %>% # tidy the column names using GlobalArchive function 
+read_files_csv <- function(flnm) {
+  flnm %>%
+    readr::read_csv(col_types = readr::cols(.default = "c")) %>%
+    GlobalArchive::ga.clean.names()
+}
+
+
+metadata <- list.files(path = em.export.dir, 
+                       recursive = T,
+                       pattern = "_Metadata.csv",
+                       full.names = T)  %>% # read in the file
+  purrr::map_dfr(~read_files_csv(.)) %>%
   dplyr::select(sample, latitude, longitude, date, site, location, successful.count, depth) %>% # select only these columns to keep
-  mutate(sample=as.character(sample)) %>% # in this example dataset, the samples are numerical
+  mutate(sample = as.character(sample)) %>% # in this example dataset, the samples are numerical
   glimpse() # preview
 
 names(metadata)
@@ -47,17 +57,32 @@ setwd(tm.export.dir)
 dir()
 
 # read in the points annotations ----
-points <- read.delim("2021-05_Abrolhos_BOSS_Dot Point Measurements.txt",header=T,skip=4,stringsAsFactors=FALSE) %>% # read in the file
+read_tm_delim <- function(flnm) {
+   read.delim(flnm,header = T,skip = 4,stringsAsFactors = FALSE)%>%
+    dplyr::mutate(campaign.naming = str_replace_all(flnm,paste(tm.export.dir,"/",sep=""),""))%>%
+    tidyr::separate(campaign.naming,into = c("campaignid"),sep="/", extra = "drop", fill = "right")
+}
+
+points <- list.files(path = tm.export.dir,
+                     recursive = T,
+                     pattern = "Dot Point Measurements.txt",
+                     full.names = T) %>%
+  purrr::map_dfr(~read_tm_delim(.)) %>% # read in the file
+  dplyr::mutate(campaignid = str_replace_all(.$campaignid, "*[^_]*_[^_]", ""))
+  mutate(BROAD = ifelse(is.na(BROAD), Broad, BROAD),
+         MORPHOLOGY = ifelse(is.na(MORPHOLOGY), Morphology, MORPHOLOGY),
+         TYPE = ifelse(is.na(TYPE), Type, TYPE)) %>%
+  dplyr::select(-c(Broad, Morphology, Type)) %>%
   ga.clean.names() %>% # tidy the column names using GlobalArchive function
-  mutate(sample=str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
-  mutate(sample=as.character(sample)) %>% 
+  mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
+  mutate(sample = as.character(sample)) %>% 
   dplyr::select(sample,image.row,image.col,broad,morphology,type,fieldofview) %>% # select only these columns to keep
   glimpse() # preview
 
-length(unique(points$sample)) # 75 samples
+length(unique(points$sample)) # 179 samples
 
-no.annotations <- points%>%
-  group_by(sample)%>%
+no.annotations <- points %>%
+  group_by(sample) %>%
   dplyr::summarise(points.annotated=n()) # 3 have 81
 
 relief <- read.delim("2021-05_Abrolhos_BOSS_Relief_Dot Point Measurements.txt",header=T,skip=4,stringsAsFactors=FALSE) %>% # read in the file
