@@ -19,6 +19,7 @@ library(terra)
 library(ggnewscale)
 library(tidyverse) 
 library(scales) # Have to load this after terra for rescale to work
+library(ggspatial)
 
 
 # Data for Nik
@@ -121,59 +122,60 @@ p1 <- ggplot() +
                        values = rescale(c(-5696, -120, 0))) +
   new_scale_fill() +
   geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.1) +
-  geom_sf(data = wampa, aes(fill = waname), alpha = 1, colour = NA) +
+  geom_sf(data = wampa, alpha = 0.2, colour = "grey85", fill = "white", show.legend = F) +
   wampa_cols +
   labs(fill = "State Marine Parks") +
   new_scale_fill() +
-  geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
-  labs(fill = "Terrestrial Managed Areas") +
-  waterr_cols +
-  new_scale_fill() +
-  geom_sf(data = aumpa, aes(fill = ZoneName), alpha = 3/5, colour = NA) +
+  geom_sf(data = aumpa, alpha = 0.2, colour = "grey85", fill = "white", show.legend = F) +
   nmpa_cols + 
-  labs(x = NULL, y = NULL, fill = "Australian Marine Parks", title = "b)") +
+  labs(x = NULL, y = NULL, fill = "Australian Marine Parks") +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 5, size = 0.5) +
-  geom_sf(data = heri, fill = NA, color = "grey18", alpha = 1) +
+  geom_sf(data = heri, fill = "#1e7529", color = NA, alpha = 0.5) +
   annotate(geom = "rect", xmin = 113.485009644915, xmax = 113.661711520183, 
            ymin = -22.7605962651795, ymax = -22.66265703905  ,
            colour = "goldenrod1", fill = "white", alpha = 0.2, size = 0.6) +
   annotate(geom = "point", x = c(114.1279, 115.1052), y = c(-21.9323, -21.6672)) +
-  annotate(geom = "text", x = c((114.1279 + 0.35), (115.1052 + 0.35)), 
+  annotate(geom = "text", x = c((114.1279 + 0.2), (115.1052 + 0.2)), 
            y = c(-21.9323, -21.6672), size = 2.5,
            label = c("Exmouth", "Onslow")) +
   annotate(geom = "text", x = c(114.3, 115.5), y = c(-23, -22),
            label = c("Gascoyne", "Pilbara"), fontface = "italic", size = 3) +
-  # annotate(geom = "rect", xmin = 112, xmax = 116, ymin = -24.5, ymax = -20,
-  #          colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
-  # guides(fill = guide_legend(order = 1)) +
+  coord_sf(xlim = c(112, 116), ylim = c(-24.5, -20)) +
+  theme_minimal() +
   theme(legend.position = "none",
         axis.text = element_blank(), 
         axis.ticks = element_blank(),
-        panel.grid.major = element_blank()) +
-  coord_sf(xlim = c(112, 116), ylim = c(-24.5, -20)) +
-  theme_minimal()
-p1
+        panel.grid.major = element_blank(),
+        panel.background = element_rect(fill = "#9dc9e1")) +
+  annotation_scale(location = "tl",
+                   style = "ticks") +
+  annotation_north_arrow(location = "tr", 
+                         height = unit(1, "cm"),
+                         width = unit(0.7, "cm"))
+# p1
 
 # inset map
 p2 <- ggplot(data = aus) +
   geom_sf(fill = "seashell1", colour = "grey90", size = 0.05, alpha = 4/5) +
   geom_sf(data = aumpa, alpha = 5/6, colour = "grey85", size = 0.02) +
-  labs(title = "a)")+
+  # labs(title = "a)")+
   # geom_sf(data = ab_mpa, alpha = 4/5, colour = "grey85") +
-  coord_sf(xlim = c(108, 125), ylim = c(-40, -13)) +
+  coord_sf(xlim = c(110, 160), ylim = c(-47, -9)) +
   annotate("rect", xmin = 112, xmax = 116, ymin = -24.5, ymax = -20,
            colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
-  theme_bw() +
-  theme(axis.text = element_blank(), 
+  theme_bw()  +
+  theme(axis.text = element_blank(),
         axis.ticks = element_blank(),
         panel.grid.major = element_blank(),
         panel.border = element_rect(colour = "grey70"))
 # p2
 
 # plot both 
-plots <- p1 + inset_element(p2, )
+plots <- p1 + inset_element(p2, left = 0.6, right = 1.01, bottom = 0, top = 0.4)
 
-# p2 + p1 + plot_layout(widths = c(0.8, 2.2))
+plots$patches$layout$widths  <- 1                                               # Fixes some error with coord_sf and inset_element
+plots$patches$layout$heights <- 1
+plots
 
 # ggsave("plots/overview_map.png", dpi = 200, width = 10, height = 6)
-ggsave("figures/spatial/overview_map.png", dpi = 200, width = 10, height = 4.5) #6
+ggsave("figures/spatial/overview_map.png", dpi = 200, width = 5.5, height = 8) #6
