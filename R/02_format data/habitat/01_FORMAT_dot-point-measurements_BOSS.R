@@ -37,7 +37,10 @@ dir()
 read_files_csv <- function(flnm) {
   flnm %>%
     readr::read_csv(col_types = readr::cols(.default = "c")) %>%
-    GlobalArchive::ga.clean.names()
+    GlobalArchive::ga.clean.names() %>%
+    dplyr::mutate(campaign.naming = str_replace_all(flnm, paste0(em.export.dir,"/"),"")) %>%
+    tidyr::separate(campaign.naming,into = c("campaignid"), sep="/", extra = "drop", fill = "right") %>%
+    dplyr::mutate(campaignid=str_replace_all(.$campaignid,c("_Metadata.csv"= "")))
 }
 
 
@@ -46,10 +49,16 @@ metadata <- list.files(path = em.export.dir,
                        pattern = "_Metadata.csv",
                        full.names = T)  %>% # read in the file
   purrr::map_dfr(~read_files_csv(.)) %>%
-  dplyr::select(sample, latitude, longitude, date, site, location, successful.count, depth) %>% # select only these columns to keep
+  dplyr::select(campaignid, sample, latitude, longitude, date, site, location, successful.count, depth) %>% # select only these columns to keep
   mutate(sample = as.character(sample)) %>% # in this example dataset, the samples are numerical
+  dplyr::filter(!campaignid %in% c("2021-08_Yardie-Creek_Baited-BOSS",
+                                   "2021-08_Yardie-Creek_Flasher-BOSS",
+                                   "2021-08_Yardie-Creek_stereo-BRUVs",
+                                   "2021-05_NingalooTransect_BOSS")) %>%
+  dplyr::mutate(campaignid = ifelse(campaignid %in% ))
   glimpse() # preview
 
+unique(metadata$campaignid)
 names(metadata)
 
 # Read in habitat ----
@@ -58,9 +67,16 @@ dir()
 
 # read in the points annotations ----
 read_tm_delim <- function(flnm) {
-   read.delim(flnm,header = T,skip = 4,stringsAsFactors = FALSE)%>%
-    dplyr::mutate(campaign.naming = str_replace_all(flnm,paste(tm.export.dir,"/",sep=""),""))%>%
-    tidyr::separate(campaign.naming,into = c("campaignid"),sep="/", extra = "drop", fill = "right")
+   read.delim(flnm,header = T,skip = 4,stringsAsFactors = FALSE, colClasses = "character") %>%
+    dplyr::mutate(campaign.naming = str_replace_all(flnm, paste0(tm.export.dir,"/"),"")) %>%
+    tidyr::separate(campaign.naming,into = c("campaignid"), sep="/", extra = "drop", fill = "right") %>%
+    dplyr::mutate(relief.file = ifelse(str_detect(campaignid, "Relief"), "Yes", "No")) %>%
+    dplyr::mutate(campaignid = str_replace_all(.$campaignid,c("_Backwards_Dot Point Measurements.txt"= "",
+                                                              "_Forwards_Dot Point Measurements.txt"= "",
+                                                              "_Backwards_Relief_Dot Point Measurements.txt" = "",
+                                                              "_Forwards_Relief_Dot Point Measurements.txt" = "",
+                                                              "_Relief_Dot Point Measurements.txt" = "",
+                                                              "_Dot Point Measurements.txt"= "")))
 }
 
 points <- list.files(path = tm.export.dir,
@@ -68,51 +84,57 @@ points <- list.files(path = tm.export.dir,
                      pattern = "Dot Point Measurements.txt",
                      full.names = T) %>%
   purrr::map_dfr(~read_tm_delim(.)) %>% # read in the file
-  dplyr::mutate(campaignid = str_replace_all(.$campaignid, "*[^_]*_[^_]", ""))
-  mutate(BROAD = ifelse(is.na(BROAD), Broad, BROAD),
-         MORPHOLOGY = ifelse(is.na(MORPHOLOGY), Morphology, MORPHOLOGY),
-         TYPE = ifelse(is.na(TYPE), Type, TYPE)) %>%
-  dplyr::select(-c(Broad, Morphology, Type)) %>%
+  dplyr::filter(relief.file %in% "No") %>%
+  mutate(newbroad = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Broad, BROAD),
+         newmorphology = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Morphology, MORPHOLOGY),
+         newtype = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Type, TYPE)) %>%
+  dplyr::select(-c(Broad, BROAD ,Morphology, MORPHOLOGY,Type, TYPE)) %>%
   ga.clean.names() %>% # tidy the column names using GlobalArchive function
   mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
-  mutate(sample = as.character(sample)) %>% 
-  dplyr::select(sample,image.row,image.col,broad,morphology,type,fieldofview) %>% # select only these columns to keep
+  mutate(sample = as.character(sample)) %>%
+  dplyr::filter(relief.file %in% "No") %>%
+  dplyr::rename(broad = newbroad,
+                morphology = newmorphology,
+                type = newtype) %>%
+  dplyr::select(campaignid, sample,image.row,image.col,
+                broad,morphology,type,fieldofview) %>%     # select only these columns to keep
   glimpse() # preview
 
+
+test <- points %>% dplyr::filter(is.na(broad) | broad %in% c("", " "))
+
+unique(points$campaignid)
 length(unique(points$sample)) # 179 samples
 
 no.annotations <- points %>%
-  group_by(sample) %>%
-  dplyr::summarise(points.annotated=n()) # 3 have 81
+  group_by(campaignid, sample) %>%
+  dplyr::summarise(points.annotated=n()) # Looks ok - 1 with extras, couple boss with only 3 directions
 
-relief <- read.delim("2021-05_Abrolhos_BOSS_Relief_Dot Point Measurements.txt",header=T,skip=4,stringsAsFactors=FALSE) %>% # read in the file
+relief <- list.files(path = tm.export.dir,
+                     recursive = T,
+                     pattern = "Dot Point Measurements.txt",
+                     full.names = T) %>%
+  purrr::map_dfr(~read_tm_delim(.)) %>% # read in the file
+  dplyr::select(campaignid, Filename, Image.row, Image.col, Relief, relief.file) %>%
   ga.clean.names() %>% # tidy the column names using GlobalArchive function
-  mutate(sample=str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
-  mutate(sample=as.character(sample)) %>% 
-  dplyr::select(sample,image.row,image.col,broad,morphology,type,fieldofview,relief) %>% # select only these columns to keep
+  mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
+  mutate(sample = as.character(sample)) %>%
+  dplyr::filter(relief.file %in% "Yes" | campaignid %in% "2019-08_Ningaloo-Deep_stereo-BRUVs") %>%
+  # dplyr::filter(!is.na(relief)) %>%
   glimpse() # preview
 
-length(unique(relief$sample)) # 75 samples
+test <- relief %>% dplyr::filter(is.na(relief)) # 0 - thank the lord
+
+length(unique(relief$sample)) # 179 samples
 
 no.annotations <- relief%>%
-  group_by(sample)%>%
-  dplyr::summarise(relief.annotated=n()) # all have 80
-
-
-substrate <- read.delim("2021-05_Abrolhos_BOSS_Substrate-Relief_Dot Point Measurements.txt",header=T,skip=4,stringsAsFactors=FALSE) %>% # read in the file
-  ga.clean.names() %>% # tidy the column names using GlobalArchive function
-  mutate(sample=str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
-  mutate(sample=as.character(sample)) %>% 
-  dplyr::select(sample,image.row,image.col,broad,morphology,type,fieldofview) %>% # select only these columns to keep
-  glimpse() # preview
-
-length(unique(substrate$sample)) # 75 samples
-
-no.annotations <- substrate%>%
-  group_by(sample)%>%
-  dplyr::summarise(substrate.annotated=n()) # all have 80
+  group_by(campaignid, sample)%>%
+  dplyr::summarise(relief.annotated=n()) # Looks good
 
 habitat <- bind_rows(points, relief)
+
+test <- habitat %>%
+  dplyr::filter(is.na(broad) & is.na(relief)) # I think there are just loads from open water?
 
 # Check that the image names match the metadata samples -----
 missing.metadata <- anti_join(habitat,metadata, by = c("sample")) # samples in habitat that don't have a match in the metadata
