@@ -47,7 +47,7 @@ max(lats$latitude)
 min(lats$longitude)
 max(lats$longitude)
 
-tbath_c <- crop(bath_r, ext(c(113.2, 114,-23, -21.8)))
+tbath_c <- crop(bath_r, ext(c(113.2, 114.3,-23, -21.5)))
 plot(tbath_c)
 points(lats[,c("longitude","latitude")], pch = 20, cex = 1, col = "red")
 fbath_df <- as.data.frame(tbath_c, xy = TRUE)                                   # Convert this to a dataframe
@@ -67,6 +67,7 @@ detre <- as(object = detre, Class = "SpatRaster")                               
 names(detre) <- c("detrended", "lineartrend")
 preds <- rast(list(preds, detre))                                               # Make a rasterstack
 plot(preds)
+
 
 # Save the output
 preds <- wrap(preds)
