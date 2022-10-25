@@ -54,7 +54,7 @@ points <- as.data.frame(points.files) %>%
   dplyr::select(campaign)%>%
   as_vector(.)%>% # remove all empty files
   purrr::map_df(~ga.read.files_em.txt(.)) %>%
-  dplyr::filter(campaignid %in% c("2019-08_Ningaloo_stereo-BRUVs"))
+  dplyr::filter(campaignid %in% c("2019-08_Ningaloo_stereo-BRUVs")) 
 
 maxn <- points%>%
   dplyr::group_by(campaignid,sample,filename,periodtime,frame,family,genus,species)%>%

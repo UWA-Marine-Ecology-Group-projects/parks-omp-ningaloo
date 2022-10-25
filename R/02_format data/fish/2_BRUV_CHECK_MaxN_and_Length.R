@@ -35,8 +35,10 @@ error.dir <- paste(working.dir,"data/errors to check",sep="/")
 setwd(staging.dir)
 
 # Import metadata ---
-metadata <- read.csv(paste(study,"metadata.csv",sep="_"))
-
+# metadata <- read.csv(paste(study,"metadata.csv",sep="_"))
+setwd(download.dir)
+metadata <- read.csv("ningaloo_metadata_fixed.csv")
+setwd(staging.dir)
 # Import MaxN file---
 maxn <- read_csv(paste(study,"maxn.csv",sep="_")) %>%
   mutate(maxn=as.numeric(maxn)) %>%
@@ -220,7 +222,7 @@ write.csv(wrong.length.taxa,file=paste(study,"check.wrong.length.taxa.vs.life.hi
 length.sample <- length %>% distinct(campaignid,sample) # only examine samples where lengths were possible
 
 # summarise length and then compare to maxn
-taxa.maxn.vs.stereo.summary<-length %>%
+taxa.maxn.vs.stereo.summary <- length %>%
   group_by(campaignid,sample,family,genus,species)%>%
   dplyr::summarise(stereo.maxn=sum(number))%>%
   full_join(maxn)%>%
