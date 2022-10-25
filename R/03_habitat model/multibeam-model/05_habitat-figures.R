@@ -22,20 +22,30 @@ library(scales)
 name <- "Parks-Ningaloo-synthesis"                                              # Change here
 
 dat <- readRDS(paste(paste0('data/tidy/', name), 
-                     'habitat-bathy-derivatives.rds', sep = "_")) %>%
+                     'nesp-habitat-bathy-derivatives.rds', sep = "_")) %>%
   dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.1, "inverts", "sand")) %>%
   glimpse()
 
-stack <- readRDS(paste(paste0('data/spatial/rasters/', name), 'spatial_covariates.rds', sep = "_"))
-stack <- rast(stack)
+stack <- readRDS(paste(paste0('data/spatial/rasters/raw bathymetry/', name),      # This is ignored - too big!
+                       'spatial_covariates.rds', sep = "_")) %>%
+  rast()
 
-pred_class <- rast(paste0("output/rf-habitat/", name, "_predicted-habitat.tif"))
+pred_class <- rast(paste0("output/rf-habitat/", name, "_nesp_predicted-habitat.tif")) %>%
+  focal(w = c(9,9), fun = "modal") %>%
+  focal(w = c(9,9), fun = "modal") # Filtered multiple times to get rid of artefacts
+
+# pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%
+#   dplyr::rename(layer_value = "category") %>%                                   # SOmetimes changes? package conflict?
+#   dplyr::mutate(layer_value = recode(layer_value,
+#                                      "sand" = "Sand",
+#                                      "inverts" = "Sessile invertebrates")) %>%
+#   glimpse()
 
 pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%
-  dplyr::rename(layer_value = "category") %>%                                   # SOmetimes changes? package conflict?
+  dplyr::rename(layer_value = "focal_modal") %>%                                   # SOmetimes changes? package conflict?
   dplyr::mutate(layer_value = recode(layer_value,
-                                     "sand" = "Sand",
-                                     "inverts" = "Sessile invertebrates")) %>%
+                                     "2" = "Sand",
+                                     "1" = "Sessile invertebrates")) %>%
   glimpse()
 
 pred_classsp <- vect(pred_classdf, geom = c("x", "y"),
@@ -104,37 +114,41 @@ bathdf <- as.data.frame(stack[[1]], na.rm = T, xy = T)
 
 #Build plot elements for site 1
 p1 <- ggplot() +
-  geom_tile(data = bathdf, aes(x, y, fill = Z), show.legend = F) +
-  scale_fill_gradientn(colours = c("#062f6b", "#2b63b5","#9dc9e1"),
-                       values = rescale(c(-2437, -120, 0))) +
-  new_scale_fill() +
+  # geom_tile(data = bathdf, aes(x, y, fill = Z), show.legend = F) +
+  # scale_fill_gradientn(colours = c("#062f6b", "#2b63b5","#9dc9e1"),
+  #                      values = rescale(c(-2437, -120, 0))) +
+  # new_scale_fill() +
   geom_tile(data = pred_classdf, aes(x, y, fill = layer_value)) +
-  hab_fills +  
+  hab_fills + 
+  new_scale_fill() +
   geom_sf(data = ausc, fill = "seashell2", colour = "black", size = 0.1) +
   geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          # Add national park zones
-  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                          # Add national park zones
+  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         # Add national park zones
   geom_sf(data = cwatr, fill = NA, colour = "red", size = 0.3) +
   # geom_contour(data = bathdf, aes(x = x, y = y, z = Z),                         # Contour lines
   #              breaks = c(- 30, -70, - 200),                                    # Contour breaks - change to binwidth for regular contours
   #              colour = "grey54",
   #              alpha = 1, size = 0.5) +                                       # Transparency and linewidth
+  geom_point(data = dat, aes(x = x, y = y, fill = dom_tag), colour = "black", 
+             pch = 21, alpha = 1, show.legend = F) +
+  scale_fill_manual(values = c(  "sand" = "wheat",
+                                   "inverts" = "plum")) +
   coord_sf(xlim = c(min(dat$x), max(dat$x)),                                    # Set plot limits
            ylim = c(min(dat$y), max(dat$y))) +
   labs(x = NULL, y = NULL, fill = "Habitat",                                    # Labels  
        colour = NULL) +
-  geom_point(data = dat, aes(x = x, y = y), alpha = 0.09) +
   # annotate("text", x = c(113.428836237, 113.388204915, 113.255153069),          # Add contour labels manually
   #          y = c(-28.078038504, -28.078038504, -28.078038504), 
   #          label = c("30m", "70m", "200m"),
   #          size = 2, colour = "grey54") +
   theme_minimal()
 png(filename = paste(paste("figures/habitat", name, sep = "/"),                 # Save output
-                     "dominant_habitat.png", sep = "_"),
+                     "nesp-dominant_habitat.png", sep = "_"),
     width = 6, height = 8, res = 300, units = "in")                             # Change the dimensions here as necessary
 p1
 dev.off()
 
-
+unique(pred_classdf$layer_value)
 # Put some spatial uncertainty type plot here!
 
 

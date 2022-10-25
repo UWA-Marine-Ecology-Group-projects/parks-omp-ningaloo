@@ -29,9 +29,8 @@ hab  <- read.csv("data/tidy/Parks-Ningaloo-synthesis_random-points_broad.habitat
 # Extract bathy derivatives for modelling
 # Set up CRS and load spatial covariates from 02_spatial_layers.R 
 wgscrs <- "+proj=longlat +datum=WGS84 +south"                                    # Latlong projection 
-preds  <- readRDS("output/MBH design/ptc_covariate_rasts.rds")
-writeRaster(preds, filename = "data/spatial/rasters/raw bathymetry/test.tif",
-            overwrite = T)
+preds  <- readRDS(paste(paste0('data/spatial/rasters/raw bathymetry/', name), 
+                        'spatial_covariates.rds', sep = "_"))
 
 preds <- rast(preds)
 plot(preds)
@@ -50,8 +49,13 @@ allhab <- habi_df %>%
   dplyr::mutate(inverts = broad.hydrocoral + broad.sponges + broad.octocoral.black +               # Make a sessile invertebrate column
                   broad.invertebrate.complex +  broad.hydroids + 
                   broad.bryozoa + broad.crinoids) %>%
+  dplyr::filter(!is.na(Z)) %>%
   glimpse()                                                                     # Preview data
+
+
+plot(preds[[1]])
+points(allhab[,c("x", "y")])
 
 # Save the output
 saveRDS(allhab, paste(paste0('data/tidy/', name), 
-                      'habitat-bathy-derivatives.rds', sep = "_"))
+                      'nesp-habitat-bathy-derivatives.rds', sep = "_"))

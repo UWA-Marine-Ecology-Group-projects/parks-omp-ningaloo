@@ -31,7 +31,7 @@ name <- "Parks-Ningaloo-synthesis"                                              
 
 # Load data
 dat <- readRDS(paste(paste0('data/tidy/', name), 
-                      'habitat-bathy-derivatives.rds', sep = "_")) %>%
+                      'nesp-habitat-bathy-derivatives.rds', sep = "_")) %>%
   dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.1, "inverts", "sand")) %>%
   glimpse()
 
@@ -47,7 +47,8 @@ test <- dat %>% dplyr::filter(dom_tag %in% "inverts")
 # Read in and crop the rasters to your study extent
 # the rasters should be the same as the as the values in the shapefile
 
-stack <- readRDS(paste(paste0('data/spatial/rasters/', name), 'spatial_covariates.rds', sep = "_")) %>%
+stack <- readRDS(paste(paste0('data/spatial/rasters/raw bathymetry/', name),      # This is ignored - too big!
+                       'spatial_covariates.rds', sep = "_")) %>%
   rast() %>%
   brick()
 rpc = rasterPCA(stack, nComp = 1 , spca = TRUE, nSamples = 5000) ### first PCA component of the raster stack to estimate spatial AC
@@ -82,7 +83,7 @@ print(range1$range) ###### use this to inform the block size in 'the range argum
 sb1 = spatialBlock(speciesData = boss_sf,
                    species = "dom_tag", ####### change this to the label of your csv (eg. seagrass, algae)
                    rasterLayer = rpc$map,
-                   theRange = 18000, # Changed from 18000
+                   theRange = 10000, # Changed from 18000
                    k = 5, ####### suggest using 5 folds 
                    selection = "random",
                    iteration = 100,
@@ -177,7 +178,7 @@ tab_df = tibble::rownames_to_column(as.data.frame(tab), "Statistic")
 tab_df$Mean = mean_st
 tab_df
 
-write.csv(tab_df, file = paste0("output/rf-habitat/", name, "_model-kappa.csv"),
+write.csv(tab_df, file = paste0("output/rf-habitat/", name, "_nesp_model-kappa.csv"),
           row.names = F)
 
 ############################################################
@@ -190,7 +191,5 @@ pred_prob = raster::predict(stack,rf_c, type = "prob") ### for class probabiliti
 plot(pred_class)
 plot(pred_prob)
 
-writeRaster(pred_class, filename = paste0("output/rf-habitat/", name, "_predicted-habitat.tif"),
+writeRaster(pred_class, filename = paste0("output/rf-habitat/", name, "_nesp_predicted-habitat.tif"),
             overwrite = T)
-
-
