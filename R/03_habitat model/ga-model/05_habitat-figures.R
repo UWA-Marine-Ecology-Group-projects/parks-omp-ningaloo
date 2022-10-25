@@ -32,8 +32,10 @@ stack <- rast(stack)
 pred_class <- rast(paste0("output/rf-habitat/", name, "_predicted-habitat.tif"))
 
 pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%
-  dplyr::rename(layer_value = "Parks-Ningaloo-synthesis_predicted-habitat") %>%
-  dplyr::mutate(layer_value = ifelse(layer_value == 2, "Sand", "Invertebrate reef")) %>%
+  dplyr::rename(layer_value = "category") %>%                                   # SOmetimes changes? package conflict?
+  dplyr::mutate(layer_value = recode(layer_value,
+                                     "sand" = "Sand",
+                                     "inverts" = "Sessile invertebrates")) %>%
   glimpse()
 
 pred_classsp <- vect(pred_classdf, geom = c("x", "y"),
@@ -48,7 +50,7 @@ gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"          
 # Assign habitat class colours
 hab_fills <- scale_fill_manual(values = c(
   "Sand" = "wheat",
-  "Invertebrate reef" = "plum"
+  "Sessile invertebrates" = "plum"
 ))
 
 # Set cropping extent - larger than most zoomed out plot

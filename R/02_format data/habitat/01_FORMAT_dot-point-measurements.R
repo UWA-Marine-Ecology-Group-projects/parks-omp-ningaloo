@@ -53,9 +53,10 @@ metadata <- list.files(path = em.export.dir,
   purrr::map_dfr(~read_files_csv(.)) %>%
   dplyr::select(campaignid, sample, latitude, longitude, date, site, location, successful.count, depth) %>% # select only these columns to keep
   mutate(sample = as.character(sample)) %>% # in this example dataset, the samples are numerical
-  dplyr::filter(campaignid %in% c("2019-08_Ningaloo-Deep_stereo-BRUVs",
+  dplyr::filter(campaignid %in% c("2019-08_Ningaloo_stereo-BRUVs",
                                    "2021-05_PtCloates_BOSS",
-                                   "2021-05_PtCloates_stereo-BRUVS")) %>%
+                                   "2021-05_PtCloates_stereo-BRUVS",
+                                  "2022-05_PtCloates_stereo-BRUVS")) %>%
   
   # dplyr::mutate(method = ifelse(str_detect(campaignid, "Flasher"), "Flasher", NA)) %>%
   # dplyr::mutate(method = ifelse(str_detect(campaignid, "Squid"), "Squid", method),
@@ -73,6 +74,7 @@ read_tm_delim <- function(flnm) {
     dplyr::mutate(campaign.naming = str_replace_all(flnm, paste0(tm.export.dir,"/"),"")) %>%
     tidyr::separate(campaign.naming,into = c("campaignid"), sep="/", extra = "drop", fill = "right") %>%
     dplyr::mutate(relief.file = ifelse(str_detect(campaignid, "Relief"), "Yes", "No")) %>%
+    dplyr::mutate(direction = ifelse(str_detect(campaignid, "Backwards"), "Backwards", "Forwards")) %>%
     dplyr::mutate(campaignid = str_replace_all(.$campaignid,c("_Backwards_Dot Point Measurements.txt"= "",
                                                               "_Forwards_Dot Point Measurements.txt"= "",
                                                               "_Backwards_Relief_Dot Point Measurements.txt" = "",
@@ -90,11 +92,11 @@ points <- list.files(path = tm.export.dir,
   mutate(newbroad = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Broad, BROAD),
          newmorphology = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Morphology, MORPHOLOGY),
          newtype = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Type, TYPE)) %>%
-  dplyr::select(-c(Broad, BROAD ,Morphology, MORPHOLOGY,Type, TYPE)) %>%
+  dplyr::select(-c(Broad, BROAD ,Morphology, MORPHOLOGY,Type, TYPE, RELIEF)) %>%
   ga.clean.names() %>% # tidy the column names using GlobalArchive function
   mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
+  mutate(sample = str_replace_all(.$sample,c("_.*"=""))) %>%                    # For files with the new naming convention - but no frame information fields added
   mutate(sample = as.character(sample)) %>%
-  dplyr::filter(relief.file %in% "No") %>%
   dplyr::rename(broad = newbroad,
                 morphology = newmorphology,
                 type = newtype) %>%
@@ -102,11 +104,34 @@ points <- list.files(path = tm.export.dir,
                 broad,morphology,type,fieldofview) %>%     # select only these columns to keep
   glimpse() # preview
 
+errors <- list.files(path = tm.export.dir,
+                     recursive = T,
+                     pattern = "Dot Point Measurements.txt",
+                     full.names = T) %>%
+  purrr::map_dfr(~read_tm_delim(.)) %>% # read in the file
+  dplyr::filter(relief.file %in% "No") %>%
+  mutate(newbroad = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Broad, BROAD),
+         newmorphology = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Morphology, MORPHOLOGY),
+         newtype = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Type, TYPE)) %>%
+  dplyr::select(-c(Broad, BROAD ,Morphology, MORPHOLOGY,Type, TYPE, RELIEF)) %>%
+  ga.clean.names() %>% # tidy the column names using GlobalArchive function
+  mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
+  mutate(sample = str_replace_all(.$sample,c("_.*"=""))) %>%                    # For files with the new naming convention - but no frame information fields added
+  mutate(sample = as.character(sample)) %>%
+  dplyr::rename(broad = newbroad,
+                morphology = newmorphology,
+                type = newtype) %>%
+  dplyr::filter(is.na(broad)) %>%
+  dplyr::select(campaignid, filename, sample, direction, broad) %>%
+  glimpse()
+
+write.csv(errors, file = "data/errors to check/Parks-Ningaloo-synthesis_habitat-points-missed.csv",
+          row.names = F) # Errors to fix but will continue on
 
 test <- points %>% dplyr::filter(is.na(broad) | broad %in% c("", " "))
 
 unique(points$campaignid)
-length(unique(points$sample)) # 179 samples
+length(unique(points$sample)) # 196 samples
 
 no.annotations <- points %>%
   group_by(campaignid, sample) %>%
@@ -128,7 +153,7 @@ relief <- list.files(path = tm.export.dir,
 
 test1 <- relief %>% dplyr::filter(is.na(relief)) # 0 - thank the lord
 
-length(unique(relief$sample)) # 179 samples
+length(unique(relief$sample)) # 179 samples - no relief for the new stuff from Gabby yet
 
 no.annotations <- relief%>%
   group_by(campaignid, sample)%>%

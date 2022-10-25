@@ -19,53 +19,53 @@ library(stringr)
 
 ## Set Study Name ----
 # Change this to suit your study name. This will also be the prefix on your final saved files.
-study<-"2021-05_Abrolhos_stereo-BRUVs" 
+study <- "Parks-Ningaloo-synthesis" 
 
 ## Set your working directory ----
-working.dir<-getwd()
+working.dir <- getwd()
 
 ## Save these directory names to use later----
-staging.dir<-paste(working.dir,"data/raw/Staging",sep="/") 
-download.dir<-paste(working.dir,"data/raw/EM Export",sep="/")
-tidy.dir<-paste(working.dir,"data/Tidy",sep="/")
-plots.dir=paste(working.dir,"plots/format",sep="/")
-error.dir=paste(working.dir,"data/raw/errors to check",sep="/")
+staging.dir <- paste(working.dir,"data/staging",sep="/") 
+download.dir <- paste(working.dir,"data/raw/EM Export",sep="/")
+tidy.dir <- paste(working.dir,"data/tidy",sep="/")
+plots.dir <- paste(working.dir,"figures/format",sep="/")
+error.dir <- paste(working.dir,"data/errors to check",sep="/")
 
 # Import unchecked data from staging folder----
 setwd(staging.dir)
 
 # Import metadata ---
-metadata<-read.csv(paste(study,"metadata.csv",sep="_"))
+metadata <- read.csv(paste(study,"metadata.csv",sep="_"))
 
 # Import MaxN file---
-maxn<-read_csv(paste(study,"maxn.csv",sep="_"))%>%
-  mutate(maxn=as.numeric(maxn))%>%
-  mutate(species=tolower(species))%>%
-  select(campaignid,sample,family,genus,species,maxn)%>%
-  replace_na(list(family="Unknown",genus="Unknown",species="spp"))%>% # remove any NAs in taxa name
+maxn <- read_csv(paste(study,"maxn.csv",sep="_")) %>%
+  mutate(maxn=as.numeric(maxn)) %>%
+  mutate(species=tolower(species)) %>%
+  select(campaignid,sample,family,genus,species,maxn) %>%
+  replace_na(list(family = "Unknown", genus = "Unknown", species = "spp")) %>% # remove any NAs in taxa name
   glimpse()
 
 # Import length/3d file----
-length<-read_csv(file=paste(study,"length3dpoints.csv",sep = "_"),na = c("", " "))%>%
-  mutate(number=as.numeric(number))%>%
-  mutate(range=as.numeric(range))%>%
-  mutate(length=as.numeric(length))%>%
-  select(campaignid,sample,family,genus,species,length,number,range)%>%
+length <- read_csv(file = paste(study,"length3dpoints.csv",sep = "_"),na = c("", " "))%>%
+  mutate(number = as.numeric(number)) %>%
+  mutate(range = as.numeric(range)) %>%
+  mutate(length = as.numeric(length)) %>%
+  select(campaignid,sample,family,genus,species,length,number,range) %>%
   filter(!is.na(number)) %>% # find and remove sync points that are not fish
-  replace_na(list(family="Unknown",genus="Unknown",species="spp"))%>% # remove any NAs in taxa name
-  mutate(species=tolower(species))%>%
-  mutate(genus=str_replace_all(.$genus,c("NA"="Unknown")))%>%
+  replace_na(list(family="Unknown",genus="Unknown",species="spp")) %>% # remove any NAs in taxa name
+  mutate(species = tolower(species)) %>%
+  mutate(genus = str_replace_all(.$genus,c("NA"="Unknown"))) %>%
   glimpse()
 
 # BASIC checks----
 # Check if we have 3d points (Number) in addition to length----
-three.d.points<-length%>%
+three.d.points <- length%>%
   filter(is.na(length))%>%
   filter(!is.na(number))%>%
   glimpse() # Do we have 3d points? 
 
 # Check if we have more than one fish associated with single length measurement----
-schools<-length%>%
+schools <- length%>%
   filter(number>1)%>%
   glimpse() # Do we have schools? 
 
@@ -73,7 +73,7 @@ schools<-length%>%
 # Add justification and units to x
 setwd(plots.dir)
 
-theme_ga<-theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+theme_ga <- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
                 panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
 # Length vs. Density ----
@@ -115,11 +115,12 @@ out.of.range<-filter(length,range>10000)%>% # 10 m = 10000 mm
 
 # SERIOUS data checks using the life.history googlesheet ----
 # Checks on fish length vs their max.length in the life.history sheet will be done below
-url <- "https://docs.google.com/spreadsheets/d/1SMLvR9t8_F-gXapR2EemQMEPSw_bUbPLcXd3lJ5g5Bo/edit?ts=5e6f36e2#gid=825736197"
+url <- "https://docs.google.com/spreadsheets/d/1SMLvR9t8_F-gXapR2EemQMEPSw_bUbPLcXd3lJ5g5Bo/edit#gid=825736197"
 
-master<-googlesheets4::read_sheet(url)%>%ga.clean.names()%>%
+master<-googlesheets4::read_sheet(url) %>%
+  ga.clean.names() %>%
   filter(grepl('Australia', global.region))%>% # Change country here
-  filter(grepl('SW', marine.region))%>% # Select marine region (currently this is only for Australia)
+  filter(grepl('NW', marine.region))%>% # Select marine region (currently this is only for Australia)
   dplyr::mutate(all=as.numeric(all))%>%
   dplyr::mutate(bll=as.numeric(bll))%>%
   dplyr::mutate(a=as.numeric(a))%>%
@@ -141,8 +142,8 @@ synonyms<- googlesheets4::read_sheet(synonymsurl)%>%
 # Use return.changes=T to view the taxa.names.updated
 # Use save.report to save .csv file in your error directory
 
-maxn<-ga.change.synonyms(maxn,return.changes=T,save.report = T)
-length<-ga.change.synonyms(length,return.changes=T,save.report = T)
+maxn <- ga.change.synonyms(maxn,return.changes=T,save.report = T)
+length <- ga.change.synonyms(length,return.changes=T,save.report = T)
 
 # Check MaxN for species that have not previously been observed in your region ----
 maxn.species.not.previously.observed<-master%>%
@@ -216,10 +217,10 @@ write.csv(wrong.length.taxa,file=paste(study,"check.wrong.length.taxa.vs.life.hi
 # this is important if you use the 3D measurements (3D points and length) for abundance 
 # E.g. number above legal size
 
-length.sample <- length%>%distinct(campaignid,sample) # only examine samples where lengths were possible
+length.sample <- length %>% distinct(campaignid,sample) # only examine samples where lengths were possible
 
 # summarise length and then compare to maxn
-taxa.maxn.vs.stereo.summary<-length%>%
+taxa.maxn.vs.stereo.summary<-length %>%
   group_by(campaignid,sample,family,genus,species)%>%
   dplyr::summarise(stereo.maxn=sum(number))%>%
   full_join(maxn)%>%

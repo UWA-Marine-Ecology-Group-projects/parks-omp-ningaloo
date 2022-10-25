@@ -47,11 +47,10 @@ test <- dat %>% dplyr::filter(dom_tag %in% "inverts")
 # Read in and crop the rasters to your study extent
 # the rasters should be the same as the as the values in the shapefile
 
-stack <- readRDS(paste(paste0('data/spatial/rasters/', name), 'spatial_covariates.rds', sep = "_"))
-stack <- rast(stack)
-stack <- brick(stack)
+stack <- readRDS(paste(paste0('data/spatial/rasters/', name), 'spatial_covariates.rds', sep = "_")) %>%
+  rast() %>%
+  brick()
 rpc = rasterPCA(stack, nComp = 1 , spca = TRUE, nSamples = 5000) ### first PCA component of the raster stack to estimate spatial AC
-
 
 poly_sf <- st_sf(geometry = st_as_sfc(st_bbox(stack)))   ###### convert the polygon to sf for later
 aoi_r <- as(object = poly_sf, Class = "Spatial") ###### an sp polygon of your study areas
@@ -83,7 +82,7 @@ print(range1$range) ###### use this to inform the block size in 'the range argum
 sb1 = spatialBlock(speciesData = boss_sf,
                    species = "dom_tag", ####### change this to the label of your csv (eg. seagrass, algae)
                    rasterLayer = rpc$map,
-                   theRange = 18000,
+                   theRange = 18000, # Changed from 18000
                    k = 5, ####### suggest using 5 folds 
                    selection = "random",
                    iteration = 100,
@@ -163,13 +162,12 @@ imp.plot <- varImpPlot(rf_c)
 
 imp <- importance(rf_c)
 impvar <- rownames(imp)[order(imp[, 1], decreasing=TRUE)]
-op <- par(mfrow=c(3, 3))
+par(mfrow=c(3, 1))
 for (i in seq_along(impvar)) {
   partialPlot(rf_c, train, impvar[i], xlab=impvar[i],
               main=paste("Partial Dependence on", impvar[i]))
 }
-par(op)
-
+par(mfrow = c(1,1)) # Switch back to single plot
 #######################CV summary#########################
 tab = t(data.frame(oob,kapp_train, test_err, kapp_test))
 mean_st = (as.numeric(rowMeans(tab)))
@@ -179,14 +177,16 @@ tab_df = tibble::rownames_to_column(as.data.frame(tab), "Statistic")
 tab_df$Mean = mean_st
 tab_df
 
+write.csv(tab_df, file = paste0("output/rf-habitat/", name, "_model-kappa.csv"),
+          row.names = F)
+
 ############################################################
 
 #######################raster predictions#########################
-pred_class = raster::predict(stack,rf_c, type="response") 
+pred_class = raster::predict(stack,rf_c, type = "response") 
 #%>%focal(w=matrix(1,3,3), fun=modal)) can smooth out the preditions if needed
-pred_prob = raster::predict(stack,rf_c, type="prob") ### for class probabilities
+pred_prob = raster::predict(stack,rf_c, type = "prob") ### for class probabilities
 
-dev.off()
 plot(pred_class)
 plot(pred_prob)
 
