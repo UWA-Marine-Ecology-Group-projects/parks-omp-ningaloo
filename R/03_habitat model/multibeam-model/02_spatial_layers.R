@@ -16,6 +16,7 @@ rm(list = ls())
 # Load libraries - some more to add here
 library(sp)
 library(terra)
+library(raster)
 library(sf)
 library(stars)
 library(starsExtra)
@@ -26,33 +27,17 @@ name <- "Parks-Ningaloo-synthesis"                                              
 # Set CRS for bathymetry data
 wgscrs <- "+proj=longlat +datum=WGS84 +south"                                   # Latlong projection 
 
-# This next section uses coarse GA bathymetry, replace if you have better bathymetry data (ie. multibeam or LiDAR)
-# Read in and merge GA coarse bathy tiles from https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/metadata/67703
-cbaths      <- list.files("data/spatial/rasters/raw bathymetry",                # Bathymetry data too large for git stored here
-                     "*tile", full.names = TRUE) 
-cbathy      <- lapply(cbaths,                                                   # Loads all of the tiles
-                 function(x){read.table(file = x, header = TRUE, sep = ",")})    
-cbathy      <- do.call("rbind", lapply(cbathy, as.data.frame))                  # Turns the list into a data frame
-cbathy      <- cbathy[cbathy$Z <= 0 & cbathy$X < 117, ]                         # Get rid of topography data above 0m, general crop to speed life up
-bath_r      <- rast(cbathy)                                            # Convert to a raster
-crs(bath_r) <- wgscrs                                                           # Set the CRS
-plot(bath_r)                                                                    # Plot to check everything looks ok
+# Read in the bathymetry
+bathy <- rast("data/spatial/rasters/raw bathymetry/ptcloates_5m_WGS84_trimmed.tif") %>%
+  trim() %>%
+  clamp(upper = -20, values = F) # Weirdly put 0s in some spots instead of NAs
+plot(bathy)
+summary(bathy)
 
 # Crop the bathymetry to the general study area
-lats <- read.csv("data/tidy/Parks-Ningaloo-synthesis_random-points_broad.habitat.csv") %>%
-  glimpse()
-
-min(lats$latitude)
-max(lats$latitude)
-min(lats$longitude)
-max(lats$longitude)
-
-tbath_c <- crop(bath_r, ext(c(113.2, 114.3,-23, -21.5)))
-plot(tbath_c)
-points(lats[,c("longitude","latitude")], pch = 20, cex = 1, col = "red")
-fbath_df <- as.data.frame(tbath_c, xy = TRUE)                                   # Convert this to a dataframe
+fbath_df <- as.data.frame(bathy, xy = TRUE, na.rm = T)                                   # Convert this to a dataframe
 saveRDS(fbath_df, paste(paste0('data/spatial/rasters/',                         # Save it for use in the next scripts
-                               name), 'ga_bathy.rds', sep = "_")) 
+                               name), 'nesp_bathy.rds', sep = "_")) 
 
 # Calculate TERRA terrain derivatives
 preds <- terrain(tbath_c, neighbors = 8,

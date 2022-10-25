@@ -14,6 +14,7 @@ rm(list = ls())
 # Load libraries
 library(reshape2)
 library(dplyr)
+library(raster)
 library(terra)
 library(sp)
 library(ggplot2)
@@ -28,8 +29,10 @@ hab  <- read.csv("data/tidy/Parks-Ningaloo-synthesis_random-points_broad.habitat
 # Extract bathy derivatives for modelling
 # Set up CRS and load spatial covariates from 02_spatial_layers.R 
 wgscrs <- "+proj=longlat +datum=WGS84 +south"                                    # Latlong projection 
-preds  <- readRDS(paste(paste0('data/spatial/rasters/', name), 
-                       'spatial_covariates.rds', sep = "_"))
+preds  <- readRDS("output/MBH design/ptc_covariate_rasts.rds")
+writeRaster(preds, filename = "data/spatial/rasters/raw bathymetry/test.tif",
+            overwrite = T)
+
 preds <- rast(preds)
 plot(preds)
 
