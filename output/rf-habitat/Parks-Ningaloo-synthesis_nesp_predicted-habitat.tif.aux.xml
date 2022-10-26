@@ -5,6 +5,7 @@
       <Category></Category>
       <Category>inverts</Category>
       <Category>sand</Category>
+      <Category>sparse inverts</Category>
     </CategoryNames>
   </PAMRasterBand>
 </PAMDataset>

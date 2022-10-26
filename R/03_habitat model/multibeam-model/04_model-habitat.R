@@ -32,10 +32,10 @@ name <- "Parks-Ningaloo-synthesis"                                              
 # Load data
 dat <- readRDS(paste(paste0('data/tidy/', name), 
                       'nesp-habitat-bathy-derivatives.rds', sep = "_")) %>%
-  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.1, "inverts", "sand")) %>%
+  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.5, "inverts", 
+                                 ifelse((inverts/broad.total.points.annotated) < 0.5 & 
+                                          (inverts/broad.total.points.annotated) > 0.1, "sparse inverts", "sand"))) %>%
   glimpse()
-
-test <- dat %>% dplyr::filter(dom_tag %in% "inverts")
 
 # dat$dom_tag <- apply(dat %>% dplyr::select(sand, inverts), 1,
 #                                         FUN = function(x){names(which.max(x))})
@@ -56,7 +56,7 @@ rpc = rasterPCA(stack, nComp = 1 , spca = TRUE, nSamples = 5000) ### first PCA c
 poly_sf <- st_sf(geometry = st_as_sfc(st_bbox(stack)))   ###### convert the polygon to sf for later
 aoi_r <- as(object = poly_sf, Class = "Spatial") ###### an sp polygon of your study areas
 boss_sf <- dat %>%   ###### any csv with lat lon that has your samples and rasters extracted at those points 
-  sf::st_as_sf(coords = c("x", "y"), crs = 4326)  ###### can use 'coords = c("x", "y")' instead of wkt if there is no geometry colomn
+  sf::st_as_sf(coords = c("x", "y"), crs = "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs")  ###### can use 'coords = c("x", "y")' instead of wkt if there is no geometry colomn
 
 ############################################################
 
@@ -83,7 +83,7 @@ print(range1$range) ###### use this to inform the block size in 'the range argum
 sb1 = spatialBlock(speciesData = boss_sf,
                    species = "dom_tag", ####### change this to the label of your csv (eg. seagrass, algae)
                    rasterLayer = rpc$map,
-                   theRange = 10000, # Changed from 18000
+                   theRange = 5000, 
                    k = 5, ####### suggest using 5 folds 
                    selection = "random",
                    iteration = 100,

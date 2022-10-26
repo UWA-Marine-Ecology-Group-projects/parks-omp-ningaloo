@@ -4,7 +4,7 @@ rm(list=ls())
 # Libraries required ----
 # To connect to GlobalArchive
 library(devtools)
-install_github("UWAMEGFisheries/GlobalArchive") #to check for updates
+# install_github("UWAMEGFisheries/GlobalArchive") #to check for updates
 library(GlobalArchive)
 # To connect to life.history
 library(httpuv)
@@ -19,14 +19,14 @@ library(ggplot2)
 library(fst)
 
 # Study name---
-study<-"2021-05_Abrolhos_stereo-BRUVs" 
+study<-"Parks-Ningaloo-synthesis" 
 
 ## Set your working directory ----
 working.dir<-getwd()
 
 ## Save these directory names to use later---- 
-tidy.dir<-paste(working.dir,"data/Tidy",sep="/")
-plots.dir=paste(working.dir,"plots/format",sep="/")
+tidy.dir<-paste(working.dir,"data/tidy",sep="/")
+plots.dir=paste(working.dir,"figures/format",sep="/")
 error.dir=paste(working.dir,"data/raw/errors to check",sep="/")
 
 # Read in the data----
@@ -80,9 +80,10 @@ length.families<-read_csv(file=paste(study,"checked.length.csv",sep = "."),na = 
 
 complete.length.number<-read_csv(file=paste(study,"checked.length.csv",sep = "."))%>% #na = c("", " "))
   filter(!family=="Unknown")%>%
-  dplyr::mutate(id=paste(campaignid,sample,sep="."))%>%
-  dplyr::right_join(metadata ,by = c("id","campaignid", "sample"))%>% # add in all samples
-  dplyr::select(id,campaignid,sample,family,genus,species,length,number,range)%>%
+  dplyr::mutate(id=paste(campaignid,sample,sep="."))%>%                         # Using IDs for when we have multiple campaigns
+  dplyr::right_join(metadata ,by = c("id","campaignid", "sample")) %>% # add in all samples
+  dplyr::filter(!successful.length %in% "No") %>%
+  dplyr::select(id,campaignid,sample,family,genus,species,length,number,range) %>%
   tidyr::complete(nesting(id,campaignid,sample),nesting(family,genus,species)) %>%
   replace_na(list(number = 0))%>% #we add in zeros - in case we want to calulate abundance of species based on a length rule (e.g. greater than legal size)
   ungroup()%>%
@@ -91,8 +92,8 @@ complete.length.number<-read_csv(file=paste(study,"checked.length.csv",sep = "."
   left_join(.,metadata)%>%
   glimpse()
 
-length(unique(metadata$id)) # 50
-length(unique(complete.length.number$id)) # 50
+length(unique(metadata$id)) # 132
+length(unique(complete.length.number$id)) # 117
 
 # Make the expanded length data----
 # For use in length analyses - i.e KDE or histograms

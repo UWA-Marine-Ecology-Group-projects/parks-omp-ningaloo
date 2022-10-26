@@ -1,9 +1,1 @@
 "campaignid","sample","family","genus","species","maxn","stereo.maxn","difference","percent.difference"
-"2019-08_Ningaloo_stereo-BRUVs",4.08,"Carangidae","Carangoides","caeruleopinnatus",1,2,1,100
-"2019-08_Ningaloo_stereo-BRUVs",4.08,"Nemipteridae","Parascolopsis","inermis",2,1,1,50
-"2019-08_Ningaloo_stereo-BRUVs",6.02,"Labridae","Novaculichthys","taeniourus",0,1,1,Inf
-"2019-08_Ningaloo_stereo-BRUVs",10.11,"Lutjanidae","Pristipomoides","multidens",4,3,1,25
-"2019-08_Ningaloo_stereo-BRUVs",18.04,"Lethrinidae","Gymnocranius","sp1",0,1,1,Inf
-"2019-08_Ningaloo_stereo-BRUVs",31.01,"Lutjanidae","Pristipomoides","multidens",0,1,1,Inf
-"2019-08_Ningaloo_stereo-BRUVs",31.03,"Tetraodontidae","Lagocephalus","lunaris",5,6,1,20
-"2019-08_Ningaloo_stereo-BRUVs",31.04,"Chaetodontidae","Chaetodon","assarius",1,2,1,100

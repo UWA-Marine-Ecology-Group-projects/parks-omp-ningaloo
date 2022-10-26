@@ -28,14 +28,8 @@ name <- "Parks-Ningaloo-synthesis"                                              
 wgscrs <- "+proj=longlat +datum=WGS84 +south"                                   # Latlong projection 
 
 # Read in the bathymetry
-bathy <- rast("data/spatial/rasters/raw bathymetry/ptcloates_5m_WGS84_trimmed.tif") %>%
-  trim() %>%
-  clamp(upper = -20, values = F) # Weirdly put 0s in some spots instead of NAs 
-gf <- focalMat(bathy, 10, "Gauss")
-rg <- focal(bathy, w = gf)
-
-object.size(bathy)
-
+bathy <- rast("data/spatial/rasters/depth_195_50m.tif") %>%
+  trim() 
 plot(bathy)
 summary(bathy)
 

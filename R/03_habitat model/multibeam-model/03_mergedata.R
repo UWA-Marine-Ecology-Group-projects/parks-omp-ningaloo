@@ -37,6 +37,7 @@ plot(preds)
 
 # Align crs and check samples over bathy and extract terrain data
 allhab_sp <- vect(hab, geom = c("longitude", "latitude"), crs = wgscrs)         # Convert the habitat data to a terra vector
+allhab_sp <- terra::project(allhab_sp, crs(preds))                              # Reproject into UTM to match with raster CRS
 plot(preds[[1]])                                                                # Plot the first bathymetry derivative
 plot(allhab_sp, add = T)                                                        # Add the sampling points to check if they align
 habt_df   <- as.data.frame(allhab_sp, geom = "XY")                              # Convert the habitat data back to a regular dataframe

@@ -35,10 +35,8 @@ error.dir <- paste(working.dir,"data/errors to check",sep="/")
 setwd(staging.dir)
 
 # Import metadata ---
-# metadata <- read.csv(paste(study,"metadata.csv",sep="_"))
-setwd(download.dir)
-metadata <- read.csv("ningaloo_metadata_fixed.csv")
-setwd(staging.dir)
+metadata <- read.csv(paste(study,"metadata.csv",sep="_"))
+
 # Import MaxN file---
 maxn <- read_csv(paste(study,"maxn.csv",sep="_")) %>%
   mutate(maxn=as.numeric(maxn)) %>%
