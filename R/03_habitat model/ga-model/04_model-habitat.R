@@ -32,7 +32,7 @@ name <- "Parks-Ningaloo-synthesis"                                              
 # Load data
 dat <- readRDS(paste(paste0('data/tidy/', name), 
                       'habitat-bathy-derivatives.rds', sep = "_")) %>%
-  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.1, "inverts", "sand")) %>%
+  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.2, "inverts", "sand")) %>%
   glimpse()
 
 test <- dat %>% dplyr::filter(dom_tag %in% "inverts")

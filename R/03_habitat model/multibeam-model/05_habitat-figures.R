@@ -23,25 +23,22 @@ name <- "Parks-Ningaloo-synthesis"                                              
 
 dat <- readRDS(paste(paste0('data/tidy/', name), 
                      'nesp-habitat-bathy-derivatives.rds', sep = "_")) %>%
-  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.5, "inverts", 
-                                 ifelse((inverts/broad.total.points.annotated) < 0.5 & 
-                                          (inverts/broad.total.points.annotated) > 0.1, "sparse inverts", "sand"))) %>%
+  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.2, "inverts","sand")) %>%
   glimpse()
 
 stack <- readRDS(paste(paste0('data/spatial/rasters/raw bathymetry/', name),      # This is ignored - too big!
                        'spatial_covariates.rds', sep = "_")) %>%
   rast()
 
-# pred_class <- rast(paste0("output/rf-habitat/", name, "_nesp_predicted-habitat.tif"))  %>%
-#   focal(w = c(9,9), fun = "modal") %>%
-#   focal(w = c(9,9), fun = "modal") # Filtered multiple times to get rid of artefacts
+pred_class <- rast(paste0("output/rf-habitat/", name, "_nesp_predicted-habitat.tif"))  # %>%
+  # focal(w = c(9,9), fun = "modal") %>%
+  # focal(w = c(9,9), fun = "modal") # Filtered multiple times to get rid of artefacts
 
 pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%
   dplyr::rename(layer_value = "category") %>%                                   # SOmetimes changes? package conflict?
   dplyr::mutate(layer_value = recode(layer_value,
                                      "sand" = "Sand",
-                                     "inverts" = "Sessile invertebrates",
-                                     "sparse inverts" = "Sparse invertebrates")) %>%
+                                     "inverts" = "Sessile invertebrates")) %>%
   glimpse()
 
 # pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%
@@ -51,10 +48,11 @@ pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%
 #                                      "1" = "Sessile invertebrates")) %>%
 #   glimpse()
 
-pred_classsp <- vect(pred_classdf, geom = c("x", "y"),
-                                       crs = "EPSG:32749")
-predclasssp <- project(pred_classsp, "epsg:4326")
-pred_classdf <- as.data.frame(predclasssp, geom = "XY")
+# pred_classsp <- vect(pred_classdf, geom = c("x", "y"),
+#                                        crs = "EPSG:32749")
+# pred_classsp <- project(pred_classsp, "epsg:4326")
+# pred_classdf <- as.data.frame(pred_classsp, geom = "XY")
+
 # pred_classdf <- cbind(pred_classdf, terra::extract(stack[[1]], pred_classsp)) %>%
 #   # dplyr::filter(Z > -220 & Z < -50) %>%
 #   glimpse()
@@ -66,8 +64,7 @@ sppcrs <- "EPSG:32749"
 # Assign habitat class colours
 hab_fills <- scale_fill_manual(values = c(
   "Sand" = "wheat",
-  "Sparse invertebrates" = "#d48aa8",
-  "Sessile invertebrates" = "#673147"
+  "Sessile invertebrates" = "plum"
 ))
 
 # Set cropping extent - larger than most zoomed out plot
@@ -119,15 +116,19 @@ cwatr <- st_read("data/spatial/shapefiles/amb_coastal_waters_limit.shp")       #
 cwatr <- st_crop(cwatr, e)  
 cwatr <- st_transform(cwatr, sppcrs)
 
+broadbath <- readRDS(paste(paste0('data/spatial/rasters/', name), 'spatial_covariates.rds', sep = "_"))
+broadbath <- rast(broadbath)
+broadbath_t <- project(broadbath, sppcrs)                                       # Dodgy but doing just for plot
+
 # Bathymetry
-bathdf <- as.data.frame(stack[[1]], na.rm = T, xy = T)
+bathdf <- as.data.frame(broadbath_t[[1]], na.rm = T, xy = T)
 
 #Build plot elements for site 1
 p1 <- ggplot() +
-  # geom_tile(data = bathdf, aes(x, y, fill = Z), show.legend = F) +
-  # scale_fill_gradientn(colours = c("#062f6b", "#2b63b5","#9dc9e1"),
-  #                      values = rescale(c(-2437, -120, 0))) +
-  # new_scale_fill() +
+  geom_tile(data = bathdf, aes(x, y, fill = Z), show.legend = F, alpha = 0.9) +
+  scale_fill_gradientn(colours = c("#062f6b", "#2b63b5","#9dc9e1"),
+                       values = rescale(c(-2437, -120, 0))) +
+  new_scale_fill() +
   geom_tile(data = pred_classdf, aes(x, y, fill = layer_value)) +
   hab_fills + 
   new_scale_fill() +
@@ -139,13 +140,12 @@ p1 <- ggplot() +
   #              breaks = c(- 30, -70, - 200),                                    # Contour breaks - change to binwidth for regular contours
   #              colour = "grey54",
   #              alpha = 1, size = 0.5) +                                       # Transparency and linewidth
-  geom_point(data = dat, aes(x = x, y = y, fill = dom_tag), colour = "black",
-             pch = 21, alpha = 1, show.legend = F) +
-  scale_fill_manual(values = c(  "sand" = "wheat",
-                                 "sparse inverts" = "#d48aa8",
-                                 "inverts" = "#673147")) +
-  coord_sf(xlim = c(min(pred_classdf$x), max(pred_classdf$x)),
-           ylim = c(min(pred_classdf$y), max(pred_classdf$y))) +
+  # geom_point(data = dat, aes(x = x, y = y, fill = dom_tag), colour = "black",
+  #            pch = 21, alpha = 1, show.legend = F) +
+  # scale_fill_manual(values = c(  "sand" = "wheat",
+  #                                "inverts" = "plum")) +
+  coord_sf(xlim = c(min(pred_classdf$x), 830000),
+           ylim = c(min(pred_classdf$y), 7600000)) +
   labs(x = NULL, y = NULL, fill = "Habitat",                                    # Labels  
        colour = NULL) +
   # annotate("text", x = c(113.428836237, 113.388204915, 113.255153069),          # Add contour labels manually
@@ -153,94 +153,11 @@ p1 <- ggplot() +
   #          label = c("30m", "70m", "200m"),
   #          size = 2, colour = "grey54") +
   theme_minimal()
-# png(filename = paste(paste("figures/habitat", name, sep = "/"),                 # Save output
-#                      "nesp-dominant_habitat.png", sep = "_"),
-#     width = 6, height = 8, res = 300, units = "in")                             # Change the dimensions here as necessary
+png(filename = paste(paste("figures/habitat", name, sep = "/"),                 # Save output
+                     "nesp-dominant_habitat.png", sep = "_"),
+    width = 6, height = 8, res = 300, units = "in")                             # Change the dimensions here as necessary
 p1
 dev.off()
 
-p2 <- ggplot() +
-  geom_tile(data = pred_classdf, aes(x, y, fill = layer_value)) +
-  hab_fills + 
-  new_scale_fill() +
-  geom_sf(data = ausc, fill = "seashell2", colour = "black", size = 0.1) +
-  geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          # Add national park zones
-  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         # Add national park zones
-  geom_sf(data = cwatr, fill = NA, colour = "red", size = 0.3) +                
-  geom_point(data = dat, aes(x = x, y = y, fill = dom_tag), colour = "black",
-             pch = 21, alpha = 1, show.legend = F) +
-  scale_fill_manual(values = c(  "sand" = "wheat",
-                                 "sparse inverts" = "#d48aa8",
-                                 "inverts" = "#673147")) +
-  coord_sf(xlim = c(750000, 775000),
-           ylim = c(7500000, 7470000)) +
-  labs(x = NULL, y = NULL, fill = "Habitat",                                    # Labels  
-       colour = NULL) +
-  theme_minimal()
-# png(filename = paste(paste("figures/habitat", name, sep = "/"),                 # Save output
-#                      "nesp-dominant_habitat.png", sep = "_"),
-#     width = 6, height = 8, res = 300, units = "in")                             # Change the dimensions here as necessary
-p2
-# dev.off()
-
-unique(pred_classdf$layer_value)
 # Put some spatial uncertainty type plot here!
-
-
-
-################# TEST GAMS ##################
-preddf <- as.data.frame(stack, xy = T, na.rm = T)
-
-library(mgcv)
-m_sand <- gam(cbind(sand, broad.total.points.annotated - sand) ~ 
-                 s(Z,     k = 5, bs = "cr")  + 
-                 s(roughness, k = 5, bs = "cr") + 
-                 s(detrended, k = 5, bs = "cr"), 
-               data = dat, method = "REML", family = binomial("logit"))
-summary(m_sand)
-
-m_inverts <- gam(inverts/broad.total.points.annotated ~ 
-                s(Z,     k = 5, bs = "cr")  + 
-                s(roughness, k = 5, bs = "cr") + 
-                s(detrended, k = 5, bs = "cr"), 
-              data = dat, method = "REML", family = binomial("logit"))
-summary(m_inverts)
-
-preddf <- cbind(preddf,
-                "psand" = predict(m_sand, preddf, type = "response"),
-                "pinverts" = predict(m_inverts, preddf, type = "response"))
-
-# preddf$dom_tag <- apply(preddf[11:12], 1,
-#                          FUN = function(x){names(which.max(x))})
-
-preddf <- preddf %>%
-  dplyr::mutate(dom_tag = ifelse(pinverts > 0.5, "inverts", 
-                               ifelse((inverts/broad.total.points.annotated) < 0.5 & 
-                                        (inverts/broad.total.points.annotated) > 0.1, "sparse inverts", "sand")))
-
-summary(preddf)
-
-p3 <- ggplot() +
-  geom_tile(data = preddf, aes(x, y, fill = dom_tag)) +
-  scale_fill_manual(values = c("pinverts" = "plum",
-                               "psand" = "wheat")) + 
-  new_scale_fill() +
-  geom_sf(data = ausc, fill = "seashell2", colour = "black", size = 0.1) +
-  geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          # Add national park zones
-  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         # Add national park zones
-  geom_sf(data = cwatr, fill = NA, colour = "red", size = 0.3) +                
-  # geom_point(data = dat, aes(x = x, y = y, fill = dom_tag), colour = "black",
-  #            pch = 21, alpha = 1, show.legend = F) +
-  # scale_fill_manual(values = c(  "sand" = "wheat",
-  #                                "sparse inverts" = "#d48aa8",
-  #                                "inverts" = "#673147")) +
-  coord_sf(xlim = c(min(preddf$x), max(preddf$x)),
-           ylim = c(min(preddf$y), max(preddf$y))) +
-  labs(x = NULL, y = NULL, fill = "Habitat",                                    # Labels  
-       colour = NULL) +
-  theme_minimal()
-# png(filename = paste(paste("figures/habitat", name, sep = "/"),                 # Save output
-#                      "nesp-dominant_habitat.png", sep = "_"),
-#     width = 6, height = 8, res = 300, units = "in")                             # Change the dimensions here as necessary
-p3
 

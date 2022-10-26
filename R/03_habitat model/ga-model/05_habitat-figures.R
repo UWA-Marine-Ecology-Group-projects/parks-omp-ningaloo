@@ -122,7 +122,7 @@ p1 <- ggplot() +
            ylim = c(min(dat$y), max(dat$y))) +
   labs(x = NULL, y = NULL, fill = "Habitat",                                    # Labels  
        colour = NULL) +
-  geom_point(data = dat, aes(x = x, y = y), alpha = 0.09) +
+  # geom_point(data = dat, aes(x = x, y = y), alpha = 0.09) +
   # annotate("text", x = c(113.428836237, 113.388204915, 113.255153069),          # Add contour labels manually
   #          y = c(-28.078038504, -28.078038504, -28.078038504), 
   #          label = c("30m", "70m", "200m"),

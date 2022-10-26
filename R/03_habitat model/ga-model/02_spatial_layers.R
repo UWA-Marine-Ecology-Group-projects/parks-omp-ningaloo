@@ -34,7 +34,7 @@ cbathy      <- lapply(cbaths,                                                   
                  function(x){read.table(file = x, header = TRUE, sep = ",")})    
 cbathy      <- do.call("rbind", lapply(cbathy, as.data.frame))                  # Turns the list into a data frame
 cbathy      <- cbathy[cbathy$Z <= 0 & cbathy$X < 117, ]                         # Get rid of topography data above 0m, general crop to speed life up
-bath_r      <- rast(cbathy)                                            # Convert to a raster
+bath_r      <- rast(cbathy)                                                     # Convert to a raster
 crs(bath_r) <- wgscrs                                                           # Set the CRS
 plot(bath_r)                                                                    # Plot to check everything looks ok
 
@@ -63,7 +63,7 @@ preds <- rast(list(tbath_c, preds))                                             
 # Calculate detrended bathymetry
 zstar <- st_as_stars(tbath_c)                                                   # Convert to a stars object
 detre <- detrend(zstar, parallel = 8)                                           # Detrend bathymetry - This usually runs quite slow!
-detre <- as(object = detre, Class = "SpatRaster")                                   # Convert it to a raster
+detre <- as(object = detre, Class = "SpatRaster")                               # Convert it to a raster
 names(detre) <- c("detrended", "lineartrend")
 preds <- rast(list(preds, detre))                                               # Make a rasterstack
 plot(preds)

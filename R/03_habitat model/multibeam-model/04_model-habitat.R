@@ -32,9 +32,7 @@ name <- "Parks-Ningaloo-synthesis"                                              
 # Load data
 dat <- readRDS(paste(paste0('data/tidy/', name), 
                       'nesp-habitat-bathy-derivatives.rds', sep = "_")) %>%
-  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.5, "inverts", 
-                                 ifelse((inverts/broad.total.points.annotated) < 0.5 & 
-                                          (inverts/broad.total.points.annotated) > 0.1, "sparse inverts", "sand"))) %>%
+  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.2, "inverts","sand")) %>%
   glimpse()
 
 # dat$dom_tag <- apply(dat %>% dplyr::select(sand, inverts), 1,
@@ -81,10 +79,10 @@ print(range1$range) ###### use this to inform the block size in 'the range argum
 
 # creating the spatial blocks
 sb1 = spatialBlock(speciesData = boss_sf,
-                   species = "dom_tag", ####### change this to the label of your csv (eg. seagrass, algae)
+                   species = "dom_tag", # change this to the label of your csv (eg. seagrass, algae)
                    rasterLayer = rpc$map,
-                   theRange = 5000, 
-                   k = 5, ####### suggest using 5 folds 
+                   theRange = 5000, # Decreased range so we have data in all folds
+                   k = 5, #suggest using 5 folds 
                    selection = "random",
                    iteration = 100,
                    numLimit = NULL,
@@ -130,10 +128,10 @@ for(i in 1:5){ # works if k = 5
                       data = train,
                       na.action=na.omit,
                       ntree = 1000,
-                      maxnodes = 5, ###### this is really the most important thing to adjust. It controls the depth of the tree
-                      importance=TRUE, ###### tru between 5 and 12 at most, and inform from the kappa outcomes below
+                      maxnodes = 5, # this is really the most important thing to adjust. It controls the depth of the tree
+                      importance=TRUE, # tru between 5 and 12 at most, and inform from the kappa outcomes below
                       proximity=FALSE,
-                      xtest = data.frame(test$Z, test$detrended, test$roughness ##### make sure these are the same as your covariates test$slope, test$aspect, test$TPI, test$TRI, test$roughness,
+                      xtest = data.frame(test$Z, test$detrended, test$roughness ## make sure these are the same as your covariates test$slope, test$aspect, test$TPI, test$TRI, test$roughness,
                       ), 
                       ytest = test$dom_tag,
                       keep.forest = TRUE) 
