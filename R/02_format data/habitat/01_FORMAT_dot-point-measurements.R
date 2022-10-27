@@ -146,14 +146,14 @@ relief <- list.files(path = tm.export.dir,
   ga.clean.names() %>% # tidy the column names using GlobalArchive function
   mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
   mutate(sample = as.character(sample)) %>%
-  dplyr::filter(relief.file %in% "Yes" | campaignid %in% "2019-08_Ningaloo-Deep_stereo-BRUVs") %>%
+  dplyr::filter(relief.file %in% "Yes" | campaignid %in% "2019-08_Ningaloo_stereo-BRUVs") %>%
   dplyr::select(-filename) %>%
   # dplyr::filter(!is.na(relief)) %>%
   glimpse() # preview
 
 test1 <- relief %>% dplyr::filter(is.na(relief)) # 0 - thank the lord
 
-length(unique(relief$sample)) # 179 samples - no relief for the new stuff from Gabby yet
+length(unique(relief$sample)) # 180 samples - no relief for the new stuff from Gabby yet
 
 no.annotations <- relief%>%
   group_by(campaignid, sample)%>%
@@ -216,7 +216,7 @@ relief.grid <- habitat %>%
 habitat.broad.points <- metadata %>%
   left_join(broad.points, by = c("campaignid","sample"))%>%
   left_join(relief.grid) %>%
-  dplyr::filter(!sample %in% "19.05") %>%
+  # dplyr::filter(!sample %in% "19.05") %>%
   glimpse()
 
 write.csv(habitat.broad.points,file = paste0("data/tidy/",study,"_random-points_broad.habitat.csv"), 

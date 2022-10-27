@@ -65,7 +65,7 @@ sppcrs <- "EPSG:32749"
 hab_fills <- scale_fill_manual(values = c(
   "Sand" = "wheat",
   "Sessile invertebrates" = "plum"
-))
+), name = "Habitat")
 
 # Set cropping extent - larger than most zoomed out plot
 e <- ext(113, 114.5, -23, -21)
@@ -146,6 +146,7 @@ p1 <- ggplot() +
   #                                "inverts" = "plum")) +
   coord_sf(xlim = c(min(pred_classdf$x), 830000),
            ylim = c(min(pred_classdf$y), 7600000)) +
+  scale_x_continuous(breaks = c(113.5, 113.7, 113.9, 114.1))+ 
   labs(x = NULL, y = NULL, fill = "Habitat",                                    # Labels  
        colour = NULL) +
   # annotate("text", x = c(113.428836237, 113.388204915, 113.255153069),          # Add contour labels manually

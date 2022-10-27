@@ -167,6 +167,23 @@ for (i in seq_along(impvar)) {
               main=paste("Partial Dependence on", impvar[i]))
 }
 par(mfrow = c(1,1)) # Switch back to single plot
+
+
+##### ROC ######
+# A measure between true positive predictions (correct) and false postive prediciton (incorrect) 
+predictions = as.data.frame(predict(rf_c, mod_df, type = "prob")) # predicting the prob of each class over the og df
+predictions$predict = names(predictions)[1:2][apply(predictions[,1:2], 1, which.max)] # threshold for classification
+predictions$observed = mod_df$dom_tag # actual classes
+
+
+roc.invert = roc(ifelse(predictions$observed == "inverts", "inverts", "non-inverts"), as.numeric(predictions$inverts))
+
+png(filename = paste0("figures/habitat/", name, "_ROC-curve.png"),
+    width = 8, height = 6, res = 300, units = "in")
+plot(roc.invert, col = "red") # ,main ='ROC Curve for Inverts'
+text(x=1.0, y=0.95, labels=paste("AUC =", round(roc.invert$auc,2)))
+dev.off()
+
 #######################CV summary#########################
 tab = t(data.frame(oob,kapp_train, test_err, kapp_test))
 mean_st = (as.numeric(rowMeans(tab)))
