@@ -9,8 +9,7 @@
 rm(list=ls())
 
 # libraries----
-library(tidyr)
-library(dplyr)
+library(tidyverse)
 library(mgcv)
 library(MuMIn)
 library(car)
@@ -153,7 +152,7 @@ for (i in pred.vars) {
 
 # Write data to load in to next script
 saveRDS(dat.maxn, paste(paste0('data/tidy/', name), 
-                        'gam-data-maxn.rds', sep = "_"))
+                        'gam-abundance.rds', sep = "_"))
 
 #lengths
 # Create abundance of all recreational fished species ----
@@ -219,9 +218,9 @@ dat.length <- combined.length %>%
   ungroup() %>%
   dplyr::right_join(metadata, by = c("campaignid","sample")) %>% # add in all samples
   dplyr::select(campaignid, sample,scientific,number, method) %>%
-  tidyr::complete(nesting(campaignid, sample), scientific) %>%
+  tidyr::complete(nesting(campaignid, sample, method), scientific) %>%
   replace_na(list(number = 0)) %>% # we add in zeros - in case we want to calculate abundance of species based on a length rule (e.g. greater than legal size)
-  dplyr::ungroup()%>%
+  dplyr::ungroup() %>%
   dplyr::filter(!is.na(scientific)) %>% # this should not do anything
   dplyr::left_join(.,metadata) %>%
   dplyr::left_join(.,allhab) %>%
@@ -229,34 +228,6 @@ dat.length <- combined.length %>%
   dplyr::mutate(scientific = as.character(scientific)) %>%
   dplyr::glimpse()
 
-# Set predictor variables---
-pred.vars = c("depth", 
-              "macroalgae", 
-              "sand", 
-              "inverts", 
-              "mean.relief",
-              "tpi",
-              "roughness",
-              "detrended") 
-
-# Check for correalation of predictor variables- remove anything highly correlated (>0.95)---
-correlate(dat.maxn[,pred.vars], use = "complete.obs") %>%  
-  gather(-term, key = "colname", value = "cor") %>% 
-  dplyr::filter(abs(cor) > 0.8) 
-
-# Plot of likely transformations - thanks to Anna Cresswell for this loop!
-par(mfrow=c(3,2))
-for (i in pred.vars) {
-  x<-dat.length[ ,i]
-  x = as.numeric(unlist(x))
-  hist((x))#Looks best
-  plot((x),main = paste(i))
-  hist(sqrt(x))
-  plot(sqrt(x))
-  hist(log(x+1))
-  plot(log(x+1))
-}
-
 #write data to load in to next script
 saveRDS(dat.maxn, paste(paste0('data/tidy/', name), 
-                        'gam-data-length.rds', sep = "_"))
+                        'gam-length.rds', sep = "_"))
