@@ -6,29 +6,33 @@
 # date:    Oct 2021
 ##
 
+# Run once
+# install.packages("INLA", repos=c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/testing"), dep=TRUE)
+
+library(tidyverse)
 library(INLA)
 library(sp)
 library(ggnewscale)
 library(ggplot2)
 library(viridis)
+library(terra)
+library(raster)
 
-habi  <- readRDS("data/tidy/merged_habitat.rds")                                # merged data from 'R/1_mergedata.R'
-preds <- readRDS("data/spatial/spatial_covariates.rds")                         # spatial covs from 'R/1_mergedata.R'
+habi  <- readRDS("data/tidy/Parks-Ningaloo-synthesis_nesp-habitat-bathy-derivatives.rds") %>%
+  dplyr::rename(relief = mean.relief)
+preds <- readRDS("data/spatial/rasters/raw bathymetry/Parks-Ningaloo-synthesis_spatial_covariates.rds")                         # spatial covs from 'R/1_mergedata.R'
+preds <- rast(preds)
+preds <- raster(preds)
 # colnames(habi)
 # trim predictor data cols and subset to npz6 area (if you want)
-habi      <- habi[ , c(1, 2, 7, 51:61)]
-habi$npz6 <- c(0)
-habi$npz6[grep("npz6", habi$Sample)] <- 1
-habi$npz6[grep("out6", habi$Sample)] <- 1
-# habi     <- habi[habi$npz6 == 0, ]
-# head(habi)
+habi      <- habi[ , c(1, 2, 17, 19:20, 22:29)] 
 
 # Build with all data, or set aside test/train data
 # alldat <- testdat
 # OR set aside train/test data
 set.seed(42)
 testd  <- habi[sample(nrow(habi), nrow(habi)/5), ]
-traind <- habi[!habi$Sample %in% testd$Sample , ]
+traind <- habi[!habi$sample %in% testd$sample , ]
 
 # build inla mesh from spatial layout of sites - the constants need some tuning
 habisp         <- SpatialPointsDataFrame(coords = traind[4:5], data = traind)
@@ -44,7 +48,7 @@ plot(habisp, add = T, col = "red")
 meshadata      <- inla.spde.make.A(mesha, sitelocs)
 spde           <- inla.spde2.matern(mesha, alpha = 2)
 datn           <- nrow(habisp)
-preddf         <- traind[, colnames(traind) %in% c("Z", "roughness", "tpi", "detrended")]
+preddf         <- traind[, colnames(traind) %in% c("Z", "roughness", "detrended")]
 
 relief_stack   <- inla.stack(data = list(y = traind$relief),
                              A = list(meshadata, 1),
