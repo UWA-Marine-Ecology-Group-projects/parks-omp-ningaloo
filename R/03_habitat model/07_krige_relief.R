@@ -22,7 +22,7 @@ habi  <- readRDS("data/tidy/Parks-Ningaloo-synthesis_nesp-habitat-bathy-derivati
   dplyr::rename(relief = mean.relief)
 preds <- readRDS("data/spatial/rasters/raw bathymetry/Parks-Ningaloo-synthesis_spatial_covariates.rds")                         # spatial covs from 'R/1_mergedata.R'
 preds <- rast(preds)
-preds <- raster(preds)
+preds <- stack(preds)
 # colnames(habi)
 # trim predictor data cols and subset to npz6 area (if you want)
 habi      <- habi[ , c(1, 2, 17, 19:20, 22:29)] 
@@ -145,7 +145,7 @@ predrast <- rasterize(x = cbind(datpred$x, datpred$y),
 modout  <- m1$summary.fixed
 hypout  <- m1$summary.hyperpar
 pmask   <- predrast / predrast
-pcells  <- preds[[c(1, 4, 7)]] * pmask
+pcells  <- preds[[c(1, 6, 7)]] * pmask
 pcells  <- stack(pcells, predrast)
 names(pcells) <- c("depth", "rough", "dtren", "p_sp")
 pcelldf <- as.data.frame(pcells, na.rm = TRUE, xy = TRUE)
@@ -162,7 +162,7 @@ pcelldf$prelief[pcelldf$prelief < 0] <- 0                                       
 
 prelief <- rasterFromXYZ(cbind(pcelldf[c(1:2, 6:7)]))
 plot(prelief[[2]])
-saveRDS(prelief[[2]], "output/predicted_relief_raster.rds")
+saveRDS(prelief[[2]], "output/predicted-relief/predicted_relief_raster.rds")
 
 sitebuf <- buffer(habisp, 10000)
 prelief <- mask(prelief, sitebuf)
@@ -176,7 +176,7 @@ saveRDS(pcelldf, 'output/predicted_relief_site.rds')
 ggplot(pcelldf, aes(x, y)) +
   geom_tile(aes(fill = prelief)) +
   scale_fill_viridis() +
-  geom_point(data = habi, aes(Longitude.1, Latitude.1, colour = relief), 
+  geom_point(data = habi %>% dplyr::filter(!is.na(relief)), aes(x, y, colour = relief), 
              alpha = 4/5, size = 1) +
   scale_colour_viridis() +
   coord_equal() +
@@ -189,7 +189,7 @@ ggplot(pcelldf, aes(x, y)) +
 ggplot(pcelldf, aes(x, y)) +
   geom_tile(aes(fill = p_sp)) +
   scale_fill_viridis() +
-  geom_point(data = habi, aes(Longitude.1, Latitude.1), 
+  geom_point(data = habi %>% dplyr::filter(!is.na(relief)), aes(x, y), 
              alpha = 1/5, size = 1, shape = 3) +
   coord_equal() +
   labs(x= NULL, y = NULL, 
@@ -201,7 +201,7 @@ testsp <- SpatialPointsDataFrame(coords = testd[4:5], data = testd)
 testd$predicted <- extract(prelief[[2]], testsp)
 testd$pdiff     <- testd$predicted - testd$relief
 testsp$pdiff    <- testd$pdiff
-testd <- na.omit(testd) # there is an NA - there are some gaps in the rasters, that may be why
+testd <- na.omit(testd) # NAs - some data not completely finished - **CS to update**
 
 # calculate r2 as per Gelman et al 2017 and plot prediction accuracy 
 # variance of predicted values divided by variances of predicted values plus variance of the errors
@@ -209,7 +209,7 @@ testd <- na.omit(testd) # there is an NA - there are some gaps in the rasters, t
 r2    <- var(testd$predicted) / (var(testd$predicted) + var(testd$pdiff))
 r2lab <- paste("r^2 == ", round(r2, 3))
 
-ggplot(testd, aes(relief, predicted)) + 
+p1 <- ggplot(testd, aes(relief, predicted)) + 
   geom_abline(intercept = 0, lty = 3) +
   geom_point(alpha = 4/5, size = 1) + 
   geom_smooth(method = "gam", colour = "grey60", size = 0.2, fill = "grey80") +
@@ -217,8 +217,12 @@ ggplot(testd, aes(relief, predicted)) +
   coord_equal() +
   theme_minimal() + 
   labs(x = "observed")
+png(filename = "figures/relief/relief_prediction_accuracy.png", res = 300, units = "in",
+    width = 5, height = 4)
+p1
+dev.off()
 
-ggsave("plots/relief_prediction_accuracy.png", width = 5, height = 4, dpi = 160)
+# ggsave("figures/relief/relief_prediction_accuracy.png", width = 5, height = 4, dpi = 160)
 
 # # plot difference across sites? i.e. way to view spatial prediction success?
 # 
