@@ -1,8 +1,8 @@
 Dot Point Measurements
 
-Generated: Friday 18 November 2022 11:19:14
+Generated: Friday 18 November 2022 11:53:17
 
-Filename	Frame	Time (mins)	Image row	Image col	Date	Location	Site #	Transect #	Latitude	Longitude	Rugosity	Depth	Collector	Fishing status	Spare	Spare	Frame info 1	Frame info 2	Frame info 3	Frame info 4	Frame info 5	Frame info 6	Broad	Morphology	Type	FieldOfView	Relief	Bedforms	Bedform.type	CODE	Radius %
+Filename	Frame	Time (mins)	Image row	Image col	Date	Location	Site #	Transect #	Latitude	Longitude	Rugosity	Depth	Collector	Fishing status	Spare	Spare	Frame info 1	Frame info 2	Frame info 3	Frame info 4	Frame info 5	Frame info 6	BROAD	MORPHOLOGY	TYPE	RELIEF	CODE				Radius %
 10_1_01_Left_MAH00329.MP4_0043644.jpg	      0		139	196																											100.0
 10_1_01_Left_MAH00329.MP4_0043644.jpg	      0		406	196																											89.9
 10_1_01_Left_MAH00329.MP4_0043644.jpg	      0		674	196																						".0. Flat substrate, sandy, rubble with few features. ~0 substrate slope."					89.9

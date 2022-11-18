@@ -115,7 +115,7 @@ ggsave(file=paste(study,"check.range.vs.length.png",sep = "_"))
 
 summary(length$range) # shows min, mean and max range
 
-out.of.range<-filter(length,range>10000)%>% # 10 m = 10000 mm
+out.of.range<-filter(length,range>8000)%>% # 10 m = 10000 mm
   glimpse() # Shows fish more than 10 m away
 
 # SERIOUS data checks using the life.history googlesheet ----
@@ -130,7 +130,7 @@ master<-googlesheets4::read_sheet(url) %>%
   dplyr::mutate(bll=as.numeric(bll))%>%
   dplyr::mutate(a=as.numeric(a))%>%
   dplyr::mutate(b=as.numeric(b))%>%
-  select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>%
+  dplyr::select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>%
   distinct()%>%
   glimpse()
 
@@ -139,7 +139,7 @@ synonymsurl <- "https://docs.google.com/spreadsheets/d/1R0uU9Q0VkUDQFgGTK3VnIGxm
 synonyms<- googlesheets4::read_sheet(synonymsurl)%>%
   distinct()%>%
   ga.clean.names()%>%
-  select(-comment)
+  dplyr::select(-comment)
 
 # Update by synonyms ----
 # This function will change the names of species that have been reclassified (i.e. Pagrus auratus to Chrysophrys auratus). This function also fixes some common spelling mistakes (i.e. Chyrosophyrs	auratus to Chrysophrys auratus)
@@ -230,7 +230,7 @@ taxa.maxn.vs.stereo.summary <- length %>%
   dplyr::summarise(stereo.maxn=sum(number))%>%
   full_join(maxn)%>%
   replace_na(list(maxn=0))%>%
-  filter(!stereo.maxn==maxn)%>%
+  dplyr::filter(!stereo.maxn==maxn)%>%
   mutate(percent.difference = (maxn-stereo.maxn)/maxn*100)%>%
   semi_join(length.sample)%>% # only keep ones where length was possible
   replace_na(list(percent.difference=1))%>%
@@ -238,7 +238,7 @@ taxa.maxn.vs.stereo.summary <- length %>%
   mutate(difference=(maxn-stereo.maxn))%>%
   mutate(difference=abs(difference))%>%
   mutate(percent.difference=abs(percent.difference))%>%
-  select(campaignid,sample,family,genus,species,maxn,stereo.maxn,difference,percent.difference)%>%
+  dplyr::select(campaignid,sample,family,genus,species,maxn,stereo.maxn,difference,percent.difference)%>%
   arrange(-difference)%>%
   glimpse()
 

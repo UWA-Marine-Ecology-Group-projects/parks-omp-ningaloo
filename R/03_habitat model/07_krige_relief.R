@@ -8,6 +8,7 @@
 
 # Run once
 # install.packages("INLA", repos=c(getOption("repos"), INLA="https://inla.r-inla-download.org/R/testing"), dep=TRUE)
+rm(list = ls())
 
 library(tidyverse)
 library(INLA)
@@ -18,8 +19,9 @@ library(viridis)
 library(terra)
 library(raster)
 
-habi  <- readRDS("data/tidy/Parks-Ningaloo-synthesis_nesp-habitat-bathy-derivatives.rds") %>%
-  dplyr::rename(relief = mean.relief)
+habi  <- readRDS("data/tidy/Parks-Ningaloo-synthesis_nesp-habitat-bathy-derivatives.rds") %>% # multibeam-model/From 03_mergedata.R
+  dplyr::rename(relief = mean.relief) %>%
+  dplyr::filter(!is.na(relief))
 preds <- readRDS("data/spatial/rasters/raw bathymetry/Parks-Ningaloo-synthesis_spatial_covariates.rds")                         # spatial covs from 'R/1_mergedata.R'
 preds <- rast(preds)
 preds <- stack(preds)
@@ -48,18 +50,18 @@ plot(habisp, add = T, col = "red")
 meshadata      <- inla.spde.make.A(mesha, sitelocs)
 spde           <- inla.spde2.matern(mesha, alpha = 2)
 datn           <- nrow(habisp)
-preddf         <- traind[, colnames(traind) %in% c("Z", "roughness", "detrended")]
+preddf         <- traind[, colnames(traind) %in% c("Z", "roughness","TPI" , "detrended")]
 
 relief_stack   <- inla.stack(data = list(y = traind$relief),
                              A = list(meshadata, 1),
                              effects = list(c(sp = list(1:mesha$n)),
                                             list(depth = preddf$Z,
                                                  rough = preddf$roughness,
-                                                 # tpi   = preddf$tpi,
+                                                 tpi   = preddf$TPI,
                                                  dtren = preddf$detrended)),
                              remove.unused = TRUE)
 
-modform        <- y ~ 1 + depth + rough + dtren + f(sp, model = spde)
+modform        <- y ~ 1 + depth + rough + dtren + tpi + f(sp, model = spde)
 
 # fit model
 m1 <- inla(modform, 
@@ -91,7 +93,7 @@ p1 <- ggplot(avgs[avgs$covariate != "(Intercept)", ],
   theme_bw()
 p1
 
-ggsave("plots/reliefmodel_ci.png", width = 5, height = 4, dpi = 160)
+ggsave("figures/relief/reliefmodel_ci.png", width = 5, height = 4, dpi = 160)
 
 # # evaluate fit and tuning
 # rf <- inla.spde.result(inla = m1, name = "sp", spde = spde, do.transf = TRUE)
@@ -145,23 +147,25 @@ predrast <- rasterize(x = cbind(datpred$x, datpred$y),
 modout  <- m1$summary.fixed
 hypout  <- m1$summary.hyperpar
 pmask   <- predrast / predrast
-pcells  <- preds[[c(1, 6, 7)]] * pmask
+pcells  <- preds[[c(1, 4, 6, 7)]] * pmask
 pcells  <- stack(pcells, predrast)
-names(pcells) <- c("depth", "rough", "dtren", "p_sp")
+plot(pcells)
+names(pcells) <- c("depth", "tpi", "rough", "dtren", "p_sp")                   
 pcelldf <- as.data.frame(pcells, na.rm = TRUE, xy = TRUE)
 head(pcelldf)
 
-# recall formula: y ~ 1 + depth + rough + dtren + f(sp, model = spde)
+# recall formula: y ~ 1 + depth + rough + dtren + tpi + f(sp, model = spde)
 pcelldf$prelief <- 1 + modout$mean[1] + 
   (pcelldf$depth * modout$mean[2]) + 
   (pcelldf$rough * modout$mean[3]) + 
   (pcelldf$dtren * modout$mean[4]) + 
+  (pcelldf$tpi   * modout$mean[5]) +
   pcelldf$p_sp
 
 pcelldf$prelief[pcelldf$prelief < 0] <- 0                                       # rm p out of sample range (-ve relief)
 
-prelief <- rasterFromXYZ(cbind(pcelldf[c(1:2, 6:7)]))
-plot(prelief[[2]])
+prelief <- rasterFromXYZ(cbind(pcelldf[c(1:2, 7:8)]))
+plot(prelief[[2]])                                                              # Why up to 8?
 saveRDS(prelief[[2]], "output/predicted-relief/predicted_relief_raster.rds")
 
 sitebuf <- buffer(habisp, 10000)
@@ -201,7 +205,7 @@ testsp <- SpatialPointsDataFrame(coords = testd[4:5], data = testd)
 testd$predicted <- extract(prelief[[2]], testsp)
 testd$pdiff     <- testd$predicted - testd$relief
 testsp$pdiff    <- testd$pdiff
-testd <- na.omit(testd) # NAs - some data not completely finished - **CS to update**
+testd <- na.omit(testd)                                                         # Should do nothing
 
 # calculate r2 as per Gelman et al 2017 and plot prediction accuracy 
 # variance of predicted values divided by variances of predicted values plus variance of the errors

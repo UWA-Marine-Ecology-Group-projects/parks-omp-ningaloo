@@ -27,7 +27,7 @@ working.dir<-getwd()
 ## Save these directory names to use later---- 
 tidy.dir<-paste(working.dir,"data/tidy",sep="/")
 plots.dir=paste(working.dir,"figures/format",sep="/")
-error.dir=paste(working.dir,"data/raw/errors to check",sep="/")
+error.dir=paste(working.dir,"data/errors to check",sep="/")
 
 # Read in the data----
 setwd(tidy.dir)
@@ -74,7 +74,7 @@ unique(complete.maxn$sample)
 # Make complete.length.number.mass: fill in 0s and join in factors----
 length.families<-read_csv(file=paste(study,"checked.length.csv",sep = "."),na = c("", " "))%>%
   filter(!(family=="Unknown"))%>%
-  select(family,genus,species)%>%
+  dplyr::select(family,genus,species)%>%
   distinct()%>% #to join back in after complete
   glimpse()
 
@@ -87,13 +87,13 @@ complete.length.number<-read_csv(file=paste(study,"checked.length.csv",sep = "."
   tidyr::complete(nesting(id,campaignid,sample),nesting(family,genus,species)) %>%
   replace_na(list(number = 0))%>% #we add in zeros - in case we want to calulate abundance of species based on a length rule (e.g. greater than legal size)
   ungroup()%>%
-  filter(!is.na(number))%>% # this should not do anything
+  dplyr::filter(!is.na(number))%>% # this should not do anything
   mutate(length=as.numeric(length))%>%
   left_join(.,metadata)%>%
   glimpse()
 
-length(unique(metadata$id)) # 132
-length(unique(complete.length.number$id)) # 117
+length(unique(metadata$id)) # 196
+length(unique(complete.length.number$id)) # 168
 
 # Make the expanded length data----
 # For use in length analyses - i.e KDE or histograms
@@ -127,7 +127,7 @@ master<-googlesheets4::read_sheet(url)%>%ga.clean.names()%>%
   dplyr::mutate(bll=as.numeric(bll))%>%
   dplyr::mutate(a=as.numeric(a))%>%
   dplyr::mutate(b=as.numeric(b))%>%
-  select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>% 
+  dplyr::select(family,genus,species,marine.region,length.measure,a,b,all,bll,fb.length_max,fb.ltypemaxm)%>% 
   distinct()%>%
   glimpse()
 
@@ -151,7 +151,7 @@ family.missing.lw <- complete.length.number%>%
 
 #3. Fill length data with relevant a and b and if blank use family---
 length.species.ab<-master%>% #done this way around to avoid duplicating Family coloum
-  select(-family)%>%
+  dplyr::select(-family)%>%
   inner_join(complete.length.number,., by=c("genus","species")) # only keeps row if has a and b
 
 # 4. Make family length.weigth
@@ -162,7 +162,7 @@ family.lw <- master%>%
                    b = mean(b, na.rm = T),
                    all = mean(all, na.rm = T),
                    bll = mean(bll, na.rm = T))%>%
-  filter(!is.na(a))%>%
+  dplyr::filter(!is.na(a))%>%
   dplyr::mutate(all=str_replace_all(all,"NaN","0"))%>%
   dplyr::mutate(bll=str_replace_all(bll,"NaN","1"))%>%
   dplyr::mutate(all=as.numeric(all))%>%

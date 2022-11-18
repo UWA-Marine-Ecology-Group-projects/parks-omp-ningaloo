@@ -95,7 +95,7 @@ points <- list.files(path = tm.export.dir,
   dplyr::select(-c(Broad, BROAD ,Morphology, MORPHOLOGY,Type, TYPE, RELIEF)) %>%
   ga.clean.names() %>% # tidy the column names using GlobalArchive function
   mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
-  mutate(sample = str_replace_all(.$sample,c("_.*"=""))) %>%                    # For files with the new naming convention - but no frame information fields added
+  mutate(sample = gsub("_.*", "", sample)) %>%                    # For files with the new naming convention - very confusing to try and use the new columns
   mutate(sample = as.character(sample)) %>%
   dplyr::rename(broad = newbroad,
                 morphology = newmorphology,
@@ -104,34 +104,35 @@ points <- list.files(path = tm.export.dir,
                 broad,morphology,type,fieldofview) %>%     # select only these columns to keep
   glimpse() # preview
 
-errors <- list.files(path = tm.export.dir,
-                     recursive = T,
-                     pattern = "Dot Point Measurements.txt",
-                     full.names = T) %>%
-  purrr::map_dfr(~read_tm_delim(.)) %>% # read in the file
-  dplyr::filter(relief.file %in% "No") %>%
-  mutate(newbroad = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Broad, BROAD),
-         newmorphology = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Morphology, MORPHOLOGY),
-         newtype = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Type, TYPE)) %>%
-  dplyr::select(-c(Broad, BROAD ,Morphology, MORPHOLOGY,Type, TYPE, RELIEF)) %>%
-  ga.clean.names() %>% # tidy the column names using GlobalArchive function
-  mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
-  mutate(sample = str_replace_all(.$sample,c("_.*"=""))) %>%                    # For files with the new naming convention - but no frame information fields added
-  mutate(sample = as.character(sample)) %>%
-  dplyr::rename(broad = newbroad,
-                morphology = newmorphology,
-                type = newtype) %>%
-  dplyr::filter(is.na(broad)) %>%
-  dplyr::select(campaignid, filename, sample, direction, broad) %>%
-  glimpse()
+unique(points$sample)
+# errors <- list.files(path = tm.export.dir,
+#                      recursive = T,
+#                      pattern = "Dot Point Measurements.txt",
+#                      full.names = T) %>%
+#   purrr::map_dfr(~read_tm_delim(.)) %>% # read in the file
+#   dplyr::filter(relief.file %in% "No") %>%
+#   mutate(newbroad = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Broad, BROAD),
+#          newmorphology = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Morphology, MORPHOLOGY),
+#          newtype = ifelse(BROAD %in% c("", "NA", " ", NA, NULL), Type, TYPE)) %>%
+#   dplyr::select(-c(Broad, BROAD ,Morphology, MORPHOLOGY,Type, TYPE, RELIEF)) %>%
+#   ga.clean.names() %>% # tidy the column names using GlobalArchive function
+#   mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
+#   mutate(sample = str_replace_all(.$sample,c("_.*"=""))) %>%                    # For files with the new naming convention - but no frame information fields added
+#   mutate(sample = as.character(sample)) %>%
+#   dplyr::rename(broad = newbroad,
+#                 morphology = newmorphology,
+#                 type = newtype) %>%
+#   dplyr::filter(is.na(broad)) %>%
+#   dplyr::select(campaignid, filename, sample, direction, broad) %>%
+#   glimpse()
+# 
+# write.csv(errors, file = "data/errors to check/Parks-Ningaloo-synthesis_habitat-points-missed.csv",
+#           row.names = F) # Errors to fix but will continue on
 
-write.csv(errors, file = "data/errors to check/Parks-Ningaloo-synthesis_habitat-points-missed.csv",
-          row.names = F) # Errors to fix but will continue on
-
-test <- points %>% dplyr::filter(is.na(broad) | broad %in% c("", " "))
+# test <- points %>% dplyr::filter(is.na(broad) | broad %in% c("", " "))
 
 unique(points$campaignid)
-length(unique(points$sample)) # 196 samples
+length(unique(points$sample)) # 197 samples
 
 no.annotations <- points %>%
   group_by(campaignid, sample) %>%
@@ -142,25 +143,31 @@ relief <- list.files(path = tm.export.dir,
                      pattern = "Dot Point Measurements.txt",
                      full.names = T) %>%
   purrr::map_dfr(~read_tm_delim(.)) %>% # read in the file
-  dplyr::select(campaignid, Filename, Image.row, Image.col, Relief, relief.file) %>%
+  dplyr::select(campaignid, Filename, Image.row, Image.col, Relief, RELIEF, relief.file) %>%
+  dplyr::mutate(Relief = ifelse(is.na(Relief), RELIEF, Relief)) %>%
+  dplyr::select(-RELIEF) %>%
   ga.clean.names() %>% # tidy the column names using GlobalArchive function
   mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
+  mutate(sample = gsub("_.*", "", sample)) %>%  
   mutate(sample = as.character(sample)) %>%
   dplyr::filter(relief.file %in% "Yes" | campaignid %in% "2019-08_Ningaloo_stereo-BRUVs") %>%
   dplyr::select(-filename) %>%
   # dplyr::filter(!is.na(relief)) %>%
   glimpse() # preview
 
+unique(relief$sample)
+unique(relief$campaignid)
+
 test1 <- relief %>% dplyr::filter(is.na(relief)) # 0 - thank the lord
 
-length(unique(relief$sample)) # 180 samples - no relief for the new stuff from Gabby yet
+length(unique(relief$sample)) # 240 samples - why does this not match?
 
 no.annotations <- relief%>%
   group_by(campaignid, sample)%>%
   dplyr::summarise(relief.annotated=n()) # Looks good
 
 habitat <- bind_rows(points, relief)
-
+unique(habitat$sample)
 test2 <- habitat %>%
   dplyr::filter(is.na(broad) & is.na(relief)) # These 11 are missing from the first test
 
