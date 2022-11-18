@@ -35,27 +35,32 @@ error.dir <- paste(working.dir,"data/errors to check",sep="/")
 setwd(staging.dir)
 
 # Import metadata ---
-metadata <- read.csv(paste(study,"metadata.csv",sep="_"))
+metadata <- read_csv(paste(study,"metadata.csv",sep="_"), col_types = cols(sample = col_character()))
 
 # Import MaxN file---
-maxn <- read_csv(paste(study,"maxn.csv",sep="_")) %>%
+maxn <- read_csv(paste(study,"maxn.csv",sep="_"), col_types = cols(sample = col_character())) %>%
   mutate(maxn=as.numeric(maxn)) %>%
   mutate(species=tolower(species)) %>%
-  select(campaignid,sample,family,genus,species,maxn) %>%
+  dplyr::select(campaignid,sample,family,genus,species,maxn) %>%
   replace_na(list(family = "Unknown", genus = "Unknown", species = "spp")) %>% # remove any NAs in taxa name
   glimpse()
 
+unique(maxn$sample)
+
 # Import length/3d file----
-length <- read_csv(file = paste(study,"length3dpoints.csv",sep = "_"),na = c("", " "))%>%
+length <- read_csv(file = paste(study,"length3dpoints.csv",sep = "_"),
+                   na = c("", " "), col_types = cols(sample = col_character()))%>%
   mutate(number = as.numeric(number)) %>%
   mutate(range = as.numeric(range)) %>%
   mutate(length = as.numeric(length)) %>%
-  select(campaignid,sample,family,genus,species,length,number,range) %>%
+  dplyr::select(campaignid,sample,family,genus,species,length,number,range) %>%
   filter(!is.na(number)) %>% # find and remove sync points that are not fish
   replace_na(list(family="Unknown",genus="Unknown",species="spp")) %>% # remove any NAs in taxa name
   mutate(species = tolower(species)) %>%
   mutate(genus = str_replace_all(.$genus,c("NA"="Unknown"))) %>%
   glimpse()
+
+unique(length$sample)
 
 # BASIC checks----
 # Check if we have 3d points (Number) in addition to length----

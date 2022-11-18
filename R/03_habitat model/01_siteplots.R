@@ -1,13 +1,13 @@
 ###
-# Project: ** Add here **
+# Project: Parks Ningaloo
 # Data:    Geoscience Australia 250m res bathy
 # Task:    Generate exploratory site plots
 # author:  Claude Spencer
-# date:    ** Add here **
+# date:    November 2022
 ##
 
 # CONTENTS
-# 1. Exploratory bathymetry plots (p1)
+# 1. Exploratory bathymetry plots (p1) - not bothering
 # 2. National Reef Model plot (p2)
 # 3. Location overview plot - includes parks zones and an aus inset (p3)
 # 4. Site zoom plot - including sampling points (p4)
@@ -34,14 +34,14 @@ library(tidyverse)
 library(viridis)
 
 # Set your study name
-name <- "Abrolhos"                                                              # Change here
+name <- "Parks-Ningaloo-synthesis"                                              # Change here
 
 # Set CRS for transformations
 wgscrs <- "+proj=longlat +datum=WGS84"
 gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
 
 # Set cropping extent - larger than most zoomed out plot
-e <- ext(112, 116, -30, -26)
+e <- ext(112, 115, -23, -21)
 
 # Load necessary spatial files
 sf_use_s2(F)                                                                    # Switch off spatial geometry for cropping
@@ -55,9 +55,11 @@ ausc <- st_crop(aus, e)
 aumpa  <- st_read("data/spatial/shapefiles/AustraliaNetworkMarineParks.shp")    # All aus mpas
 mpa <- st_crop(aumpa, e)                                                        # Crop to the study area
 # Reorder levels so everything plots nicely
-aumpa$ZoneName <- factor(aumpa$ZoneName, levels = c("Multiple Use Zone", 
-                                                    "Special Purpose Zone",
-                                                    "National Park Zone"))
+unique(mpa$ZoneName)
+mpa$ZoneName <- factor(mpa$ZoneName, levels = c("Multiple Use Zone", 
+                                                "Recreational Use Zone",
+                                                "Habitat Protection Zone",
+                                                "National Park Zone"))
 npz <- mpa[mpa$ZoneName %in% "National Park Zone", ]                            # Just National Park Zones
 
 # State parks
@@ -73,7 +75,8 @@ wampa$waname <- dplyr::recode(wampa$waname,
                                "Special Purpose Zone (Shore Based Activities)" = 
                                "Special Purpose Zone\n(Shore Based Activities)",
                                "Special Purpose Zone (Seagrass Protection) (IUCN IV)" = 
-                               "Special Purpose Zone")
+                               "Special Purpose Zone",
+                              "MMA" = 'Marine Management Area' )
 
 wampa <- st_crop(wampa, e)                                                      # Crop to the study area
 wasanc <- wampa[wampa$ZONE_TYPE %in% "Sanctuary Zone (IUCN IA)", ]
@@ -81,23 +84,23 @@ wasanc <- wampa[wampa$ZONE_TYPE %in% "Sanctuary Zone (IUCN IA)", ]
 # Terrestrial parks
 terrnp <- st_read("data/spatial/shapefiles/Legislated_Lands_and_Waters_DBCA_011.shp") %>%  # Terrestrial reserves
   dplyr::filter(leg_catego %in% c("Nature Reserve", "National Park"))
-terrnp <- st_crop(terrnp, xmin = 113, ymin = -30, xmax = 116, ymax = -26)       # Crop to the study area - using a different extent as this is on land
+terrnp <- st_crop(terrnp, e)       # Crop to the study area - using a different extent as this is on land
 
 # Key Ecological Features
 kef <- st_read("data/spatial/shapefiles/AU_DOEE_KEF_2015.shp")
 kef <- st_crop(kef, e)                                                          # Crop
 unique(kef$NAME)
 # Simplify names for plot legend
-kef$NAME <- dplyr::recode(kef$NAME,"Perth Canyon and adjacent shelf break, and other west coast canyons" = "West coast canyons",                 
-                          "Commonwealth marine environment within and adjacent to the west coast inshore lagoons" = "West coast lagoons",                
-                          "Ancient coastline at 90-120m depth" = "Ancient coastline",                                                   
-                          "Western demersal slope and associated fish communities" = "Western demersal fish",                               
-                          "Western rock lobster" = "Western rock lobster",
-                          "Commonwealth marine environment surrounding the Houtman Abrolhos Islands" = "Abrolhos Islands")
+unique(kef$NAME)
+kef$NAME <- dplyr::recode(kef$NAME,
+                          "Ancient coastline at 125 m depth contour" = "Ancient coastline",
+                          "Continental Slope Demersal Fish Communities" = "Continental slope fish",
+                          "Canyons linking the Cuvier Abyssal Plain and the Cape Range Peninsula" = "Cuvier Abyssal Plain canyons",
+                          "Commonwealth waters adjacent to Ningaloo Reef" = "Ningaloo Reef")
 # Reorder levels so everything plots nicely
-kef$NAME <- factor(kef$NAME, levels = c("Western rock lobster", "Western demersal fish", "Wallaby Saddle", 
-                                        "Abrolhos Islands", "Ancient coastline", 
-                                        "West coast canyons", "West coast lagoons"))
+# kef$NAME <- factor(kef$NAME, levels = c("Western rock lobster", "Western demersal fish", "Wallaby Saddle", 
+#                                         "Abrolhos Islands", "Ancient coastline", 
+#                                         "West coast canyons", "West coast lagoons"))
 
 # Coastal waters limit
 cwatr <- st_read("data/spatial/shapefiles/amb_coastal_waters_limit.shp")       # Coastal waters limit
@@ -109,41 +112,41 @@ cbathy <- lapply(cbaths, function(x){read.table(file = x, header = TRUE, sep = "
 cbathy <- do.call("rbind", lapply(cbathy, as.data.frame))                       # All bathy in tiles as a dataframe
 bath_r <- rast(cbathy)
 crs(bath_r) <- wgscrs
-bath_r <- crop(bath_r, e)
+bath_r <- crop(bath_r, ext(113.3, 114.45,-22.9, -21.4))
 bath_df <- as.data.frame(bath_r, xy = T, na.rm = T)                             # Dataframe - cropped and above 0 use for bath cross section
 bath_r <- clamp(bath_r, upper = 0, value = FALSE)                               # Only data below 0
 bathy <- as.data.frame(bath_r, xy = T, na.rm = T)
 
-# Generate hillshading
-slope  <- terrain(bath_r, v = 'slope', unit = 'degrees')                        # Slope 
-aspect <- terrain(bath_r, v = 'aspect', unit = 'degrees')                       # Aspect
-hill   <- shade(slope, aspect, angle = 70, direction = 0)                       # Hill shading
-hill  <- as.data.frame(hill, xy = T, na.rm = T)                                 # To a dataframe for plotting
-
-# 1. Exploratory bathymetry plots (p1)
-p1 <- ggplot() +
-  geom_tile(data = hill,aes(x = x, y = y, fill = lyr1), alpha = 1) +
-  scale_fill_gradient(low = "white", high = "black", guide = "none") +
-  new_scale_fill() +
-  geom_tile(data = bathy, aes(x = x, y = y, fill = Z), alpha = 0.7) +
-  scale_fill_viridis() +
-  geom_contour(data = bathy, aes(x = x, y = y, z = Z), 
-               breaks = c(-30, -70, -200, -700),                                # Add here as needed
-               colour = "white", size = 0.1) +
-  geom_sf(data = ausc, fill = "seashell2", colour = "black", size = 0.1) +
-  geom_sf(data = npz, aes(color = ZoneName), fill = NA, size = 0.4) +
-  scale_color_manual(values = c("Habitat Protection Zone" = "#fff8a3",
-                                "National Park Zone" = "#7bbc63",
-                                "Multiple Use Zone" = "#b9e6fb")) +
-  geom_sf(data = cwatr, colour = "firebrick", alpha = 1, size = 0.4) +
-  coord_sf(xlim = c(112, 116), ylim = c(-30, -26)) +                            # Change here
-  labs(y = "Latitude", x = "Longitude")+
-  theme_minimal()
-png(filename = paste(paste0('plots/spatial/', name) , 'exploratory-site-plot.png', 
-                     sep = "-"), height = 4, width = 10,
-    res = 300, units = "in")
-p1
-dev.off()
+# # Generate hillshading
+# slope  <- terrain(bath_r, v = 'slope', unit = 'degrees')                        # Slope 
+# aspect <- terrain(bath_r, v = 'aspect', unit = 'degrees')                       # Aspect
+# hill   <- shade(slope, aspect, angle = 70, direction = 0)                       # Hill shading
+# hill  <- as.data.frame(hill, xy = T, na.rm = T)                                 # To a dataframe for plotting
+# 
+# # 1. Exploratory bathymetry plots (p1)
+# p1 <- ggplot() +
+#   geom_tile(data = hill,aes(x = x, y = y, fill = lyr1), alpha = 1) +
+#   scale_fill_gradient(low = "white", high = "black", guide = "none") +
+#   new_scale_fill() +
+#   geom_tile(data = bathy, aes(x = x, y = y, fill = Z), alpha = 0.7) +
+#   scale_fill_viridis() +
+#   geom_contour(data = bathy, aes(x = x, y = y, z = Z), 
+#                breaks = c(-30, -70, -200, -700),                                # Add here as needed
+#                colour = "white", size = 0.1) +
+#   geom_sf(data = ausc, fill = "seashell2", colour = "black", size = 0.1) +
+#   geom_sf(data = npz, aes(color = ZoneName), fill = NA, size = 0.4) +
+#   scale_color_manual(values = c("Habitat Protection Zone" = "#fff8a3",
+#                                 "National Park Zone" = "#7bbc63",
+#                                 "Multiple Use Zone" = "#b9e6fb")) +
+#   geom_sf(data = cwatr, colour = "firebrick", alpha = 1, size = 0.4) +
+#   coord_sf(xlim = c(112, 116), ylim = c(-30, -26)) +                            # Change here
+#   labs(y = "Latitude", x = "Longitude")+
+#   theme_minimal()
+# png(filename = paste(paste0('plots/spatial/', name) , 'exploratory-site-plot.png', 
+#                      sep = "-"), height = 4, width = 10,
+#     res = 300, units = "in")
+# p1
+# dev.off()
 
 # 2. National Reef Model plot (p2)
 nrm <- rast("data/spatial/rasters/ecosystem-types-19class-naland.tif")
@@ -167,7 +170,18 @@ nrm_fills <- scale_fill_manual(values = c(
   "Shelf unvegetated soft sediments" = "cornsilk1",
   "Mesophotic coral reefs" = "orange",
   "Shallow coral reefs less than 30 m depth" = "coral2",
-  "Shelf vegetated sediments" = "seagreen3"))
+  "Shelf vegetated sediments" = "seagreen3",
+  "Shallow rocky reefs less than 30 m depth" = "darkgoldenrod1",
+  # "Mesophotic rocky reefs" = "khaki4",
+  "Rariophotic shelf reefs" = "steelblue3",
+  "Upper slope unvegetated soft sediments" = "wheat1",
+  "Mid slope sediments" = "#f7d29c",
+  "Upper slope rocky reefs shelf break to 700 m depth" = "indianred3",
+  # "Artificial reefs pipelines and cables" = "saddlebrown",
+  "Mid slope reef" = "azure4",
+  "Lower slope reef and sediments" = "burlywood3",
+  # "Abyssal reef and sediments" = "bisque4",
+  "Shelf incising and other canyons" = "darkslategrey"))
 
 terr_fills <- scale_fill_manual(values = c("National Park" = "#c4cea6",          # Set the colours for terrestrial parks
                                             "Nature Reserve" = "#e4d0bb"),
@@ -176,7 +190,8 @@ terr_fills <- scale_fill_manual(values = c("National Park" = "#c4cea6",         
 # assign mpa colours - full levels are saved at end of script for future ref
 nmpa_cols <- scale_color_manual(values = c("Habitat Protection Zone" = "#fff8a3",
                                            "National Park Zone" = "#7bbc63",
-                                           "Multiple Use Zone" = "#b9e6fb"))
+                                           "Multiple Use Zone" = "#b9e6fb",
+                                           "Recreational Use Zone" = "#ffb36b"))
 
 p2 <- ggplot() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
@@ -187,17 +202,17 @@ p2 <- ggplot() +
   nrm_fills +
   geom_contour(data = bathy, aes(x = x, y = y, z = Z),
                breaks = c(-30, -70, -200, - 700, - 7000), colour = "black", alpha = 1, size = 0.18) +
-  geom_sf(data = cwatr, colour = "firebrick", alpha = 1, size = 0.6) +
-  geom_sf(data = npz, fill = NA, aes(colour = ZoneName), size = 0.4) +
+  geom_sf(data = mpa, fill = NA, aes(colour = ZoneName), size = 0.4) +
   nmpa_cols +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 1, size = 0.6) +
   labs(color = "Australian Marine Parks") +
   new_scale_color() +
-  coord_sf(xlim = c(112, 116), ylim = c(-30, -26)) +                            # Change here
+  coord_sf(xlim = c(113, 114.35), ylim = c(-22.8, -21.5)) +                            # e <- ext(112, 115, -23, -21)
   labs(fill = "Habitat classification", x = NULL, y = NULL) +
   theme_minimal()
 
-png(filename = paste(paste0('plots/spatial/', name) , 'national-reef-model.png', 
-                     sep = "-"), width = 10, height = 4,
+png(filename = paste(paste0('figures/spatial/', name) , 'national-reef-model.png',
+                     sep = "-"), width = 10, height = 7,
     units = "in", res = 300)
 p2
 dev.off()
@@ -206,15 +221,15 @@ dev.off()
 # assign mpa colours - full levels are saved at end of script for future ref
 nmpa_fills <- scale_fill_manual(values = c("National Park Zone" = "#7bbc63",
                                           "Multiple Use Zone" = "#b9e6fb",
-                                          "Special Purpose Zone" = "#6daff4",
+                                          "Recreational Use Zone" = "#ffb36b",
                                           "Habitat Protection Zone" = "#fff8a3"
 ))
 
-wampa_fills <- scale_fill_manual(values = c("Fish Habitat Protection Area" = "#fac86b",
-                                           "Reef Observation Area" = "#ddccff",
+wampa_fills <- scale_fill_manual(values = c("Marine Management Area" = "#b7cfe1",
+                                            "Conservation Area" = "#b3a63d",
                                            "Sanctuary Zone" = "#bfd054",
                                            "General Use Zone" = "#bddde1",
-                                           "Recreation Zone" = "#f4e952",
+                                           "Recreation Area" = "#f4e952",
                                            "Special Purpose Zone" = "#c5bcc9",
                                            "Marine Nature Reserve" = "#bfd054"
 ))
@@ -222,7 +237,7 @@ wampa_fills <- scale_fill_manual(values = c("Fish Habitat Protection Area" = "#f
 p3 <- ggplot() +
   geom_contour_filled(data = bathy, aes(x = x, y = y, z = Z,
                                          fill = after_stat(level)),
-                      breaks = c(-30, -70, -200, - 700, -2000 , -4000,-6000)) +
+                      breaks = c(0, -30, -70, -200, - 700, -2000 , -4000,-6000)) +
   geom_contour(data = bathy, aes(x = x, y = y, z = Z),
                breaks = c(-30, -70, -200, - 700, -2000 , -4000,-6000), colour = "white", alpha = 3/5, size = 0.1) +
   scale_fill_grey(start = 1, end = 0.5, guide = "none") +
@@ -241,7 +256,12 @@ p3 <- ggplot() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   labs(x = NULL, y = NULL, fill = "Australian Marine Parks") +
   guides(fill = guide_legend(order = 1)) +
-  coord_sf(xlim = c(112, 116), ylim = c(-30, -26)) +                            # Change here
+  annotate(geom = "text", x = c((114.1279 + 0.08), (113.6775 + 0.1)), 
+           y = c(-21.9323, -22.7212), label = c("Exmouth", "Pt Cloates"),
+           size = 3) +
+  annotate(geom = "point", x = c(114.1279, 113.6775), 
+           y = c(-21.9323, -22.7212)) +
+  coord_sf(xlim = c(113, 114.35), ylim = c(-22.8, -21.5)) +                            # Change here
   theme_minimal()
 p3
 
@@ -250,7 +270,7 @@ p3.1 <- ggplot(data = aus) +
   geom_sf(fill = "seashell1", colour = "grey90", size = 0.05, alpha = 4/5) +
   geom_sf(data = aumpa, alpha = 5/6, colour = "grey85", size = 0.02) +
   coord_sf(xlim = c(108, 125), ylim = c(-37, -13)) +
-  annotate("rect", xmin = 108.9, xmax = 115.0607, ymin = -29.4, ymax = -24.2,   # Change here 
+  annotate("rect", xmin = 113, xmax = 114.35, ymin = -22.8, ymax = -21.5,   # Change here 
            colour = "grey25", fill = "white", alpha = 1/5, size = 0.2) +
   theme_bw() +
   theme(axis.text = element_blank(), 
@@ -262,17 +282,19 @@ p3.1
 # plot both 
 p3.1 + p3 + plot_layout(widths = c(0.8, 2.2))
 
-ggsave(paste(paste0('plots/spatial/', name) , 'broad-site-plot.png', 
+ggsave(paste(paste0('figures/spatial/', name) , 'broad-site-plot.png', 
              sep = "-"), dpi = 200, width = 10, height = 6)
 
 # 4. Site zoom plot - including sampling points (p4)
-bossmet <- read.csv("data/tidy/2021-05_Abrolhos_BOSS.checked.metadata.csv") %>%
-  dplyr::mutate(method = "Drop camera") %>%
-  glimpse()
-bruvmet <- read.csv("data/tidy/2021-05_Abrolhos_stereo-BRUVs.checked.metadata.csv") %>%
-  dplyr::mutate(method = "BRUV") %>%
-  glimpse()
-metadata <- bind_rows(bossmet, bruvmet)
+metadata <- readRDS("data/tidy/Parks-Ningaloo-synthesis_habitat-bathy-derivatives.rds") %>%
+  dplyr::mutate(method = ifelse(str_detect(.$campaignid, "BOSS"), "Drop camera", "BRUV")) %>%
+  glimpse
+
+wampaf_fills <- scale_fill_manual(values = c("Sanctuary Zone" = "#bfd054",
+                                            "General Use Zone" = "#bddde1",
+                                            "Recreation Area" = "#f4e952",
+                                            "Special Purpose Zone" = "#c5bcc9"
+))
 
 p4 <- ggplot() +
   geom_contour_filled(data = bathy, aes(x = x, y = y, z = Z,
@@ -285,33 +307,40 @@ p4 <- ggplot() +
   labs(fill = "State Managed Areas") +
   terr_fills +
   new_scale_fill() +
-  geom_sf(data = npz, aes(fill = ZoneName), alpha = 3/5, colour = NA) +
+  geom_sf(data = mpa, aes(fill = ZoneName), alpha = 3/5, colour = NA) +
   nmpa_fills +
-  labs(x = NULL, y = NULL, fill = "Australian Marine Park") +
+  labs(x = NULL, y = NULL, fill = "Australian Marine Parks") +
+  new_scale_fill() +
+  geom_sf(data = wampa, aes(fill = waname), alpha = 2/5, colour = NA) +
+  wampaf_fills +
+  labs(fill = "State Marine Parks") +
+  new_scale_fill() +
   geom_contour(data = bathy, aes(x = x, y = y, z = Z), 
                breaks = c(0, -30, -70, -200, - 700, - 9000), colour = "white", alpha = 1, size = 0.2) +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
-  geom_point(data = metadata, aes(longitude, latitude, colour = method),
+  geom_point(data = metadata, aes(x, y, colour = method),
              alpha = 3/5, shape = 10) +
   scale_colour_manual(values = c("BRUV" = "indianred4",
                                  "Drop Camera" = "seagreen4")) +
   labs(colour = "Sample", x = NULL, y = NULL) +
-  coord_sf(xlim = c(112, 116), ylim = c(-30, -26)) +                            # Change here
+  guides(fill = guide_legend(order = 2), col = guide_legend(order = 1)) +
+  coord_sf(xlim = c(min(metadata$x), max(metadata$x)), ylim = c(min(metadata$y), max(metadata$y))) +                            # Change here
   theme_minimal()
 
-png(filename = paste(paste0('plots/spatial/', name) , 'sampling-locations.png', 
-                     sep = "-"), units = "in", res = 200, width = 8, height = 6)
+png(filename = paste(paste0('figures/spatial/', name) , 'sampling-locations.png', 
+                     sep = "-"), units = "in", res = 200, width = 6, height = 8)
 p4
 dev.off()
 
 # 5. Key Ecological Features (p5)
-kef_fills <- scale_fill_manual(values = c("Ancient coastline" = "#ff6db6",                             
-                                         "Western rock lobster" = "#6db6ff",
-                                         "West coast canyons" = "#dbb865",
-                                         "West coast lagoons" = "#188e8e",
-                                         "Abrolhos Islands" = "#2bf446",
-                                         "Western demersal fish" = "#016dda",
-                                         "Wallaby Saddle" = "#940000"))
+unique(kef$NAME)
+kef$NAME <- factor(kef$NAME, levels = c( "Cuvier Abyssal Plain canyons",  "Ningaloo Reef",
+                                         "Exmouth Plateau", "Ancient coastline", "Continental slope fish"))
+kef_fills <- scale_fill_manual(values = c("Continental slope fish" = "#ffb677",                          
+                                          "Cuvier Abyssal Plain canyons" = "#6db6ff",
+                                          "Ancient coastline" = "#ffff6d",                             
+                                          "Exmouth Plateau" = "#b66dff",
+                                          "Ningaloo Reef" = "#ff6db6"))
 
 p5 <- ggplot() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
@@ -326,11 +355,16 @@ p5 <- ggplot() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   labs(x = NULL, y = NULL,  fill = "Key Ecological Features") +
   guides(fill = guide_legend(order = 1)) +
-  coord_sf(xlim = c(112, 116), ylim = c(-30, -26)) +                            # Change here
+  annotate(geom = "text", x = c((114.1279 + 0.08), (113.6775 + 0.1)), 
+           y = c(-21.9323, -22.7212), label = c("Exmouth", "Pt Cloates"),
+           size = 3) +
+  annotate(geom = "point", x = c(114.1279, 113.6775), 
+           y = c(-21.9323, -22.7212)) +
+  coord_sf(xlim = c(113, 114.35), ylim = c(-22.8, -21.5)) +                            # Change here
   theme_minimal()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
-png(filename = paste(paste0('plots/spatial/', name) , 'key-ecological-features.png', 
+png(filename = paste(paste0('figures/spatial/', name) , 'key-ecological-features.png',
                      sep = "-"), units = "in", res = 200, width = 8, height = 6)
 p5
 dev.off()
@@ -404,8 +438,9 @@ depth_fills <- scale_fill_manual(values = c("#b8d9a9","#8dbc80", "#5d9d52"),
 
 # Convert back to a raster and smooth it out
 # build basic plot elements
+
 p7 <- ggplot() +
-  geom_tile(data = bathy, aes(x = x, y = y, fill = Z)) +
+  geom_tile(data = bathy %>% dplyr::filter(Z < -50), aes(x = x, y = y, fill = Z)) +
   scale_fill_gradient2(low = "royalblue4", mid = "lightskyblue1", high = "white", name = "Depth (m)") +
   new_scale_fill() +
   geom_contour_filled(data = bathy, aes(x = x, y = y, z = Z,
@@ -420,11 +455,11 @@ p7 <- ggplot() +
   geom_sf(data = npz, 
           colour = "#7bbc63", size = 0.55, fill = NA) +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 0.7, size = 0.3) +
-  coord_sf(xlim = c(112, 116), ylim = c(-30, -26)) +                            # Change here
+  coord_sf(xlim = c(113.4, 114.35), ylim = c(-22.8, -21.5)) +                            # Change here
   labs(x = "Longitude", y = "Latitude") +
   theme_minimal()+
-  theme(panel.background = element_rect(fill = "#b8d9a9"))
-png(filename = paste(paste0('plots/spatial/', name) , 'old-sea-levels.png', 
+  theme(panel.background = element_rect(fill = "#b8d9a9", colour = NA))
+png(filename = paste(paste0('figures/spatial/', name) , 'old-sea-levels.png', 
                      sep = "-"), units = "in", res = 200, width = 8, height = 6)
 p7
 dev.off()

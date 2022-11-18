@@ -37,7 +37,8 @@ metadata <- ga.list.files("_Metadata.csv") %>% # list all files ending in "_Meta
   purrr::map_df(~ga.read.files_em.csv(.)) %>% # combine into dataframe
   dplyr::select(campaignid,sample,latitude,longitude,date,time,location,status,
                 site,depth,observer,successful.count,successful.length) %>%
-  dplyr::filter(campaignid %in% c("2019-08_Ningaloo_stereo-BRUVs")) %>%    # Add new campaignids when data gets finished
+  dplyr::filter(campaignid %in% c("2019-08_Ningaloo_stereo-BRUVs",
+                                  "2022-05_PtCloates_stereo-BRUVS")) %>%    # Add new campaignids when data gets finished
   glimpse()
 
 unique(metadata$campaignid) # check the number of campaigns in metadata, and the campaign name
@@ -54,7 +55,8 @@ points <- as.data.frame(points.files) %>%
   dplyr::select(campaign)%>%
   as_vector(.)%>% # remove all empty files
   purrr::map_df(~ga.read.files_em.txt(.)) %>%
-  dplyr::filter(campaignid %in% c("2019-08_Ningaloo_stereo-BRUVs")) 
+  dplyr::filter(campaignid %in% c("2019-08_Ningaloo_stereo-BRUVs",
+                                  "2022-05_PtCloates_stereo-BRUVS")) 
 
 maxn <- points%>%
   dplyr::group_by(campaignid,sample,filename,periodtime,frame,family,genus,species)%>%
@@ -89,6 +91,8 @@ length3dpoints <- ga.create.em.length3dpoints()%>%
   dplyr::inner_join(metadata)%>%
   dplyr::filter(successful.length %in% c("Y", "Yes", "yes", "y"))%>%
   glimpse()
+
+unique(length3dpoints$sample)
 
 ## Save length files ----
 setwd(staging.dir)
