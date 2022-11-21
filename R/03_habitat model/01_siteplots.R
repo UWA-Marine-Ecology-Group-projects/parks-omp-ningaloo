@@ -371,36 +371,55 @@ dev.off()
 
 # 6. Bathymetry cross section (p6)
 sf_use_s2(T)
-bath_cross <- cbathy %>%
-  dplyr::filter(abs(Y - -28) == min(abs(Y - -28)),
-                Y < 116, Z > -250) %>% 
-  st_as_sf(coords = c("X", "Y"), crs = wgscrs)
+points <- data.frame(x = c(113.4, 113.8), 
+                     y = c(-22.706, -22.706), id = 1)
 
-auss <- st_transform(aus, wgscrs)
-auss <- auss[auss$FEAT_CODE %in% "mainland", ]
-auss <- st_union(auss)
-ausout <- st_cast(auss, "MULTILINESTRING")
+tran <- sfheaders::sf_linestring(obj = points,
+                                 x = "x", 
+                                 y = "y",
+                                 linestring_id = "id")
+st_crs(tran) <- wgscrs
+
+tranv <- vect(tran)
+dep <- rast(cbathy)
+
+bathy <- terra::extract(dep, tranv, xy = T, ID = F)
+
+bath_cross <- st_as_sf(x = bathy, coords = c("x", "y"), crs = wgscrs)
+
+aus <- st_read("data/spatial/shapefiles/cstauscd_r.mif")
+st_crs(aus) <- st_crs(aumpa)
+aus <- st_transform(aus, wgscrs)
+aus <- aus[aus$FEAT_CODE %in% "mainland", ]
+aus <- st_union(aus)
+plot(aus)
+ausout <- st_cast(aus, "MULTILINESTRING")
+plot(ausout)
+
+# which.min(st_distance(bath_cross, ausout))
+# st_coordinates(bath_cross)
+# bath_cross$geometry[which.min(st_distance(bath_cross, ausout))]
 
 bath_sf <- bath_cross %>%
-  dplyr::mutate("distance.from.coast" = st_distance(bath_cross, ausout),
-                x = unlist(map(bath_cross$geometry, 1)),
-                y = unlist(map(bath_cross$geometry, 2)),
-                land = lengths(st_intersects(bath_cross, auss)) > 0) %>%
+  dplyr::mutate("distance.from.coast" = st_distance(bath_cross, bath_cross$geometry[which.min(st_distance(bath_cross, ausout))]),
+                land = lengths(st_intersects(bath_cross, aus)) > 0) %>%
+  bind_cols(st_coordinates(.)) %>%
   glimpse()
 
-bath_slice <- as.data.frame(bath_sf) %>%
+bath_df1 <- as.data.frame(bath_sf) %>%
   dplyr::select(-geometry) %>%
   dplyr::rename(depth = "Z") %>%
   dplyr::mutate(distance.from.coast = as.numeric(distance.from.coast/1000)) %>%
   dplyr::mutate(distance.from.coast = ifelse(land %in% "FALSE", distance.from.coast*-1, distance.from.coast)) %>%
+  dplyr::filter(depth > -250) %>%
   glimpse()
 
 paleo <- data.frame(depth = c(-118, -94, -63, -41),
                     label = c("20-30 Ka", "15-17 Ka", "12-13 Ka", "9-10 Ka"))
 
 for (i in 1:nrow(paleo)) {
-  temp <- bath_slice %>%
-    dplyr::filter(abs(bath_slice$depth - paleo$depth[i]) == min(abs(bath_slice$depth - paleo$depth[i]))) %>%
+  temp <- bath_df1 %>%
+    dplyr::filter(abs(bath_df1$depth - paleo$depth[i]) == min(abs(bath_df1$depth - paleo$depth[i]))) %>%
     dplyr::select(depth, distance.from.coast) %>%
     slice(1)
   
@@ -416,18 +435,20 @@ paleo$distance.from.coast <- dat$distance.from.coast
 rm("temp", "dat")
 
 p6 <- ggplot() +
-  geom_rect(aes(xmin = min(bath_slice$distance.from.coast), xmax = 9, ymin =-Inf, ymax = 0), fill = "#12a5db", alpha = 0.5) +
-  geom_line(data = bath_slice, aes(y = depth, x = distance.from.coast)) +
-  geom_ribbon(data = bath_slice, aes(ymin = -Inf, ymax = depth, x = distance.from.coast), fill = "tan") +
+  geom_rect(aes(xmin = min(bath_df1$distance.from.coast), xmax = 9, ymin =-Inf, ymax = 0), fill = "#12a5db", alpha = 0.5) +
+  geom_line(data = bath_df1, aes(y = depth, x = distance.from.coast)) +
+  geom_ribbon(data = bath_df1, aes(ymin = -Inf, ymax = depth, x = distance.from.coast), fill = "tan") +
   theme_classic() +
-  scale_x_continuous(expand = c(0,0), limits = c(min(bath_slice$distance.from.coast), 10)) +
+  scale_x_continuous(expand = c(0,0), limits = c(min(bath_df1$distance.from.coast), 10)) +
   labs(x = "Distance from coast (km)", y = "Elevation (m)") +
-  geom_segment(data = paleo, aes(x = distance.from.coast, xend = distance.from.coast + 20, 
+  geom_segment(data = paleo, aes(x = distance.from.coast, xend = distance.from.coast + 5, 
                                  y = depth, yend = depth), linetype = 2, alpha = 0.5) +
-  geom_text(data = paleo, aes(x = distance.from.coast + 26, y = depth, label = label), size = 3)
+  geom_text(data = paleo, aes(x = distance.from.coast + 6, y = depth, label = label), size = 3) +
+  annotate(geom = "point", x = 1.25, y = 36) +
+  annotate(geom = "text", x = 1.25 + 1.8, y = 36, label = "Pt Cloates")
 
-png(filename = paste(paste0('plots/spatial/', name) , 'bathymetry-cross-section.png', 
-                     sep = "-"), units = "in", res = 200, width = 8, height = 6)
+png(filename = paste(paste0('figures/spatial/', name) , 'bathymetry-cross-section.png',
+                     sep = "-"), units = "in", res = 200, width = 8, height = 4)
 p6
 dev.off()
 

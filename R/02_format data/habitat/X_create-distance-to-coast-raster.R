@@ -1,5 +1,8 @@
 library(terra)
 library(sf)
+library(tidyverse)
+
+rm(list = ls())
 
 # Set CRS for transformations
 wgscrs <- "+proj=longlat +datum=WGS84"
@@ -17,8 +20,13 @@ ausv <- vect(ausout)
 plot(ausv)
 
 # Load bathy raster to calculate distance
-bathy <- rast("data/spatial/rasters/raw bathymetry/bath_250_good.tif")
-crop(bathy, ext())
-plot(bathy)
+bathy <- rast("data/spatial/rasters/raw bathymetry/bath_250_good.tif") %>%
+  clamp(lower = -300, values = F) %>%
+  crop(ext(100, 160, -50, -10)) %>%
+  trim()
 
-distcoast <- terra::distance(bathy, ausv)
+bathtest <- crop(bathy, ext(112, 115, -23, -21))
+bathtest <- trim(bathtest)
+plot(bathtest)
+
+distcoast <- terra::distance(bathtest, ausv)
