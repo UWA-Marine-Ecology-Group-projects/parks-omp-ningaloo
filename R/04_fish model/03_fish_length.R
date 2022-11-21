@@ -1,9 +1,9 @@
 ###
-# Project: Parks - Abrolhos
+# Project: Parks OMP Ningaloo
 # Data:    BOSS & BRUV fish, habitat
 # Task:    Modelling fish lengths w/ FSSGAM
 # author:  Claude, Brooke, Kingsley
-# date:    Nov-Dec 2021
+# date:    November 2022
 ##
 
 # Part 1-FSS modeling----
