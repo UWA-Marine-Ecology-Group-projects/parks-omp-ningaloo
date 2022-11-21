@@ -3,7 +3,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","1.01","Carangidae","Carangoides","chrysophrys",1
 "2019-08_Ningaloo_stereo-BRUVs","1.01","Carangidae","Decapterus","spp",2
 "2019-08_Ningaloo_stereo-BRUVs","1.01","Carangidae","Gnathanodon","speciosus",2
-"2019-08_Ningaloo_stereo-BRUVs","1.01","Carcharhinidae","Unknown","sp10",1
+"2019-08_Ningaloo_stereo-BRUVs","1.01","Carcharhinidae","NA","sp10",1
 "2019-08_Ningaloo_stereo-BRUVs","1.01","Labridae","Coris","caudimacula",1
 "2019-08_Ningaloo_stereo-BRUVs","1.01","Nemipteridae","Pentapodus","nagasakiensis",9
 "2019-08_Ningaloo_stereo-BRUVs","1.01","Pinguipedidae","Parapercis","nebulosa",2
@@ -166,7 +166,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","10.13","Carangidae","Seriola","dumerili",1
 "2019-08_Ningaloo_stereo-BRUVs","10.13","Cirrhitidae","Cyprinocirrhites","polyactis",1
 "2019-08_Ningaloo_stereo-BRUVs","10.13","Labridae","Suezichthys","cyanolaemus",2
-"2019-08_Ningaloo_stereo-BRUVs","10.13","Labridae","Unknown","sp7",1
+"2019-08_Ningaloo_stereo-BRUVs","10.13","Labridae","NA","sp7",1
 "2019-08_Ningaloo_stereo-BRUVs","10.13","Lethrinidae","Gymnocranius","grandoculis",1
 "2019-08_Ningaloo_stereo-BRUVs","10.13","Lethrinidae","Lethrinus","miniatus",4
 "2019-08_Ningaloo_stereo-BRUVs","10.13","Lethrinidae","Lethrinus","olivaceus",1
@@ -243,7 +243,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","11.04","Sparidae","Argyrops","spinifer",4
 "2019-08_Ningaloo_stereo-BRUVs","11.06","Balistidae","Abalistes","filamentosus",1
 "2019-08_Ningaloo_stereo-BRUVs","11.06","Carangidae","Carangoides","gymnostethus",2
-"2019-08_Ningaloo_stereo-BRUVs","11.06","Labridae","Unknown","sp8",2
+"2019-08_Ningaloo_stereo-BRUVs","11.06","Labridae","NA","sp8",2
 "2019-08_Ningaloo_stereo-BRUVs","11.06","Malacanthidae","Malacanthus","brevirostris",1
 "2019-08_Ningaloo_stereo-BRUVs","11.06","Nemipteridae","Nemipterus","spp",1
 "2019-08_Ningaloo_stereo-BRUVs","11.06","Nemipteridae","Pentapodus","nagasakiensis",1
@@ -493,7 +493,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","16.02","Muraenidae","Gymnothorax","sp1",1
 "2019-08_Ningaloo_stereo-BRUVs","16.02","Serranidae","Epinephelus","morrhua",3
 "2019-08_Ningaloo_stereo-BRUVs","16.03","Carcharhinidae","Loxodon","macrorhinus",1
-"2019-08_Ningaloo_stereo-BRUVs","16.03","Carcharhinidae","Unknown","sp10",1
+"2019-08_Ningaloo_stereo-BRUVs","16.03","Carcharhinidae","NA","sp10",1
 "2019-08_Ningaloo_stereo-BRUVs","16.03","Congridae","Conger","spp",1
 "2019-08_Ningaloo_stereo-BRUVs","16.03","Lutjanidae","Pristipomoides","multidens",1
 "2019-08_Ningaloo_stereo-BRUVs","16.03","Nemipteridae","Nemipterus","spp",1
@@ -586,7 +586,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","18.07","Echeneidae","Echeneis","naucrates",1
 "2019-08_Ningaloo_stereo-BRUVs","18.07","Labridae","Bodianus","solatus",2
 "2019-08_Ningaloo_stereo-BRUVs","18.07","Labridae","Choerodon","zamboangae",1
-"2019-08_Ningaloo_stereo-BRUVs","18.07","Labridae","Unknown","sp8",1
+"2019-08_Ningaloo_stereo-BRUVs","18.07","Labridae","NA","sp8",1
 "2019-08_Ningaloo_stereo-BRUVs","18.07","Lethrinidae","Gymnocranius","grandoculis",1
 "2019-08_Ningaloo_stereo-BRUVs","18.07","Lethrinidae","Gymnocranius","griseus",5
 "2019-08_Ningaloo_stereo-BRUVs","18.07","Lethrinidae","Lethrinus","miniatus",1
@@ -668,7 +668,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","2.03","Synodontidae","Synodus","sp10",1
 "2019-08_Ningaloo_stereo-BRUVs","2.03","Tetraodontidae","Lagocephalus","sceleratus",1
 "2019-08_Ningaloo_stereo-BRUVs","2.04","Balistidae","Abalistes","stellatus",1
-"2019-08_Ningaloo_stereo-BRUVs","2.04","Bothidae","Unknown","spp",2
+"2019-08_Ningaloo_stereo-BRUVs","2.04","Bothidae","NA","spp",2
 "2019-08_Ningaloo_stereo-BRUVs","2.04","Carangidae","Carangoides","gymnostethus",2
 "2019-08_Ningaloo_stereo-BRUVs","2.04","Carangidae","Decapterus","spp",3
 "2019-08_Ningaloo_stereo-BRUVs","2.04","Carcharhinidae","Carcharhinus","plumbeus",1
@@ -683,7 +683,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","2.05","Sparidae","Argyrops","spinifer",1
 "2019-08_Ningaloo_stereo-BRUVs","2.05","Tetraodontidae","Lagocephalus","sceleratus",2
 "2019-08_Ningaloo_stereo-BRUVs","2.06","Balistidae","Abalistes","stellatus",1
-"2019-08_Ningaloo_stereo-BRUVs","2.06","Bothidae","Unknown","spp",5
+"2019-08_Ningaloo_stereo-BRUVs","2.06","Bothidae","NA","spp",5
 "2019-08_Ningaloo_stereo-BRUVs","2.06","Carangidae","Decapterus","spp",3
 "2019-08_Ningaloo_stereo-BRUVs","2.06","Carcharhinidae","Carcharhinus","plumbeus",1
 "2019-08_Ningaloo_stereo-BRUVs","2.06","Congridae","Heteroconger","hassi",18
@@ -764,7 +764,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","3.02","Sparidae","Argyrops","spinifer",2
 "2019-08_Ningaloo_stereo-BRUVs","3.02","Tetraodontidae","Lagocephalus","sceleratus",1
 "2019-08_Ningaloo_stereo-BRUVs","3.03","Balistidae","Abalistes","filamentosus",1
-"2019-08_Ningaloo_stereo-BRUVs","3.03","Callionymidae","Unknown","sp1",1
+"2019-08_Ningaloo_stereo-BRUVs","3.03","Callionymidae","NA","sp1",1
 "2019-08_Ningaloo_stereo-BRUVs","3.03","Carangidae","Carangoides","chrysophrys",2
 "2019-08_Ningaloo_stereo-BRUVs","3.03","Carangidae","Decapterus","spp",42
 "2019-08_Ningaloo_stereo-BRUVs","3.03","Carangidae","Gnathanodon","speciosus",1
@@ -787,7 +787,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","3.05","Carangidae","Carangoides","chrysophrys",1
 "2019-08_Ningaloo_stereo-BRUVs","3.05","Carangidae","Decapterus","spp",22
 "2019-08_Ningaloo_stereo-BRUVs","3.05","Fistulariidae","Fistularia","commersonii",3
-"2019-08_Ningaloo_stereo-BRUVs","3.05","Labridae","Unknown","sp1",1
+"2019-08_Ningaloo_stereo-BRUVs","3.05","Labridae","NA","sp1",1
 "2019-08_Ningaloo_stereo-BRUVs","3.05","Lethrinidae","Gymnocranius","euanus",1
 "2019-08_Ningaloo_stereo-BRUVs","3.05","Lethrinidae","Gymnocranius","grandoculis",3
 "2019-08_Ningaloo_stereo-BRUVs","3.05","Lethrinidae","Lethrinus","miniatus",3
@@ -1035,7 +1035,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","4.12","Triakidae","Hemitriakis","falcata",1
 "2019-08_Ningaloo_stereo-BRUVs","5.02","Balistidae","Abalistes","filamentosus",1
 "2019-08_Ningaloo_stereo-BRUVs","5.02","Balistidae","Abalistes","stellatus",2
-"2019-08_Ningaloo_stereo-BRUVs","5.02","Blenniidae","Unknown","sp1",1
+"2019-08_Ningaloo_stereo-BRUVs","5.02","Blenniidae","NA","sp1",1
 "2019-08_Ningaloo_stereo-BRUVs","5.02","Carangidae","Carangoides","chrysophrys",2
 "2019-08_Ningaloo_stereo-BRUVs","5.02","Carangidae","Carangoides","gymnostethus",1
 "2019-08_Ningaloo_stereo-BRUVs","5.02","Carangidae","Decapterus","spp",30
@@ -1053,7 +1053,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","5.03","Carangidae","Carangoides","gymnostethus",1
 "2019-08_Ningaloo_stereo-BRUVs","5.03","Carangidae","Decapterus","spp",70
 "2019-08_Ningaloo_stereo-BRUVs","5.03","Carangidae","Gnathanodon","speciosus",6
-"2019-08_Ningaloo_stereo-BRUVs","5.03","Carangidae","Unknown","sp1",5
+"2019-08_Ningaloo_stereo-BRUVs","5.03","Carangidae","NA","sp1",5
 "2019-08_Ningaloo_stereo-BRUVs","5.03","Sparidae","Argyrops","spinifer",1
 "2019-08_Ningaloo_stereo-BRUVs","5.03","Synodontidae","Saurida","undosquamis",1
 "2019-08_Ningaloo_stereo-BRUVs","5.03","Tetraodontidae","Lagocephalus","sceleratus",2
@@ -1287,7 +1287,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","8.02","Serranidae","Variola","louti",1
 "2019-08_Ningaloo_stereo-BRUVs","8.05","Balistidae","Abalistes","filamentosus",1
 "2019-08_Ningaloo_stereo-BRUVs","8.05","Balistidae","Pseudobalistes","flavimarginatus",1
-"2019-08_Ningaloo_stereo-BRUVs","8.05","Blenniidae","Unknown","sp1",1
+"2019-08_Ningaloo_stereo-BRUVs","8.05","Blenniidae","NA","sp1",1
 "2019-08_Ningaloo_stereo-BRUVs","8.05","Carangidae","Carangoides","fulvoguttatus",1
 "2019-08_Ningaloo_stereo-BRUVs","8.05","Carangidae","Carangoides","gymnostethus",2
 "2019-08_Ningaloo_stereo-BRUVs","8.05","Carangidae","Gnathanodon","speciosus",11
@@ -1351,7 +1351,7 @@
 "2019-08_Ningaloo_stereo-BRUVs","9.01","Carcharhinidae","Loxodon","macrorhinus",2
 "2019-08_Ningaloo_stereo-BRUVs","9.01","Echeneidae","Echeneis","naucrates",2
 "2019-08_Ningaloo_stereo-BRUVs","9.01","Labridae","Choerodon","zamboangae",1
-"2019-08_Ningaloo_stereo-BRUVs","9.01","Labridae","Unknown","sp1",1
+"2019-08_Ningaloo_stereo-BRUVs","9.01","Labridae","NA","sp1",1
 "2019-08_Ningaloo_stereo-BRUVs","9.01","Lethrinidae","Gymnocranius","grandoculis",3
 "2019-08_Ningaloo_stereo-BRUVs","9.01","Lethrinidae","Lethrinus","miniatus",6
 "2019-08_Ningaloo_stereo-BRUVs","9.01","Lutjanidae","Pristipomoides","multidens",3
@@ -1448,7 +1448,7 @@
 "2022-05_PtCloates_stereo-BRUVS","15","Lethrinidae","Lethrinus","rubrioperculatus",3
 "2022-05_PtCloates_stereo-BRUVS","15","Lutjanidae","Aphareus","rutilans",1
 "2022-05_PtCloates_stereo-BRUVS","15","Lutjanidae","Pristipomoides","sp1",1
-"2022-05_PtCloates_stereo-BRUVS","15","Monacanthidae","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","15","Monacanthidae","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","15","Pinguipedidae","Parapercis","nebulosa",4
 "2022-05_PtCloates_stereo-BRUVS","16","Balistidae","Abalistes","filamentosus",1
 "2022-05_PtCloates_stereo-BRUVS","16","Carangidae","Carangoides","chrysophrys",1
@@ -1503,7 +1503,7 @@
 "2022-05_PtCloates_stereo-BRUVS","2","Acanthuridae","Naso","hexacanthus",21
 "2022-05_PtCloates_stereo-BRUVS","2","Balistidae","Pseudobalistes","fuscus",1
 "2022-05_PtCloates_stereo-BRUVS","2","Balistidae","Sufflamen","fraenatum",1
-"2022-05_PtCloates_stereo-BRUVS","2","Balistidae","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","2","Balistidae","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","2","Carangidae","Carangoides","chrysophrys",1
 "2022-05_PtCloates_stereo-BRUVS","2","Carangidae","Decapterus","spp",4
 "2022-05_PtCloates_stereo-BRUVS","2","Carcharhinidae","Carcharhinus","albimarginatus",1
@@ -1512,7 +1512,7 @@
 "2022-05_PtCloates_stereo-BRUVS","2","Haemulidae","Diagramma","pictum labiosum",1
 "2022-05_PtCloates_stereo-BRUVS","2","Labridae","Bodianus","solatus",2
 "2022-05_PtCloates_stereo-BRUVS","2","Labridae","Choerodon","sp1",1
-"2022-05_PtCloates_stereo-BRUVS","2","Labridae","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","2","Labridae","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","2","Lethrinidae","Gymnocranius","euanus",1
 "2022-05_PtCloates_stereo-BRUVS","2","Lethrinidae","Gymnocranius","sp1",1
 "2022-05_PtCloates_stereo-BRUVS","2","Lethrinidae","Lethrinus","miniatus",2
@@ -1532,7 +1532,7 @@
 "2022-05_PtCloates_stereo-BRUVS","20","Carangidae","Carangoides","chrysophrys",1
 "2022-05_PtCloates_stereo-BRUVS","20","Carangidae","Carangoides","fulvoguttatus",2
 "2022-05_PtCloates_stereo-BRUVS","20","Carangidae","Carangoides","gymnostethus",1
-"2022-05_PtCloates_stereo-BRUVS","20","Carangidae","Unknown","sp10",1
+"2022-05_PtCloates_stereo-BRUVS","20","Carangidae","NA","sp10",1
 "2022-05_PtCloates_stereo-BRUVS","20","Carcharhinidae","Loxodon","macrorhinus",1
 "2022-05_PtCloates_stereo-BRUVS","20","Echeneidae","Echeneis","naucrates",1
 "2022-05_PtCloates_stereo-BRUVS","20","Labridae","Choerodon","sp1",2
@@ -1645,10 +1645,10 @@
 "2022-05_PtCloates_stereo-BRUVS","28","SUS","SUS","sus",2
 "2022-05_PtCloates_stereo-BRUVS","28","Unknown","Unknown","unknown",5
 "2022-05_PtCloates_stereo-BRUVS","29","Acanthuridae","Naso","hexacanthus",1
-"2022-05_PtCloates_stereo-BRUVS","29","Carangidae","Unknown","spp",3
+"2022-05_PtCloates_stereo-BRUVS","29","Carangidae","NA","spp",3
 "2022-05_PtCloates_stereo-BRUVS","29","Labridae","Bodianus","solatus",1
 "2022-05_PtCloates_stereo-BRUVS","29","Labridae","Choerodon","sp1",1
-"2022-05_PtCloates_stereo-BRUVS","29","Labridae","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","29","Labridae","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","29","Lethrinidae","Gymnocranius","euanus",1
 "2022-05_PtCloates_stereo-BRUVS","29","Lethrinidae","Gymnocranius","sp1",1
 "2022-05_PtCloates_stereo-BRUVS","29","Lethrinidae","Lethrinus","miniatus",4
@@ -1659,7 +1659,7 @@
 "2022-05_PtCloates_stereo-BRUVS","29","Pomacanthidae","Pomacanthus","semicirculatus",2
 "2022-05_PtCloates_stereo-BRUVS","29","Sparidae","Argyrops","spinifer",1
 "2022-05_PtCloates_stereo-BRUVS","29","SUS","SUS","sus",1
-"2022-05_PtCloates_stereo-BRUVS","29","Unknown","Unknown","spp",2
+"2022-05_PtCloates_stereo-BRUVS","29","NA","NA","na",2
 "2022-05_PtCloates_stereo-BRUVS","3","Carangidae","Carangoides","spp",1
 "2022-05_PtCloates_stereo-BRUVS","3","Carangidae","Decapterus","spp",3
 "2022-05_PtCloates_stereo-BRUVS","3","Lethrinidae","Gymnocranius","euanus",2
@@ -1673,7 +1673,7 @@
 "2022-05_PtCloates_stereo-BRUVS","30","Balistidae","Xanthichthys","lineopunctatus",1
 "2022-05_PtCloates_stereo-BRUVS","30","Carangidae","Carangoides","chrysophrys",1
 "2022-05_PtCloates_stereo-BRUVS","30","Carangidae","Caranx","sexfasciatus",1
-"2022-05_PtCloates_stereo-BRUVS","30","Carangidae","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","30","Carangidae","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","30","Carcharhinidae","Carcharhinus","albimarginatus",1
 "2022-05_PtCloates_stereo-BRUVS","30","Labridae","Choerodon","sp1",2
 "2022-05_PtCloates_stereo-BRUVS","30","Labridae","Suezichthys","cyanolaemus",2
@@ -1707,7 +1707,7 @@
 "2022-05_PtCloates_stereo-BRUVS","32","Lutjanidae","Pristipomoides","sp1",1
 "2022-05_PtCloates_stereo-BRUVS","32","Muraenidae","Gymnothorax","pseudothyrsoideus",1
 "2022-05_PtCloates_stereo-BRUVS","32","Nemipteridae","Pentapodus","nagasakiensis",5
-"2022-05_PtCloates_stereo-BRUVS","32","Unknown","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","32","NA","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","33","Acanthuridae","Naso","hexacanthus",1
 "2022-05_PtCloates_stereo-BRUVS","33","Carangidae","Decapterus","spp",5
 "2022-05_PtCloates_stereo-BRUVS","33","Carcharhinidae","Carcharhinus","albimarginatus",1
@@ -1753,7 +1753,7 @@
 "2022-05_PtCloates_stereo-BRUVS","36","Lethrinidae","Lethrinus","rubrioperculatus",3
 "2022-05_PtCloates_stereo-BRUVS","36","Lutjanidae","Lutjanus","sebae",1
 "2022-05_PtCloates_stereo-BRUVS","36","Mullidae","Upeneus","moluccensis",1
-"2022-05_PtCloates_stereo-BRUVS","36","Mullidae","Unknown","spp",2
+"2022-05_PtCloates_stereo-BRUVS","36","Mullidae","NA","na",2
 "2022-05_PtCloates_stereo-BRUVS","36","Nemipteridae","Nemipterus","spp",1
 "2022-05_PtCloates_stereo-BRUVS","36","Sparidae","Argyrops","spinifer",1
 "2022-05_PtCloates_stereo-BRUVS","36","SUS","SUS","sus",1
@@ -1773,7 +1773,7 @@
 "2022-05_PtCloates_stereo-BRUVS","37","Serranidae","Plectropomus","spp",2
 "2022-05_PtCloates_stereo-BRUVS","37","Serranidae","Variola","louti",2
 "2022-05_PtCloates_stereo-BRUVS","37","SUS","SUS","sus",1
-"2022-05_PtCloates_stereo-BRUVS","37","Unknown","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","37","NA","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","38","Carangidae","Decapterus","spp",1
 "2022-05_PtCloates_stereo-BRUVS","38","Lethrinidae","Gymnocranius","sp1",1
 "2022-05_PtCloates_stereo-BRUVS","38","Lethrinidae","Lethrinus","ravus",1
@@ -1823,7 +1823,7 @@
 "2022-05_PtCloates_stereo-BRUVS","40","Scombridae","Scomberomorus","spp",1
 "2022-05_PtCloates_stereo-BRUVS","40","SUS","SUS","sus",3
 "2022-05_PtCloates_stereo-BRUVS","40","Tetraodontidae","Lagocephalus","sceleratus",1
-"2022-05_PtCloates_stereo-BRUVS","40","Unknown","Unknown","spp",2
+"2022-05_PtCloates_stereo-BRUVS","40","NA","NA","na",2
 "2022-05_PtCloates_stereo-BRUVS","41","Carangidae","Carangoides","fulvoguttatus",1
 "2022-05_PtCloates_stereo-BRUVS","41","Carangidae","Decapterus","spp",27
 "2022-05_PtCloates_stereo-BRUVS","41","Echeneidae","Echeneis","naucrates",1
@@ -1854,12 +1854,12 @@
 "2022-05_PtCloates_stereo-BRUVS","43","Lethrinidae","Lethrinus","miniatus",1
 "2022-05_PtCloates_stereo-BRUVS","43","Lethrinidae","Lethrinus","rubrioperculatus",7
 "2022-05_PtCloates_stereo-BRUVS","43","Lutjanidae","Pristipomoides","sp1",2
-"2022-05_PtCloates_stereo-BRUVS","43","Mullidae","Unknown","spp",2
+"2022-05_PtCloates_stereo-BRUVS","43","Mullidae","NA","na",2
 "2022-05_PtCloates_stereo-BRUVS","43","Nemipteridae","Pentapodus","nagasakiensis",15
 "2022-05_PtCloates_stereo-BRUVS","43","Pinguipedidae","Parapercis","nebulosa",2
 "2022-05_PtCloates_stereo-BRUVS","43","Scombridae","Scomberomorus","spp",1
 "2022-05_PtCloates_stereo-BRUVS","43","SUS","SUS","sus",1
-"2022-05_PtCloates_stereo-BRUVS","43","Unknown","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","43","NA","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","44","Balistidae","Abalistes","filamentosus",1
 "2022-05_PtCloates_stereo-BRUVS","44","Balistidae","Sufflamen","fraenatum",1
 "2022-05_PtCloates_stereo-BRUVS","44","Carangidae","Carangoides","fulvoguttatus",4
@@ -1897,7 +1897,7 @@
 "2022-05_PtCloates_stereo-BRUVS","45","SUS","SUS","sus",3
 "2022-05_PtCloates_stereo-BRUVS","46","Albulidae","Albula","argentea",2
 "2022-05_PtCloates_stereo-BRUVS","46","Carangidae","Carangoides","fulvoguttatus",1
-"2022-05_PtCloates_stereo-BRUVS","46","Carcharhinidae","Carcharhinus","spp",1
+"2022-05_PtCloates_stereo-BRUVS","46","Carcharhinidae","Carcharhinus","na",1
 "2022-05_PtCloates_stereo-BRUVS","46","Echeneidae","Echeneis","naucrates",1
 "2022-05_PtCloates_stereo-BRUVS","46","Lethrinidae","Gymnocranius","sp1",2
 "2022-05_PtCloates_stereo-BRUVS","46","Lethrinidae","Lethrinus","miniatus",2
@@ -1981,7 +1981,7 @@
 "2022-05_PtCloates_stereo-BRUVS","51","Carcharhinidae","Carcharhinus","albimarginatus",1
 "2022-05_PtCloates_stereo-BRUVS","51","Fistulariidae","Fistularia","commersonii",1
 "2022-05_PtCloates_stereo-BRUVS","51","Labridae","Choerodon","sp1",1
-"2022-05_PtCloates_stereo-BRUVS","51","Labridae","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","51","Labridae","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","51","Lethrinidae","Gymnocranius","euanus",1
 "2022-05_PtCloates_stereo-BRUVS","51","Lethrinidae","Gymnocranius","sp1",1
 "2022-05_PtCloates_stereo-BRUVS","51","Lethrinidae","Lethrinus","miniatus",2
@@ -1995,7 +1995,7 @@
 "2022-05_PtCloates_stereo-BRUVS","51","Pinguipedidae","Parapercis","nebulosa",1
 "2022-05_PtCloates_stereo-BRUVS","51","Scaridae","Scarus","sp3",1
 "2022-05_PtCloates_stereo-BRUVS","51","Serranidae","Epinephelus","spp",1
-"2022-05_PtCloates_stereo-BRUVS","51","Unknown","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","51","NA","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","52","Carangidae","Carangoides","chrysophrys",2
 "2022-05_PtCloates_stereo-BRUVS","52","Carangidae","Carangoides","fulvoguttatus",1
 "2022-05_PtCloates_stereo-BRUVS","52","Labridae","Bodianus","solatus",3
@@ -2023,7 +2023,7 @@
 "2022-05_PtCloates_stereo-BRUVS","53","Nemipteridae","Pentapodus","nagasakiensis",1
 "2022-05_PtCloates_stereo-BRUVS","53","Nemipteridae","Pentapodus","vitta",2
 "2022-05_PtCloates_stereo-BRUVS","53","Pinguipedidae","Parapercis","nebulosa",1
-"2022-05_PtCloates_stereo-BRUVS","53","Unknown","Unknown","spp",1
+"2022-05_PtCloates_stereo-BRUVS","53","NA","NA","na",1
 "2022-05_PtCloates_stereo-BRUVS","54","Carangidae","Carangoides","fulvoguttatus",2
 "2022-05_PtCloates_stereo-BRUVS","54","Carcharhinidae","Carcharhinus","albimarginatus",1
 "2022-05_PtCloates_stereo-BRUVS","54","Lethrinidae","Gymnocranius","euanus",1
@@ -2084,7 +2084,7 @@
 "2022-05_PtCloates_stereo-BRUVS","59","Balistidae","Sufflamen","fraenatum",1
 "2022-05_PtCloates_stereo-BRUVS","59","Carangidae","Carangoides","chrysophrys",2
 "2022-05_PtCloates_stereo-BRUVS","59","Carangidae","Carangoides","fulvoguttatus",4
-"2022-05_PtCloates_stereo-BRUVS","59","Carangidae","Unknown","spp",8
+"2022-05_PtCloates_stereo-BRUVS","59","Carangidae","NA","spp",8
 "2022-05_PtCloates_stereo-BRUVS","59","Carcharhinidae","Carcharhinus","albimarginatus",1
 "2022-05_PtCloates_stereo-BRUVS","59","Labridae","Coris","caudimacula",1
 "2022-05_PtCloates_stereo-BRUVS","59","Lethrinidae","Gymnocranius","sp1",2
@@ -2095,7 +2095,7 @@
 "2022-05_PtCloates_stereo-BRUVS","59","Lutjanidae","Aphareus","rutilans",1
 "2022-05_PtCloates_stereo-BRUVS","59","Lutjanidae","Lutjanus","sebae",1
 "2022-05_PtCloates_stereo-BRUVS","59","Lutjanidae","Pristipomoides","sp1",4
-"2022-05_PtCloates_stereo-BRUVS","59","Mullidae","Unknown","spp",15
+"2022-05_PtCloates_stereo-BRUVS","59","Mullidae","NA","spp",15
 "2022-05_PtCloates_stereo-BRUVS","59","Nemipteridae","Pentapodus","nagasakiensis",1
 "2022-05_PtCloates_stereo-BRUVS","59","Pinguipedidae","Parapercis","nebulosa",1
 "2022-05_PtCloates_stereo-BRUVS","59","Scombridae","Scomberomorus","spp",1
@@ -2209,10 +2209,10 @@
 "2022-05_PtCloates_stereo-BRUVS","9","Lutjanidae","Lutjanus","sebae",2
 "2022-05_PtCloates_stereo-BRUVS","9","Lutjanidae","Pristipomoides","sp1",2
 "2022-05_PtCloates_stereo-BRUVS","9","Mullidae","Mulloidichthys","flavolineatus",3
-"2022-05_PtCloates_stereo-BRUVS","9","Mullidae","Unknown","spp",2
+"2022-05_PtCloates_stereo-BRUVS","9","Mullidae","NA","na",2
 "2022-05_PtCloates_stereo-BRUVS","9","Pinguipedidae","Parapercis","nebulosa",1
 "2022-05_PtCloates_stereo-BRUVS","9","Scombridae","Scomberomorus","spp",1
 "2022-05_PtCloates_stereo-BRUVS","9","Serranidae","Epinephelus","areolatus",1
 "2022-05_PtCloates_stereo-BRUVS","9","SUS","SUS","sus",4
 "2022-05_PtCloates_stereo-BRUVS","9","Tetraodontidae","Lagocephalus","sceleratus",1
-"2022-05_PtCloates_stereo-BRUVS","9","Unknown","Unknown","spp",2
+"2022-05_PtCloates_stereo-BRUVS","9","NA","NA","na",2

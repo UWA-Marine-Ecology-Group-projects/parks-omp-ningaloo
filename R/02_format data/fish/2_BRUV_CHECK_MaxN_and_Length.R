@@ -38,7 +38,7 @@ setwd(staging.dir)
 metadata <- read_csv(paste(study,"metadata.csv",sep="_"), col_types = cols(sample = col_character()))
 
 # Import MaxN file---
-maxn <- read_csv(paste(study,"maxn.csv",sep="_"), col_types = cols(sample = col_character())) %>%
+maxn <- read_csv(paste(study,"maxn.csv",sep="_"), col_types = cols(sample = col_character()), na = c("", " ", NA)) %>%
   mutate(maxn=as.numeric(maxn)) %>%
   mutate(species=tolower(species)) %>%
   dplyr::select(campaignid,sample,family,genus,species,maxn) %>%
@@ -49,7 +49,7 @@ unique(maxn$sample)
 
 # Import length/3d file----
 length <- read_csv(file = paste(study,"length3dpoints.csv",sep = "_"),
-                   na = c("", " "), col_types = cols(sample = col_character()))%>%
+                   col_types = cols(sample = col_character()), na = c("", " ", NA)) %>% #, 
   mutate(number = as.numeric(number)) %>%
   mutate(range = as.numeric(range)) %>%
   mutate(length = as.numeric(length)) %>%
@@ -57,7 +57,7 @@ length <- read_csv(file = paste(study,"length3dpoints.csv",sep = "_"),
   filter(!is.na(number)) %>% # find and remove sync points that are not fish
   replace_na(list(family="Unknown",genus="Unknown",species="spp")) %>% # remove any NAs in taxa name
   mutate(species = tolower(species)) %>%
-  mutate(genus = str_replace_all(.$genus,c("NA"="Unknown"))) %>%
+  # mutate(genus = str_replace_all(.$genus,c("NA"="Unknown"))) %>%
   glimpse()
 
 unique(length$sample)
