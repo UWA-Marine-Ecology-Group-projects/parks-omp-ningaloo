@@ -34,11 +34,9 @@ dat <- bind_rows(dat1,dat2)%>%
 dat.taxa <- dat %>%
   mutate(label=NA)%>%
   mutate(resp.var=factor(resp.var, levels = c("smaller than legal size","greater than legal size","species.richness","total.abundance")))%>%
-  mutate(label=ifelse(predictor=="inverts"&resp.var=="total.abundance","X",label))%>%
-  mutate(label=ifelse(predictor=="roughness"&resp.var=="total.abundance","X",label))%>%
+  mutate(label=ifelse(predictor=="depth"&resp.var=="total.abundance","X",label))%>%
   mutate(label=ifelse(predictor=="depth"&resp.var=="species.richness","X",label))%>%
-  mutate(label=ifelse(predictor=="inverts"&resp.var=="species.richness","X",label))%>%
-  mutate(label=ifelse(predictor=="tpi"&resp.var=="species.richness","X",label))%>%
+  mutate(label=ifelse(predictor=="habitat.class"&resp.var=="species.richness","X",label))%>%
   mutate(label=ifelse(predictor=="depth"&resp.var=="greater than legal size","X",label))%>%
   mutate(label=ifelse(predictor=="detrended"&resp.var=="smaller than legal size","X",label))%>%
   glimpse()
@@ -107,7 +105,7 @@ imp.trgt <- ggplot(dat.taxa %>% dplyr::filter(resp.var%in%c("greater than legal 
   scale_fill_gradientn(legend_title, colours=c(re), na.value = "grey98",
                        limits = c(-1, 1))+
   scale_y_discrete(labels=c("Smaller than legal size","Greater than legal size"))+
-  scale_x_discrete(labels = c("Depth", "Detrended", "Invertebrates", "Mean relief", "Roughness"))+
+  scale_x_discrete(labels = c("Depth", "Detrended", "Habitat class", "Mean relief", "Roughness"))+
   labs(x = NULL, y = NULL, title = "Targeted assemblage") +
   theme_classic()+
   Theme1+

@@ -38,7 +38,7 @@ dat <- readRDS(paste(paste0('data/tidy/', name),
   glimpse()
 
 # Re-set the predictors for modeling----
-pred.vars <- c("depth", "inverts", "mean.relief","roughness","detrended") 
+pred.vars <- c("depth", "mean.relief","roughness","detrended") 
 
 # Check to make sure Response vector has not more than 80% zeros----
 unique.vars <- unique(as.character(dat$scientific))
@@ -60,7 +60,7 @@ str(use.dat)
 
 name <- paste(study,"length",sep="_")
 
-# factor.vars=c("status")# Status as a Factor with two levels
+factor.vars <- c("habitat.class") # Habitat class - inverts or sand
 out.all=list()
 var.imp=list()
 
@@ -74,6 +74,7 @@ for(i in 1:length(resp.vars)){
   model.set=generate.model.set(use.dat=use.dat,
                                test.fit=Model1,
                                pred.vars.cont=pred.vars,
+                               pred.vars.fact = factor.vars,
                                factor.smooth.interactions = NA,
                                k=3
                                )

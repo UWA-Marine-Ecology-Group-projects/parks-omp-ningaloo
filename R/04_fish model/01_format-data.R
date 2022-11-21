@@ -60,6 +60,7 @@ allhab <- readRDS(paste(paste0('data/tidy/', name),
   ga.clean.names() %>%
   transform(sand = sand / broad.total.points.annotated,
             inverts = inverts / broad.total.points.annotated) %>%
+  dplyr::mutate(habitat.class = ifelse(inverts > 0.2, "inverts","sand")) %>%
   dplyr::select(-c(x, y)) %>%
   glimpse()
 
@@ -116,9 +117,7 @@ unique(dat.maxn$scientific)
 names(dat.maxn)
 
 pred.vars = c("depth", # In situ depth plus missing ones from bathy
-              "z", # Bathy depth
-              "sand", 
-              "inverts", 
+              "z", # Bathy depth 
               "mean.relief",
               "tpi",
               "roughness",
