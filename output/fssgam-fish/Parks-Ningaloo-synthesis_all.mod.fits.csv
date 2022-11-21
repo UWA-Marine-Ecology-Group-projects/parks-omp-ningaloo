@@ -1,0 +1,4 @@
+"","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","inverts","mean.relief","roughness","detrended","cumsum.wi"
+"total.abundance.inverts+roughness","inverts+roughness",1664.79214245022,1683.54830098417,0.05777,NA,3.69,0,0,3.859,0.387,0.063,0,1,0,1,0,0.387
+"total.abundance.depth+inverts","depth+inverts",1665.6004067437,1681.53807374012,0.04908,NA,3,0,0.808,1.849,0.258,0.173,1,1,0,0,0,0.645
+"species.richness","depth+inverts",1155.26338034032,1171.2082466276,0.21767,NA,3,0,0,0,0.998,0.996,1,1,0,0,0,0.998

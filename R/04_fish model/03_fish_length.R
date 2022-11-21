@@ -29,47 +29,36 @@ library(GlobalArchive)
 library(ggplot2)
 
 ## set study name
-study <- "2021-05_Abrolhos_npz6" 
+study <- "Parks-Ningaloo-synthesis"
 name <- study
 
-## Set your working directory ----
-working.dir<-getwd()
-setwd(working.dir)
-
-dat <- readRDS("data/Tidy/dat.length.rds")%>%
-  dplyr::filter(location%in%"NPZ6")%>%
+dat <- readRDS(paste(paste0('data/tidy/', name), 
+                     'gam-length.rds', sep = "_")) %>%
+  dplyr::filter(!is.na(mean.relief)) %>%
   glimpse()
 
-# # Re-set the predictors for modeling----
-pred.vars = c("depth", 
-              "macroalgae", 
-              "biog", 
-              "mean.relief",
-              "tpi",
-              "roughness",
-              "detrended")
+# Re-set the predictors for modeling----
+pred.vars <- c("depth", "inverts", "mean.relief","roughness","detrended") 
 
 # Check to make sure Response vector has not more than 80% zeros----
-unique.vars=unique(as.character(dat$scientific))
+unique.vars <- unique(as.character(dat$scientific))
 
-unique.vars.use=character()
+resp.vars <- character()
 for(i in 1:length(unique.vars)){
-  temp.dat=dat[which(dat$scientific==unique.vars[i]),]
-  if(length(which(temp.dat$number==0))/nrow(temp.dat)<0.9){
-    unique.vars.use=c(unique.vars.use,unique.vars[i])}
+  temp.dat <- dat[which(dat$scientific == unique.vars[i]), ]
+  if(length(which(temp.dat$number == 0)) / nrow(temp.dat) < 0.9){
+    resp.vars <- c(resp.vars, unique.vars[i])}
 }
-
-unique.vars.use   
+resp.vars   
 
 # changed to 90% - smaller than legal size included
 
 # Run the full subset model selection----
-savedir <- "output/fssgam - fish"
-resp.vars=unique.vars.use
+savedir <- "output/fssgam-fish"
 use.dat=as.data.frame(dat)
 str(use.dat)
 
-name<- paste(study,"length",sep="_")
+name <- paste(study,"length",sep="_")
 
 # factor.vars=c("status")# Status as a Factor with two levels
 out.all=list()
@@ -77,21 +66,16 @@ var.imp=list()
 
 # Loop through the FSS function for each Taxa----
 for(i in 1:length(resp.vars)){
-  use.dat=as.data.frame(dat[which(dat$scientific==resp.vars[i]),])
-  use.dat$method <- as.factor(use.dat$method)
-  use.dat$location <- as.factor(use.dat$location)
-  Model1=gam(number~s(depth,k=3,bs='cr')
-             ,
-             family=tw(),  data=use.dat)
+  use.dat = as.data.frame(dat[which(dat$scientific==resp.vars[i]),])
+  # use.dat$location <- as.factor(use.dat$location)
+  Model1  <- gam(number ~ s(depth, k = 3, bs='cr'),
+                 family = tw(),  data = use.dat)
   
   model.set=generate.model.set(use.dat=use.dat,
                                test.fit=Model1,
                                pred.vars.cont=pred.vars,
-                               # pred.vars.fact=factor.vars,
                                factor.smooth.interactions = NA,
-                              # smooth.smooth.interactions = c("depth", "biog"),
-                               k=3,
-                               null.terms="method"
+                               k=3
                                )
   out.list=fit.model.set(model.set,
                          max.models=600,

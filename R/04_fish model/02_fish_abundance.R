@@ -1,9 +1,9 @@
 ###
-# Project: ** Add here **
+# Project: Parks OMP Ningaloo
 # Data:    BRUV and BOSS fish MaxN data
 # Task:    Run fssGAM model selection
 # Author:  Claude Spencer & Brooke Gibbons from beckyfisher - FSSgam
-# date:    ** Add here **
+# date:    November 2022
 ##
 
 rm(list=ls())
@@ -24,20 +24,15 @@ library(FSSgam)
 library(GlobalArchive)
 library(ggplot2)
 
-## Setup ----
-# set your working directory (manually, once for the whole R project)
-# use the 'files' tab to set wd in '~/parks-abrolhos' manually (your relative path) then run this line (if we need it?)
-working.dir <- getwd()
-setwd(working.dir)
-name <- "2021-05_Abrolhos_npz6"  # set study name
+name <- "Parks-Ningaloo-synthesis"  # set study name
 
-dat <- readRDS("data/Tidy/dat.maxn.rds")%>%
-  dplyr::filter(location%in%"NPZ6")%>%
+dat <- readRDS(paste(paste0('data/tidy/', name), 
+                     'gam-abundance.rds', sep = "_")) %>%
+  dplyr::filter(!is.na(mean.relief)) %>%
   glimpse()
 
 # # Re-set the predictors for modeling----
-pred.vars <- c("depth", "macroalgae",
-               "biog", "mean.relief","tpi","roughness","detrended") 
+pred.vars <- c("depth", "inverts", "mean.relief","roughness","detrended") 
 
 # Check to make sure Response vector has not more than 80% zeros----
 unique.vars <- unique(as.character(dat$scientific))
@@ -51,11 +46,11 @@ for(i in 1:length(unique.vars)){
 resp.vars   
 
 # Run the full subset model selection----
-savedir <- "output/fssgam - fish"
+savedir <- "output/fssgam-fish"
 use.dat <- as.data.frame(dat) 
 str(use.dat)
 
-is.na(dat$status) 
+is.na(dat$status) # Haven't put status in here, very unbalanced
 
 # factor.vars <- c("status")# Status as a factors with 2 levels
 out.all     <- list()
@@ -66,7 +61,7 @@ str(use.dat)
 # Loop through the FSS function for each Taxa----
 for(i in 1:length(resp.vars)){
   use.dat <- as.data.frame(dat[which(dat$scientific == resp.vars[i]), ])
-  use.dat$method <- as.factor(use.dat$method)
+  # use.dat$method <- as.factor(use.dat$method)
   use.dat$location <- as.factor(use.dat$location)
   Model1  <- gam(maxn ~ s(depth, k = 3, bs='cr'),
                  family = tw(),  data = use.dat)
@@ -77,8 +72,7 @@ for(i in 1:length(resp.vars)){
                                   # pred.vars.fact = factor.vars,
                                   linear.vars = "depth",
                                   k = 3,
-                                  factor.smooth.interactions = F,
-                                  null.terms="method"
+                                  factor.smooth.interactions = F
   )
   out.list <- fit.model.set(model.set,
                             max.models = 600,
@@ -115,4 +109,4 @@ all.var.imp    <- do.call("rbind",var.imp)
 write.csv(all.mod.fits[ , -2], file = paste(savedir, paste(name, "all.mod.fits.csv", sep = "_"), sep = "/"))
 write.csv(all.var.imp, file = paste(savedir, paste(name, "all.var.imp.csv", sep = "_"), sep = "/"))
 
-saveRDS(all.mod.fits, file = "data/Tidy/all.mod.fits.RDS")
+# saveRDS(all.mod.fits, file = "data/Tidy/all.mod.fits.RDS")

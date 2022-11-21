@@ -109,7 +109,7 @@ dat.maxn <- bind_rows(ta.sr) %>%
   
 summary(dat.maxn$depth)
 unique(dat.maxn$scientific)
-132*2
+196*2
 # matches with metadata rows
 
 # Set predictor variables---
@@ -148,7 +148,7 @@ for (i in pred.vars) {
   plot(sqrt(x))
   hist(log(x + 1))
   plot(log(x + 1))
-}
+} # Not running?
 
 # Write data to load in to next script
 saveRDS(dat.maxn, paste(paste0('data/tidy/', name), 
@@ -226,8 +226,12 @@ dat.length <- combined.length %>%
   dplyr::left_join(.,allhab) %>%
   dplyr::filter(successful.length%in%c("Y", "Yes", "yes")) %>%
   dplyr::mutate(scientific = as.character(scientific)) %>%
+  dplyr::mutate(depth = ifelse(depth %in% "?", z, depth)) %>%                   # Samples didn't have in situ depth recorded
+  dplyr::mutate(depth = as.numeric(depth)) %>%                                  # To numeric
+  dplyr::mutate(depth = ifelse(depth > 0, depth * -1, depth)) %>%               # All to the same direction (negative)
+  dplyr::filter(!is.na(z)) %>%
   dplyr::glimpse()
 
 #write data to load in to next script
-saveRDS(dat.maxn, paste(paste0('data/tidy/', name), 
+saveRDS(dat.length, paste(paste0('data/tidy/', name), 
                         'gam-length.rds', sep = "_"))
