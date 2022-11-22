@@ -34,11 +34,11 @@ dat <- bind_rows(dat1,dat2)%>%
 dat.taxa <- dat %>%
   mutate(label=NA)%>%
   mutate(resp.var=factor(resp.var, levels = c("smaller than legal size","greater than legal size","species.richness","total.abundance")))%>%
-  mutate(label=ifelse(predictor=="depth"&resp.var=="total.abundance","X",label))%>%
+  mutate(label=ifelse(predictor=="detrended"&resp.var=="total.abundance","X",label))%>%
   mutate(label=ifelse(predictor=="depth"&resp.var=="species.richness","X",label))%>%
   mutate(label=ifelse(predictor=="habitat.class"&resp.var=="species.richness","X",label))%>%
-  mutate(label=ifelse(predictor=="depth"&resp.var=="greater than legal size","X",label))%>%
-  mutate(label=ifelse(predictor=="detrended"&resp.var=="smaller than legal size","X",label))%>%
+  mutate(label=ifelse(predictor=="detrended"&resp.var=="greater than legal size","X",label))%>%
+  mutate(label=ifelse(predictor=="depth"&resp.var=="smaller than legal size","X",label))%>%
   glimpse()
 
 # Theme-

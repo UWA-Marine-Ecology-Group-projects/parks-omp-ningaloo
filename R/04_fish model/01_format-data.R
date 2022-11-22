@@ -137,17 +137,17 @@ correlate(dat.maxn[,pred.vars], use = "complete.obs") %>%
 ggplot() + geom_point(data = dat.maxn, aes(x = depth, y = z))                   # Few random depth outliers
 
 # Plot of likely transformations - thanks to Anna Cresswell for this loop!
-par(mfrow = c(3, 2))
-for (i in pred.vars) {
-  x <- dat.maxn[ , i]
-  x = as.numeric(unlist(x)) 
-  hist((x)) #Looks best
-  plot((x), main = paste(i))
-  hist(sqrt(x))
-  plot(sqrt(x))
-  hist(log(x + 1))
-  plot(log(x + 1))
-} # Not running?
+# par(mfrow = c(3, 2))
+# for (i in pred.vars) {
+#   x <- dat.maxn[ , i]
+#   x = as.numeric(unlist(x)) 
+#   hist((x)) #Looks best
+#   plot((x), main = paste(i))
+#   hist(sqrt(x))
+#   plot(sqrt(x))
+#   hist(log(x + 1))
+#   plot(log(x + 1))
+# } # Not running?
 
 # Write data to load in to next script
 saveRDS(dat.maxn, paste(paste0('data/tidy/', name), 

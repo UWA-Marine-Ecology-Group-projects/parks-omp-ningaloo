@@ -105,9 +105,11 @@ p11 <- ggplot() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
   theme_minimal() +
-  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
+  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"),
+        axis.text.x = element_text(size = 7),
+        axis.text.y = element_text(size = 7))
 
-p11
+# p11
 
 #species richness
 p21 <- ggplot() +
@@ -121,9 +123,11 @@ p21 <- ggplot() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
   theme_minimal() +
-  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
+  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"),
+        axis.text.x = element_text(size = 7),
+        axis.text.y = element_text(size = 7))
 
-p21
+# p21
 
 # greater than legal size
 p31 <- ggplot() +
@@ -137,9 +141,11 @@ p31 <- ggplot() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
   theme_minimal() +
-  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
+  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"),
+        axis.text.x = element_text(size = 7),
+        axis.text.y = element_text(size = 7))
 
-p31
+# p31
 
 #smaller than legal size
 p41 <- ggplot() +
@@ -153,11 +159,13 @@ p41 <- ggplot() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
   theme_minimal() +
-  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"))
+  theme(plot.margin = unit(c(0, 0, 0, 0), "cm"),
+        axis.text.x = element_text(size = 7),
+        axis.text.y = element_text(size = 7))
 
-p41
+# p41
 
 gg.predictions <- (p11 + p21) / (p31 + p41) & theme(legend.justification = "left")    
-gg.predictions
+# gg.predictions
 
 ggsave("figures/fish/site_fish_predictions.png", gg.predictions,width = 8, height = 7, dpi = 160)

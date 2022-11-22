@@ -36,7 +36,7 @@ pred_class <- rast(paste0("output/rf-habitat/", name, "_nesp_predicted-habitat.t
 
 pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%
   dplyr::rename(layer_value = "category") %>%                                   # SOmetimes changes? package conflict?
-  dplyr::mutate(layer_value = recode(layer_value,
+  dplyr::mutate(layer_value = dplyr::recode(layer_value,
                                      "sand" = "Sand",
                                      "inverts" = "Sessile invertebrates")) %>%
   glimpse()
@@ -132,6 +132,8 @@ p1 <- ggplot() +
   geom_tile(data = pred_classdf, aes(x, y, fill = layer_value)) +
   hab_fills + 
   new_scale_fill() +
+  # geom_contour(data = bathdf, aes(x, y, z = Z),                              
+  #              breaks = c(-82, -125), colour = "white") +                     # Just have a look where old coastlines are
   geom_sf(data = ausc, fill = "seashell2", colour = "black", size = 0.1) +
   geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          # Add national park zones
   geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         # Add national park zones
@@ -159,6 +161,4 @@ png(filename = paste(paste("figures/habitat", name, sep = "/"),                 
     width = 6, height = 8, res = 300, units = "in")                             # Change the dimensions here as necessary
 p1
 dev.off()
-
-# Put some spatial uncertainty type plot here!
 

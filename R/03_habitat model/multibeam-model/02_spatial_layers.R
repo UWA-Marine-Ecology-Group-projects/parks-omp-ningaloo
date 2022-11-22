@@ -28,8 +28,9 @@ name <- "Parks-Ningaloo-synthesis"                                              
 wgscrs <- "+proj=longlat +datum=WGS84 +south"                                   # Latlong projection 
 
 # Read in the bathymetry
-bathy <- rast("data/spatial/rasters/depth_195_50m.tif") %>%
-  trim() 
+bathy <- rast("data/spatial/rasters/depth_195_50m_clipped.tif") %>%
+  clamp(upper = -1, values = F) %>%
+  trim()
 plot(bathy)
 summary(bathy)
 
@@ -54,6 +55,6 @@ plot(preds)
 names(preds)[1] <- "Z"
 
 # Save the output
-preds <- wrap(preds)
+preds <- terra::wrap(preds)
 saveRDS(preds, paste(paste0('data/spatial/rasters/raw bathymetry/', name),      # This is ignored - too big!
                      'spatial_covariates.rds', sep = "_")) 

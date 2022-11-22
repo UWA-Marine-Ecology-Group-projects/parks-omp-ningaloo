@@ -70,7 +70,7 @@ names(preddf)
 
 # use formula from top model from FSSGam model selection
 # Total abundance
-m_totabund <- gam(number ~ s(depth, k = 3, bs = "cr"), 
+m_totabund <- gam(number ~ s(detrended, k = 3, bs = "cr"), 
                data = fabund%>%dplyr::filter(scientific%in%"total.abundance"), 
                method = "REML", family = tw())
 summary(m_totabund)
@@ -82,13 +82,13 @@ m_richness <- gam(number ~ s(depth, k = 3, bs = "cr") + habitat.class,
 summary(m_richness)
 
 # Greater than legal size target species
-m_legal <- gam(number ~ s(depth, k = 3, bs = "cr"),  
+m_legal <- gam(number ~ s(detrended, k = 3, bs = "cr"),  
                   data = fabund%>%dplyr::filter(scientific%in%"greater than legal size"), 
                   method = "REML", family = tw())
 summary(m_legal)
 
 # Smaller than legal size target species
-m_sublegal <- gam(number ~ s(detrended, k = 3, bs = "cr"),  
+m_sublegal <- gam(number ~ s(depth, k = 3, bs = "cr"),  
                data = fabund%>%dplyr::filter(scientific%in%"smaller than legal size"), 
                method = "REML", family = tw())
 summary(m_sublegal)
@@ -109,6 +109,7 @@ plot(prasts)
 # sprast <- mask(prasts, sbuff)
 # plot(sprast)
 
+dev.off()
 plot(prasts$p_totabund)
 plot(prasts$p_richness)
 plot(prasts$p_legal)
