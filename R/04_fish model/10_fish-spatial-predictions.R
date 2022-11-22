@@ -19,7 +19,7 @@ library(cowplot)
 # Set CRS for transformations
 wgscrs <- "+proj=longlat +datum=WGS84"                                          # Maybe wrong? 
 gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
-sppcrs  <- "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs"     # crs for sp objects
+sppcrs  <- "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs"           # crs for sp objects
 
 # read in outputs from 'R/habitat_fish_model_predict.R'
 spreddf <- readRDS("output/fssgam-fish/site_fish_predictions.rds")              # site predictions only

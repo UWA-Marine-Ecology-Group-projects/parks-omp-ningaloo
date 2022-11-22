@@ -1,5 +1,5 @@
 ###
-# Project: Parks - Abrolhos
+# Project: Parks OMP Ningaloo
 # Data:    Oceanography - SST, SLA, currents & acidification
 # Task:    Load in netCDF files from local copy
 # author:  Jess Kolbusz & Claude
@@ -105,9 +105,9 @@ plot_sla_ts <- arr_long %>%
   ungroup()%>%
   glimpse()
 
-saveRDS(plot_sla_ts, "data/spatial/oceanography/Abrolhos_SLA_ts.rds")
-saveRDS(plot_sla_month,"data/spatial/oceanography/Abrolhos_SLA_month.rds")
-saveRDS(plot_sla_year,"data/spatial/oceanography/Abrolhos_SLA_year.rds")
+saveRDS(plot_sla_ts, paste0("data/spatial/oceanography/", Zone, "_SLA_ts.rds"))
+saveRDS(plot_sla_month,paste0("data/spatial/oceanography/", Zone, "_SLA_month.rds"))
+saveRDS(plot_sla_year,paste0("data/spatial/oceanography/", Zone, "_SLA_year.rds"))
 
 #clear out the memory
 rm(list= ls()[!(ls() %in% c('working.dir','locations', 'Zone','locs','Lon_w',
@@ -152,27 +152,19 @@ lon_sst <- check_lon
 arr = array(sst_all, dim=c(length(lon_i),length(lat_i),length(time_data$dates)),
             dimnames = list(lon_sst, lat_sst,time_data$dates))
 
-#careful - running out of memory
-rm(list=setdiff(ls(), "arr"))
-gc() #free unused memory
-
 arr_long <- arr %>%
   reshape2::melt(varnames = c("Lon","Lat","Date"))
-saveRDS(arr_long,"data/spatial/oceanography/Ningaloo_SST.rds")
+saveRDS(arr_long,paste0("data/spatial/oceanography/", Zone, "_SST.rds"))
 
-#careful - running out of memory
-rm(list=setdiff(ls(), "arr_long"))
-gc() #free unused memory
-
-#split into 2 halves as to not cook the memory
+#split into 2 halves as to not run out of memory
 arr_long_1 <- arr_long %>%
-  slice(1:50000000)%>% 
+  slice(1:(nrow(.))/2)%>% 
   dplyr::mutate(Date = as.Date(Date))%>%
   dplyr::mutate(year = year(Date),month = month(Date))%>%
   glimpse()
 
 arr_long_2 <- arr_long %>%
-  slice(50000001:98008680)%>% 
+  slice(((nrow(.))/2)+1:nrow(.))%>% 
   dplyr::mutate(Date = as.Date(Date))%>%
   dplyr::mutate(year = year(Date),month = month(Date))%>%
   glimpse()
@@ -181,9 +173,6 @@ rm(arr_long)
 gc()
 
 arr_long <- bind_rows(arr_long_1, arr_long_2)
-
-rm(list=setdiff(ls(), "arr_long"))
-gc() #free unused memory
 
 plot_sst_winter <- arr_long %>% 
   dplyr::filter(month %in%c("7","8","9"))%>%
@@ -206,10 +195,10 @@ plot_sst_ts <- arr_long %>%
   summarise(sst = mean(value,na.rm = TRUE), sd = sd(value,na.rm = TRUE)) %>% 
   glimpse()
 
-saveRDS(plot_sst_winter,"data/spatial/oceanography/Abrolhos_SST_winter.rds")
-saveRDS(plot_sst_year,"data/spatial/oceanography/Abrolhos_SST_year.rds")
-saveRDS(plot_sst_month,"data/spatial/oceanography/Abrolhos_SST_month.rds")
-saveRDS(plot_sst_ts,"data/spatial/oceanography/Abrolhos_SST_ts.rds")
+saveRDS(plot_sst_winter,paste0("data/spatial/oceanography/", Zone, "_SST_winter.rds"))
+saveRDS(plot_sst_year,paste0("data/spatial/oceanography/", Zone, "_SST_year.rds"))
+saveRDS(plot_sst_month,paste0("data/spatial/oceanography/", Zone, "_SST_month.rds"))
+saveRDS(plot_sst_ts,paste0("data/spatial/oceanography/", Zone, "_SST_ts.rds"))
 
 #clear out the memory
 rm(list= ls()[!(ls() %in% c('working.dir','locations', 'Zone','locs','Lon_w',
@@ -255,7 +244,7 @@ acd_ts_monthly <- acd_ts_all %>%
   glimpse()
 
 ## save acidification, don't need to get lat and lon for acd since is only time series 
-saveRDS(acd_ts_monthly,"data/spatial/oceanography/Abrolhos_acidification.rds")
+saveRDS(acd_ts_monthly,paste0("data/spatial/oceanography/", Zone, "_acidification.rds"))
 
 ##### -----DEGREE HEATING WEEKS ####
 #download from
@@ -344,7 +333,7 @@ p_3 <- ggplot() +
   facet_wrap(~year)
 p_3
 
-saveRDS(plot_dhw_month,"data/spatial/oceanography/Abrolhos_DHW_month.rds")
-saveRDS(plot_dhw_year,"data/spatial/oceanography/Abrolhos_DHW_year.rds")
-saveRDS(plot_dhw_ts,"data/spatial/oceanography/Abrolhos_DHW_ts.rds")
-saveRDS(plot_dhw_heatwave,"data/spatial/oceanography/Abrolhos_DHW_heatwave.rds")
+saveRDS(plot_dhw_month,paste0("data/spatial/oceanography/", Zone, "_DHW_month.rds"))
+saveRDS(plot_dhw_year,paste0("data/spatial/oceanography/", Zone, "_DHW_year.rds"))
+saveRDS(plot_dhw_ts,paste0("data/spatial/oceanography/", Zone, "_DHW_ts.rds"))
+saveRDS(plot_dhw_heatwave,paste0("data/spatial/oceanography/", Zone, "_DHW_heatwave.rds"))

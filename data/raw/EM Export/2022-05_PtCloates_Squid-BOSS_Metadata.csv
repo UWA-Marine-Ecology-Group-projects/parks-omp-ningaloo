@@ -1,0 +1,79 @@
+Sample,Latitude,Longitude,Date,Time,Site,Location,Status,Depth,Observer,Successful.count,Successful.length,Video.notes,Raw.hdd.number,Con.hdd.number,Forwards.habitat.image.saved,Forwards.habitat.image.annotated,Downwards.habitat.image.saved,Downwards.habitat.image.annotated,Maxn.analyst,Maxn.complete.yyyymmdd,Maxn.checker,Length.analyst,Length.complete.date.yyyymmdd,Notes
+122,-22.75,113.5452,20220519,13:35:27,,Pt Cloates,No-take,83,Claude,Yes,,Red lights all checked (cameras on). White lights synced before drop. eDNA,RAW1,,,,,,Claude,20220816,,,,lots of fish close to cam after period
+150,-22.7488,113.5427,20220519,13:51:10,,Pt Cloates,No-take,85.8,Claude,Yes,,,RAW1,,,,,,Claude,20220816,,,,
+B59,-22.7439,113.5456,20220519,14:05:46,,Pt Cloates,No-take,84,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220816,,,,
+147,-22.7423,113.5417,20220519,14:19:51,,Pt Cloates,No-take,88.9,Claude,Yes,,,RAW1,,,,,,Claude,20220818,,,,
+118,-22.7388,113.5435,20220519,14:32:04,,Pt Cloates,No-take,88.2,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220818,,,,
+136,-22.7379,113.5426,20220519,14:44:38,,Pt Cloates,No-take,89.9,Claude,Yes,,Mahi mahi?,RAW1,,,,,,Claude,20220818,,,,
+B62,-22.7377,113.5417,20220519,14:55:57,,Pt Cloates,No-take,89.3,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220818,,,,some miniatus way out the back - they come in after period ends
+B64,-22.7345,113.5505,20220519,15:09:26,,Pt Cloates,No-take,80.1,Claude,Yes,,Red lights checked after drop.,RAW1,,,,,,Claude,20220818,,,,
+112,-22.7339,113.5532,20220519,15:20:29,,Pt Cloates,No-take,76.9,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220822,,,,"1 unknown wrasse, probably caudimacula"
+141,-22.7323,113.544,20220519,15:33:37,,Pt Cloates,No-take,88.4,Claude,Yes,,,RAW1,,,,,,Claude,20220822,,,,some floaters out the back
+B49,-22.7309,113.5442,20220519,15:46:25,,Pt Cloates,No-take,88.3,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220822,,,,rubrio after period. hydrocoral?
+146,-22.7285,113.5486,20220519,16:03:36,,Pt Cloates,No-take,82.4,Claude,Yes,,,RAW1,,,,,,Claude,20220822,,,,no fish
+119,-22.727,113.5473,20220519,16:13:53,,Pt Cloates,No-take,86.6,Claude,Yes,,eDNA. Camera #16 off at end of day. Lights synced.,RAW1,,,,,,Claude,20220822,,,,no fish
+B54,-22.7657,113.5389,20220521,08:24:48,,Pt Cloates,No-take,81.2,,No,,LOST BOSS. eDNA. Retrieved BOSS (1.45 hrs later),RAW1,,,,,,,,,,,
+B54.2,-22.7654,113.5391,20220521,11:38:15,,Pt Cloates,No-take,84,Claude,Yes,,White falshy lights synced prior to drop. Red camera lights checked. GTG.,RAW1,,,,,,Claude,20220822,,,,fulvos maybe too far away - coros almost definitely are
+B52,-22.7635,113.5348,20220521,11:55:53,,Pt Cloates,No-take,91,Claude,Yes,,,RAW1,,,,,,Claude,20220822,,,,sailfish on the drop down
+132,-22.7618,113.5447,20220521,12:12:20,,Pt Cloates,No-take,78.1,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220822,,,,tips over at 1:15. red after period
+105,-22.7605,113.5445,20220521,12:28:24,,Pt Cloates,No-take,80.8,Claude,Yes,,,RAW1,,,,,,Claude,20220822,,,,stalked crinoid
+153,-22.7589,113.5459,20220521,13:14:55,,Pt Cloates,No-take,78.2,Claude,Yes,,Red lights checked. White flashy lights synced. GTG. eDNA,RAW1,,,,,,Claude,20220822,,,,
+B55,-22.7563,113.5294,20220521,13:30:08,,Pt Cloates,No-take,98.5,Claude,Yes,,,RAW1,,,,,,Claude,20220822,,,,gymnos definitely grandoculis
+B56,-22.7533,113.5305,20220521,13:43:22,,Pt Cloates,No-take,98.6,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220822,,,,
+B60,-22.751,113.539,20220523,11:38:17,,Pt Cloates,No-take,89.8,Claude,Yes,,Checked all red lights,RAW1,,,,,,Claude,20220823,,,,1 weird looking wrasse thing. gymno probably oor
+125,-22.7521,113.5422,20220523,11:51:02,,Pt Cloates,No-take,84.7,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220823,,,,
+129,-22.754,113.5469,20220523,12:08:18,,Pt Cloates,No-take,80.4,Claude,Yes,,,RAW1,,,,,,Claude,20220823,,,,
+144,-22.7524,113.5496,20220523,12:21:44,,Pt Cloates,No-take,76.7,Claude,Yes,,,RAW1,,,,,,Claude,20220823,,,,not 100% on trevs
+131,-22.7446,113.5561,20220523,12:55:53,,Pt Cloates,No-take,71,Claude,Yes,,Before drop checked red lights and synced white flash lights. GTG. eDNA,RAW1,,,,,,Claude,20220823,,,,super murky
+154,-22.7377,113.5528,20220523,13:14:54,,Pt Cloates,No-take,75,Claude,Yes,,,RAW1,,,,,,Claude,20220823,,,,no fish
+126,-22.7305,113.5582,20220523,13:27:49,,Pt Cloates,No-take,72.9,Claude,Yes,,,RAW1,,,,,,Claude,20220823,,,,murky no fish
+152,-22.7255,113.5554,20220523,13:41:00,,Pt Cloates,No-take,77.1,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220823,,,,no fish
+104,-22.7191,113.5566,20220523,13:55:01,,Pt Cloates,No-take,77.7,Claude,Yes,,,RAW1,,,,,,Claude,20220823,,,,no fish
+148,-22.715,113.5573,20220523,14:09:08,,Pt Cloates,No-take,78,Claude,Yes,,,RAW1,,,,,,Claude,20220823,,,,
+121,-22.7164,113.5548,20220523,14:21:19,,Pt Cloates,No-take,77.8,Claude,Yes,,,RAW1,,,,,,Claude,20220823,,,,murky
+B50,-22.7172,113.5528,20220523,14:34:17,,Pt Cloates,No-take,80.2,Claude,Yes,,eDNA,RAW1,,,,,,Claude,20220823,,,,red sitting 15m off the bottom??
+128,-22.7219,113.5498,20220523,14:48:16,,Pt Cloates,No-take,84.6,Claude,Yes,,Red lights checked GTG,RAW1,,,,,,Claude,20220823,,,,
+133,-22.7256,113.5479,20220523,15:00:34,,Pt Cloates,No-take,87.5,Claude,Yes,,Synced white lights. GTG. eDNA,RAW1,,,,,,Claude,20220823,,,,
+110,-22.7234,113.5447,20220523,15:14:15,,Pt Cloates,No-take,93.3,Claude,Yes,,,RAW1,,,,,,Claude,20220825,,,,
+102,-22.7161,113.5489,20220523,15:27:09,,Pt Cloates,No-take,87.7,Claude,Yes,,,RAW1,,,,,,Claude,20220825,,,,no fish
+143,-22.7112,113.5528,20220524,08:35:40,,Pt Cloates,No-take,83.7,,No,,eDNA,RAW1,,,,,,,,,,,
+115,-22.7098,113.55,20220524,08:52:11,,Pt Cloates,No-take,88.1,,No,,Strong currents. Called off sampling.,RAW1,,,,,,,,,,,
+139,-22.7092,113.549,20220525,08:16:36,,Pt Cloates,No-take,92.2,Claude,Yes,,Cam 13 was turned off at start so used flasher to sync prior to drop. Whiteboard shown after drop. eDNA,RAW1,,,,,,Claude,20220825,,,,"shark absolutely peaking, 1 unknown pristipomoides?"
+130,-22.7084,113.5508,20220525,08:30:36,,Pt Cloates,No-take,91.6,Claude,Yes,,CAM 16 checked footage after this drop - resync all with flasher but not written down - C,RAW1,,,,,,Claude,20220825,,,,1 unknown boy
+137,-22.7104,113.5582,20220525,09:01:01,,Pt Cloates,No-take,76.4,Claude,Yes,,,RAW1,,,,,,Claude,20220825,,,,
+107,-22.709,113.5599,20220525,09:15:11,,Pt Cloates,No-take,75.4,Claude,In progress,,eDNA,RAW1,,,,,,,,,,,
+101,-22.7071,113.5528,20220525,09:29:26,,Pt Cloates,No-take,84.5,Kaitlin,Yes,,whiteboard shown after drop. Checked red lights GTG.,RAW1,,,,,,Kaitlin,20220920,,,,One unknown fish (maybe Gymnocranius)
+155,-22.7068,113.5483,20220525,09:44:12,,Pt Cloates,No-take,95.9,Kaitlin,Yes,,,RAW1,,,,,,Kaitlin,20220920,,,,Unknown teeny tiny fish
+B58,-22.7053,113.5499,20220525,09:56:58,,Pt Cloates,No-take,92.5,Kaitlin,Yes,,eDNA,RAW1,,,,,,Kaitlin,20220920,,,,
+116,-22.706,113.554,20220525,10:16:00,,Pt Cloates,No-take,82.1,Kaitlin,Yes,,whiteboard shown before drop as all others are.,RAW1,,,,,,Kaitlin,20220920,,,,No fish :(
+138,-22.7061,113.5624,20220525,10:31:29,,Pt Cloates,No-take,75.6,Kaitlin,Yes,,,RAW1,,,,,,Kaitlin,20220920,,,,No fish :(
+142,-22.7049,113.5596,20220525,10:53:16,,Pt Cloates,No-take,76.9,Kaitlin,Yes,,"Camera #12 off. Returned on, Resynced lights.",RAW1,,,,,,Kaitlin,20220920,,,,
+113,-22.7038,113.5592,20220525,11:08:37,,Pt Cloates,No-take,78.5,Kaitlin,Yes,,,RAW1,,,,,,Kaitlin,20220920,,,,
+149,-22.7034,113.55,20220525,11:24:56,,Pt Cloates,No-take,94.5,Kaitlin,Yes,,eDNA,RAW1,,,,,,Kaitlin,20220920,,,,
+120,-22.6997,113.5628,20220526,10:36:07,,Pt Cloates,No-take,75.2,,,,Red lights checked - on. eDNA,RAW2,,,,,,,,,,,
+134,-22.6982,113.5637,20220526,10:50:23,,Pt Cloates,No-take,75.3,,,,,RAW2,,,,,,,,,,,
+106,-22.6968,113.5635,20220526,10:59:43,,Pt Cloates,No-take,75.8,,,,,RAW2,,,,,,,,,,,
+111,-22.6958,113.5608,20220526,11:11:19,,Pt Cloates,No-take,78.7,,,,,RAW2,,,,,,,,,,,
+B48,-22.6963,113.5594,20220526,11:21:54,,Pt Cloates,No-take,79.6,,,,Potential false killer whale? Bottom light off - returned on. eDNA.,RAW2,,,,,,,,,,,
+B47,-22.6996,113.5589,20220526,11:38:31,,Pt Cloates,No-take,78.5,,,,,RAW2,,,,,,,,,,,
+127,-22.7005,113.5554,20220526,11:51:10,,Pt Cloates,No-take,83.7,,,,Flashy lights synced and red lights checked.,RAW2,,,,,,,,,,,
+140,-22.6991,113.5537,20220526,12:03:42,,Pt Cloates,No-take,88.6,,,,eDNA,RAW2,,,,,,,,,,,
+156,-22.6978,113.5511,20220526,12:18:11,,Pt Cloates,No-take,93,,,,Red lights checked after drop.,RAW2,,,,,,,,,,,
+117,-22.6936,113.551,20220526,12:57:55,,Pt Cloates,No-take,96,,,,,RAW2,,,,,,,,,,,
+124,-22.6922,113.5552,20220526,13:10:34,,Pt Cloates,No-take,89.5,,,,eDNA,RAW2,,,,,,,,,,,
+151,-22.6909,113.5557,20220526,13:26:41,,Pt Cloates,No-take,90,,,,,RAW2,,,,,,,,,,,
+108,-22.6897,113.5545,20220526,13:40:34,,Pt Cloates,No-take,94.2,,,,Whiteboard shown after drop.,RAW2,,,,,,,,,,,
+114,-22.6916,113.5654,20220527,10:20:44,,Pt Cloates,No-take,75.9,,,,Dont use bottom time.,RAW2,,,,,,,,,,,
+103,-22.6889,113.565,20220527,10:33:40,,Pt Cloates,No-take,77.4,,,,resync after this drop but not written down - C,RAW2,,,,,,,,,,,
+B51,-22.6901,113.5612,20220527,10:45:05,,Pt Cloates,No-take,80.3,,,,eDNA,RAW2,,,,,,,,,,,
+145,-22.6889,113.5583,20220527,10:58:18,,Pt Cloates,No-take,84.9,,,,,RAW2,,,,,,,,,,,
+135,-22.6882,113.5601,20220527,11:10:54,,Pt Cloates,No-take,81.5,,,,Showed whiteboard after.,RAW2,,,,,,,,,,,
+123,-22.6861,113.5646,20220527,11:22:58,,Pt Cloates,No-take,77.7,,,,,RAW2,,,,,,,,,,,
+B53,-22.6838,113.5636,20220527,11:37:31,,Pt Cloates,No-take,78.6,,,,,RAW2,,,,,,,,,,,
+B61,-22.6777,113.5657,20220527,11:52:52,,Pt Cloates,No-take,78.8,,,,eDNA - bottom cam off before this drop,RAW2,,,,,,,,,,,
+B63,-22.6744,113.5666,20220527,12:07:38,,Pt Cloates,No-take,79.7,,,,,RAW2,,,,,,,,,,,
+B57,-22.6751,113.5611,20220527,12:20:20,,Pt Cloates,No-take,88.1,,,,eDNA,RAW2,,,,,,,,,,,
+D1,,,20220528,,,Deep Yardie,,275,,,,Boss with flashers but no squids,RAW2,,,,,,,,,,,
+D2,,,20220528,,,Deep Yardie,,246,,,,Depths are approximate,RAW2,,,,,,,,,,,
+D3,,,20220528,,,Deep Yardie,,255,,,,,RAW2,,,,,,,,,,,
+D4,,,20220528,,,Deep Yardie,,280,,,,,RAW2,,,,,,,,,,,

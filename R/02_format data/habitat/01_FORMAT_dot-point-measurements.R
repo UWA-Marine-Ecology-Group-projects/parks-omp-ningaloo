@@ -53,16 +53,16 @@ metadata <- list.files(path = em.export.dir,
   purrr::map_dfr(~read_files_csv(.)) %>%
   dplyr::select(campaignid, sample, latitude, longitude, date, site, location, successful.count, depth) %>% # select only these columns to keep
   mutate(sample = as.character(sample)) %>% # in this example dataset, the samples are numerical
+  dplyr::mutate(boss.method = ifelse(str_detect(campaignid, "Naked"), "Naked", NA)) %>%
+  dplyr::mutate(boss.method = ifelse(str_detect(campaignid, "Squid"), "Squid", boss.method), # Not even sure why we need this
+                campaignid = ifelse(campaignid %in% c("2022-05_PtCloates_Naked-BOSS",
+                                                      "2022-05_PtCloates_Squid-BOSS"),
+                                    "2022-05_PtCloates_BOSS", campaignid)) %>%
   dplyr::filter(campaignid %in% c("2019-08_Ningaloo_stereo-BRUVs",
                                    "2021-05_PtCloates_BOSS",
                                    "2021-05_PtCloates_stereo-BRUVS",
-                                  "2022-05_PtCloates_stereo-BRUVS")) %>%
-  
-  # dplyr::mutate(method = ifelse(str_detect(campaignid, "Flasher"), "Flasher", NA)) %>%
-  # dplyr::mutate(method = ifelse(str_detect(campaignid, "Squid"), "Squid", method),
-  #               campaignid = ifelse(campaignid %in% c("2021-08_Pt-Cloates_Flasher-BOSS",
-  #                                                     "2021-08_Pt-Cloates_Squid-BOSS"), 
-  #                                   "2021-08_Pt-Cloates_BOSS", campaignid)) %>%
+                                  "2022-05_PtCloates_stereo-BRUVS",
+                                  "2022-05_PtCloates_BOSS")) %>%
   glimpse() # preview
 
 unique(metadata$campaignid)
@@ -97,6 +97,8 @@ points <- list.files(path = tm.export.dir,
   mutate(sample = str_replace_all(.$filename,c(".png"="",".jpg"="",".JPG"=""))) %>%
   mutate(sample = gsub("_.*", "", sample)) %>%                    # For files with the new naming convention - very confusing to try and use the new columns
   mutate(sample = as.character(sample)) %>%
+  dplyr::mutate(sample = ifelse(campaignid %in% c("2022-05_PtCloates_BOSS"), 
+                                period, sample)) %>%                            # Using the new frame information fields for the newer campaigns
   dplyr::rename(broad = newbroad,
                 morphology = newmorphology,
                 type = newtype) %>%
@@ -105,6 +107,7 @@ points <- list.files(path = tm.export.dir,
   glimpse() # preview
 
 unique(points$sample)
+unique(points$campaignid)
 # errors <- list.files(path = tm.export.dir,
 #                      recursive = T,
 #                      pattern = "Dot Point Measurements.txt",
@@ -223,6 +226,7 @@ relief.grid <- habitat %>%
 habitat.broad.points <- metadata %>%
   left_join(broad.points, by = c("campaignid","sample"))%>%
   left_join(relief.grid) %>%
+  dplyr::filter(!is.na(broad.octocoral.black)) %>%
   # dplyr::filter(!sample %in% "19.05") %>%
   glimpse()
 

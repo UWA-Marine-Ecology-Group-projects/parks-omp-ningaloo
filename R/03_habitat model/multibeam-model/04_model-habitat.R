@@ -32,9 +32,14 @@ name <- "Parks-Ningaloo-synthesis"                                              
 # Load data
 dat <- readRDS(paste(paste0('data/tidy/', name), 
                       'nesp-habitat-bathy-derivatives.rds', sep = "_")) %>%
-  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.2, "inverts","sand")) %>%
+  dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > 0.2, "inverts", "sand")) %>%
+  # dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) > (broad.consolidated/broad.total.points.annotated),
+  #                                "inverts", ifelse(broad.consolidated > 0, "rock", "sand"))) %>%
+  # dplyr::mutate(dom_tag = ifelse((inverts/broad.total.points.annotated) < 0.2 & 
+  #                                  (broad.consolidated/broad.total.points.annotated) < 0.2, "sand", dom_tag)) %>%
   glimpse()
 
+unique(dat$dom_tag)
 # dat$dom_tag <- apply(dat %>% dplyr::select(sand, inverts), 1,
 #                                         FUN = function(x){names(which.max(x))})
 

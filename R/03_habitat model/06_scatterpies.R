@@ -24,6 +24,7 @@ name <- "Parks-Ningaloo-synthesis"                                              
 # define crs
 wgscrs <- "+proj=longlat +datum=WGS84"
 gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
+sppcrs  <- "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs"           # crs for sp objects
 
 # Set cropping extent - larger than most zoomed out plot
 e <- ext(113, 114.5, -23, -21)
@@ -63,9 +64,11 @@ wampa$waname <- dplyr::recode(wampa$waname,
 wampa <- st_crop(wampa, e)                                                      # Crop to the study area
 wasanc <- wampa[wampa$waname %in% "Sanctuary Zone", ]
 
-dat <- readRDS("data/tidy/Parks-Ningaloo-synthesis_habitat-bathy-derivatives.rds") %>%
+dat <- readRDS("data/tidy/Parks-Ningaloo-synthesis_nesp-habitat-bathy-derivatives.rds") %>%
   dplyr::rename("Sessile invertebrates" = inverts,
-                "Sand" = sand) %>%
+                "Sand" = sand,
+                "Rock" = broad.consolidated) %>%
+  arrange(desc(Sand)) %>% # This plots sand underneath the other pies
   dplyr::mutate(grouping = factor(1:nrow(.))) %>%
   glimpse()
 
@@ -74,10 +77,11 @@ cwatr <- st_read("data/spatial/shapefiles/amb_coastal_waters_limit.shp")       #
 cwatr <- st_crop(cwatr, e)
 
 #bring in bathy for contour lines
-bathy <- readRDS(paste(paste0('data/spatial/rasters/', name), 
-                    'spatial_covariates.rds', sep = "_"))
-bathy <- rast(bathy)
-bathy <- bathy[[1]]
+bathy <- rast('data/spatial/rasters/raw bathymetry/bath_250_good.tif') %>%
+  crop(e) %>%
+  clamp(upper = 0, values = F) %>%
+  project(sppcrs)  # Don't know how else we can do this
+plot(bathy)
 bathdf <- as.data.frame(bathy, xy = T, na.rm = T)
 colnames(bathdf)[3] <- "Depth"
 # assign commonwealth zone colours
@@ -97,7 +101,8 @@ wampa_fills <- scale_fill_manual(values = c("Fish Habitat Protection Area" = "#f
 
 #class colours 
 hab_fills <- scale_fill_manual(values = c("Sand" = "wheat",
-                                          "Sessile invertebrates" = "plum"
+                                          "Sessile invertebrates" = "plum",
+                                          "Rock" = "grey40"
                                          ))
 
 # depth colours 
@@ -109,29 +114,26 @@ depth_fills <- scale_fill_manual(values = c("#a7cfe0","#9acbec","#98c4f7",
 
 gg.scatterpie <- ggplot() + 
   geom_contour_filled(data = bathdf, aes(x, y, z = Depth, fill = after_stat(level)), color = "black",
-                      breaks = c(-30, -70, -200,-700, -2000), size = 0.1) +
-  annotate("text", x = c(114.40,114.467,114.72,114.945), y = -33.85, label = c("700m","200m","70m","30m"), size = 2)+
+                      breaks = c(-30, -70, -200,-700, -2000, -4000), size = 0.1) +
   depth_fills +
   new_scale_fill()+
   geom_sf(data = aus, fill = "seashell2", colour = "black", size = 0.1) +
-  geom_sf(data = wampa,fill = "#bfd054", alpha = 2/5, color = NA)+
+  geom_sf(data = wampa,fill = "#bfd054", alpha = 2/5, color = NA) +
   wampa_fills +
-  labs(fill = "State Marine Parks")+
-  new_scale_fill()+
+  labs(fill = "State Marine Parks") +
+  new_scale_fill() +
   geom_sf(data = npz, fill = "#7bbc63",alpha = 2/5, color = NA) +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.3) +
   new_scale_fill() +
-  geom_scatterpie(aes(x=x, y=y, group= grouping), data=dat,
-                  cols = c("Sessile invertebrates", "Sand"),
+  geom_scatterpie(aes(x = x, y = y, group = grouping), data = dat,
+                  cols = c("Sessile invertebrates", "Sand", "Rock"),
                   pie_scale = 0.45, color = NA) +
-  labs(fill = "Habitat",x = 'Longitude', y = 'Latitude')+
+  labs(fill = "Habitat",x = 'Longitude', y = 'Latitude') +
   hab_fills + 
-  # annotate("text", x = c(113.47, 113.405, 113.278), y = c(-28.13, -28.13, -28.13), label = c("30m", "70m", "200m"),
-  #          size = 1.5, colour = "black")+
   coord_sf(xlim = c(min(dat$x), max(dat$x)),                                    # Set plot limits
-           ylim = c(min(dat$y), max(dat$y)))+
-  theme_minimal()+
-  theme(panel.background = element_rect(fill = "#b9d1d6"),
+           ylim = c(min(dat$y), max(dat$y)), crs = sppcrs) +
+  theme_minimal() +
+  theme(panel.background = element_rect(fill = "#b9d1d6", colour = NA),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 png(filename = paste(paste0('figures/habitat/', name), 'scatterpies.png', sep = "_"),

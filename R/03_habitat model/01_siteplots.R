@@ -14,6 +14,7 @@
 # 5. Key Ecological Features (p5)
 # 6. Bathymetry cross section (p6)
 # 7. Old sea level map (p7)
+# 8. Bathymetry derived metrics (p8)
 
 # Clear your environment
 rm(list = ls())
@@ -39,6 +40,7 @@ name <- "Parks-Ningaloo-synthesis"                                              
 # Set CRS for transformations
 wgscrs <- "+proj=longlat +datum=WGS84"
 gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
+sppcrs <- CRS("+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs")       # crs for sp objects
 
 # Set cropping extent - larger than most zoomed out plot
 e <- ext(112, 115, -23, -21)
@@ -114,7 +116,7 @@ bath_r <- rast(cbathy)
 crs(bath_r) <- wgscrs
 bath_r <- crop(bath_r, ext(113.3, 114.45,-22.9, -21.4))
 bath_df <- as.data.frame(bath_r, xy = T, na.rm = T)                             # Dataframe - cropped and above 0 use for bath cross section
-bath_r <- clamp(bath_r, upper = 0, value = FALSE)                               # Only data below 0
+bath_r <- clamp(bath_r, upper = 0, value = F)                               # Only data below 0
 bathy <- as.data.frame(bath_r, xy = T, na.rm = T)
 
 # # Generate hillshading
@@ -286,6 +288,8 @@ ggsave(paste(paste0('figures/spatial/', name) , 'broad-site-plot.png',
              sep = "-"), dpi = 200, width = 10, height = 6)
 
 # 4. Site zoom plot - including sampling points (p4)
+
+##### Next bit doesn't run anymore! Just need to use different file #####
 metadata <- readRDS("data/tidy/Parks-Ningaloo-synthesis_habitat-bathy-derivatives.rds") %>%
   dplyr::mutate(method = ifelse(str_detect(.$campaignid, "BOSS"), "Drop camera", "BRUV")) %>%
   glimpse
@@ -396,10 +400,6 @@ plot(aus)
 ausout <- st_cast(aus, "MULTILINESTRING")
 plot(ausout)
 
-# which.min(st_distance(bath_cross, ausout))
-# st_coordinates(bath_cross)
-# bath_cross$geometry[which.min(st_distance(bath_cross, ausout))]
-
 bath_sf <- bath_cross %>%
   dplyr::mutate("distance.from.coast" = st_distance(bath_cross, bath_cross$geometry[which.min(st_distance(bath_cross, ausout))]),
                 land = lengths(st_intersects(bath_cross, aus)) > 0) %>%
@@ -457,7 +457,6 @@ depth_fills <- scale_fill_manual(values = c("#b8d9a9","#8dbc80", "#5d9d52"),
                                 labels = c("9-10 Ka", "15-17 Ka", "20-30 Ka"),
                                 name = "Coastline age")
 
-# Convert back to a raster and smooth it out
 # build basic plot elements
 
 p7 <- ggplot() +
@@ -484,3 +483,76 @@ png(filename = paste(paste0('figures/spatial/', name) , 'old-sea-levels.png',
                      sep = "-"), units = "in", res = 200, width = 8, height = 6)
 p7
 dev.off()
+
+# 8. Bathymetry derived metrics (p8)
+# depth
+spreds <- readRDS("data/spatial/rasters/raw bathymetry/Parks-Ningaloo-synthesis_spatial_covariates.rds") %>%
+  rast()
+plot(spreds)
+spreddf <- as.data.frame(spreds, xy = T, na.rm = T)
+names(spreddf)
+
+pd <- ggplot() +
+  geom_sf(data = ausc, fill = "seashell2", colour = "grey62", size = 0.2) +
+  geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
+  terr_fills +
+  new_scale_fill() +
+  geom_tile(data = spreddf, aes(x, y, fill = Z)) +
+  scale_fill_viridis(option = "A") +
+  labs(x= NULL, y = NULL, fill = "Depth") +
+  geom_sf(data = mpa, fill = NA, aes(colour = ZoneName), size = 0.4) +
+  nmpa_cols +
+  guides(colour = "none") +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 0.7, size = 0.3) +
+  coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), 
+           ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 6.5),
+        axis.text.y = element_text(size = 6.5))
+pd
+
+# roughness
+pr <- ggplot() +
+  geom_sf(data = ausc, fill = "seashell2", colour = "grey62", size = 0.2) +
+  geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
+  terr_fills +
+  new_scale_fill() +
+  geom_tile(data = spreddf, aes(x, y, fill = roughness)) +
+  scale_fill_viridis(option = "D") +
+  labs(x= NULL, y = NULL, fill = "Roughness") +
+  geom_sf(data = mpa, fill = NA, aes(colour = ZoneName), size = 0.4) +
+  nmpa_cols +
+  guides(colour = "none") +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 0.7, size = 0.3) +
+  coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), 
+           ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 6.5),
+        axis.text.y = element_text(size = 6.5))
+pr
+
+# detrended
+pdt <- ggplot() +
+  geom_sf(data = ausc, fill = "seashell2", colour = "grey62", size = 0.2) +
+  geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
+  terr_fills +
+  new_scale_fill() +
+  geom_tile(data = spreddf, aes(x, y, fill = detrended)) +
+  scale_fill_viridis(option = "F") +
+  labs(x= NULL, y = NULL, fill = "Detrended") +
+  geom_sf(data = mpa, fill = NA, aes(colour = ZoneName), size = 0.4) +
+  nmpa_cols +
+  guides(colour = "none") +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 0.7, size = 0.3) +
+  coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), 
+           ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size = 6.5),
+        axis.text.y = element_text(size = 6.5))
+pdt
+
+p8 <- pd + pr +
+  pdt + plot_spacer() + plot_layout(ncol = 2, nrow = 2)
+p8
+ggsave(paste0("figures/spatial/", name, "-site_spatial_layers.png"), width = 7, height = 6, dpi = 160)
+
