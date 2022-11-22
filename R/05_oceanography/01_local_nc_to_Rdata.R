@@ -19,6 +19,7 @@ library(magrittr)
 library(RNetCDF)
 library(weathermetrics)
 library(lubridate)
+library(ggplot2)
 
 ## get data locations /limits that need from MPA
 locations <-   read.csv("data/spatial/oceanography/network_scale_boundaries.csv", header = TRUE) %>%
@@ -154,25 +155,23 @@ arr = array(sst_all, dim=c(length(lon_i),length(lat_i),length(time_data$dates)),
 
 arr_long <- arr %>%
   reshape2::melt(varnames = c("Lon","Lat","Date"))
-saveRDS(arr_long,paste0("data/spatial/oceanography/", Zone, "_SST.rds"))
+
+saveRDS(arr_long,paste0("data/spatial/oceanography/large/", Zone, "_SST.rds"))
 
 #split into 2 halves as to not run out of memory
-arr_long_1 <- arr_long %>%
-  slice(1:(nrow(.))/2)%>% 
-  dplyr::mutate(Date = as.Date(Date))%>%
-  dplyr::mutate(year = year(Date),month = month(Date))%>%
-  glimpse()
-
-arr_long_2 <- arr_long %>%
-  slice(((nrow(.))/2)+1:nrow(.))%>% 
-  dplyr::mutate(Date = as.Date(Date))%>%
-  dplyr::mutate(year = year(Date),month = month(Date))%>%
-  glimpse()
-
-rm(arr_long)
 gc()
+# arr_long_1 <- arr_long %>%
+#   slice(1:(nrow(.))/2)%>% 
+#   dplyr::mutate(Date = as.Date(Date))%>%
+#   dplyr::mutate(year = year(Date), month = month(Date))%>%
+#   glimpse()
 
-arr_long <- bind_rows(arr_long_1, arr_long_2)
+arr_long$Date <- as.Date(arr_long$Date)                                         # Super slow, no idea why
+gc()
+arr_long$year <- year(arr_long$Date)
+gc()
+arr_long$month <- month(arr_long$Date)
+gc()
 
 plot_sst_winter <- arr_long %>% 
   dplyr::filter(month %in%c("7","8","9"))%>%
@@ -250,7 +249,7 @@ saveRDS(acd_ts_monthly,paste0("data/spatial/oceanography/", Zone, "_acidificatio
 #download from
 #https://coastwatch.pfeg.noaa.gov/erddap/griddap/NOAA_DHW.html
 #input bounds and times
-nc_file_to_get_dhw <- open.nc("data/spatial/oceanography/large/DHW_2021/dhw_5km_Abrolhos_weekly_2002-2022.nc",write = TRUE)
+nc_file_to_get_dhw <- open.nc("data/spatial/oceanography/large/DHW_2021/dhw_5km_Ningaloo_weekly_2002-2022.nc",write = TRUE)
 print.nc(nc_file_to_get_dhw) #shows you all the file details
 
 time_nc<- var.get.nc(nc_file_to_get_dhw, 'time')  #NC_CHAR time:units = "days since 1981-01-01 00:00:00" ;
@@ -319,19 +318,19 @@ plot_dhw_heatwave <- arr_long %>%
 min_dhw = round(min(min(plot_dhw_heatwave$dhw,na.rm = TRUE), na.rm = TRUE))
 max_dhw = round(max(max(plot_dhw_heatwave$dhw,na.rm = TRUE), na.rm = TRUE))
 
-title_legend <- "DHW"
-p_3 <- ggplot() +
-  geom_tile(data = plot_dhw_heatwave, 
-            aes(x = Lon, y = Lat, fill = dhw))+
-  scale_fill_gradientn(colours = viridis(5),na.value = NA,
-                       breaks = seq(from = min_dhw, to = max_dhw, by = 2),
-                       limits = c(min_dhw, max_dhw)) +
-  labs(x = "Longitude", y = "Latitude") +
-  # coord_sf(xlim = xxlim, ylim = yylim) +
-  theme_minimal()+
-  scale_x_continuous(breaks=c(113.0,114.0,115.0))+
-  facet_wrap(~year)
-p_3
+# title_legend <- "DHW"
+# p_3 <- ggplot() +
+#   geom_tile(data = plot_dhw_heatwave, 
+#             aes(x = Lon, y = Lat, fill = dhw))+
+#   scale_fill_gradientn(colours = viridis(5),na.value = NA,
+#                        breaks = seq(from = min_dhw, to = max_dhw, by = 2),
+#                        limits = c(min_dhw, max_dhw)) +
+#   labs(x = "Longitude", y = "Latitude") +
+#   # coord_sf(xlim = xxlim, ylim = yylim) +
+#   theme_minimal()+
+#   scale_x_continuous(breaks=c(113.0,114.0,115.0))+
+#   facet_wrap(~year)
+# p_3
 
 saveRDS(plot_dhw_month,paste0("data/spatial/oceanography/", Zone, "_DHW_month.rds"))
 saveRDS(plot_dhw_year,paste0("data/spatial/oceanography/", Zone, "_DHW_year.rds"))
