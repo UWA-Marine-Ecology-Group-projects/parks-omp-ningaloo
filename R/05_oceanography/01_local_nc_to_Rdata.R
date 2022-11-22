@@ -233,7 +233,7 @@ acd_all <- var.get.nc(nc_file_to_get_acd,'pH_T', start = c(lon_i[1], lat_i[1],1)
 acd_ts_all <- as.data.frame(dates_acd)
 
 #different function to get mean since is only 2 in certain direction
-acd_ts_all$acdd <-apply(acd_all, 2, mean, na.rm = TRUE) #for larger ares is in 3D so use apply(acd_all, 3, mean, na.rm = TRUE) #acd_all for monties is only 1 cell #for abrolhos -> apply(acd_all, 2, mean, na.rm = TRUE) #3 is 3rd dumension
+acd_ts_all$acdd <-apply(acd_all, 3, mean, na.rm = TRUE) #for larger ares is in 3D so use apply(acd_all, 3, mean, na.rm = TRUE) #acd_all for monties is only 1 cell #for abrolhos -> apply(acd_all, 2, mean, na.rm = TRUE) #3 is 3rd dumension
 acd_ts_all$month <- as.numeric(format(as.Date(acd_ts_all$dates_acd), "%m"))
 acd_ts_all$year <- as.numeric(format(as.Date(acd_ts_all$dates_acd), "%Y"))
 
@@ -310,13 +310,13 @@ plot_dhw_ts <- arr_long %>%
   glimpse()
 
 plot_dhw_heatwave <- arr_long %>% 
-  dplyr::filter(month%in%"5"&year%in%"2011"|month%in%"5"&year%in%"2021")%>%
+  dplyr::filter(month%in%"3"&year%in%"2011"|month%in%"3"&year%in%"2013")%>%
   group_by(year,month, Lon, Lat) %>% 
   summarise(dhw = mean(value,na.rm = TRUE), sd = sd(value,na.rm = TRUE)) %>% 
   glimpse()
 
-min_dhw = round(min(min(plot_dhw_heatwave$dhw,na.rm = TRUE), na.rm = TRUE))
-max_dhw = round(max(max(plot_dhw_heatwave$dhw,na.rm = TRUE), na.rm = TRUE))
+# min_dhw = round(min(min(plot_dhw_heatwave$dhw,na.rm = TRUE), na.rm = TRUE))
+# max_dhw = round(max(max(plot_dhw_heatwave$dhw,na.rm = TRUE), na.rm = TRUE))
 
 # title_legend <- "DHW"
 # p_3 <- ggplot() +
@@ -336,3 +336,4 @@ saveRDS(plot_dhw_month,paste0("data/spatial/oceanography/", Zone, "_DHW_month.rd
 saveRDS(plot_dhw_year,paste0("data/spatial/oceanography/", Zone, "_DHW_year.rds"))
 saveRDS(plot_dhw_ts,paste0("data/spatial/oceanography/", Zone, "_DHW_ts.rds"))
 saveRDS(plot_dhw_heatwave,paste0("data/spatial/oceanography/", Zone, "_DHW_heatwave.rds"))
+

@@ -52,7 +52,6 @@ st_crs(aus)         <- st_crs(aumpa)
 st_crs(dirkh)       <- st_crs(aumpa) 
 
 ## get data locations /limits that need from MPA
-## do control F replace to replace names in the script 
 ##### SLA ####
 sla.data <- readRDS(paste0("data/spatial/oceanography/", Zone, "_SLA_month.rds"))%>%
   ungroup()%>%
@@ -130,8 +129,8 @@ dev.off()
 ##### DEGREE HEATING WEEKS ####
 dhw.heatwave <- readRDS(paste0("data/spatial/oceanography/", Zone, "_DHW_heatwave.rds"))%>%
   ungroup() %>%
-  dplyr::mutate(title=ifelse(year=='2011',"2011 May",year))%>%
-  dplyr::mutate(title=ifelse(title=='2021',"2021 May",title))%>%
+  dplyr::mutate(title=ifelse(year=='2011',"2011 March",year))%>%
+  dplyr::mutate(title=ifelse(title=='2013',"2013 March",title))%>%
   glimpse()
 
 min_dhw = round(min(min(dhw.heatwave$dhw,na.rm = TRUE), na.rm = TRUE))
@@ -232,7 +231,7 @@ dhw_plot <- readRDS(paste0("data/spatial/oceanography/", Zone, "_DHW_ts.rds")) %
 #plot for dhw monthly
 dhw_mean_plot <- ggplot() + 
   geom_vline(xintercept = 2011, color = "red", linetype = 5, alpha = 0.5)+
-  geom_vline(xintercept = 2021, color = "red", linetype = 5, alpha = 0.5)+
+  geom_vline(xintercept = 2013, color = "red", linetype = 5, alpha = 0.5)+
   geom_line(data = dhw_plot, aes(x = year, y = dhw_mean)) + 
   geom_ribbon(data = dhw_plot,aes(x = year, y = dhw_mean,
                                   ymin = dhw_mean-sd_dhw, 
