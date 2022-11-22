@@ -1,9 +1,9 @@
 ###
-# Project: Parks - Abrolhos
+# Project: Parks OMP Ningaloo
 # Data:    Oceanography - SST, SLA, currents & acidification
 # Task:    Plot oceanography trends
 # author:  Jess Kolbusz & Claude
-# date:    Feb 2022
+# date:    November 2022
 ##
 
 # Clear memory----
@@ -18,39 +18,43 @@ library(ggplot2)
 library(patchwork)
 library(viridis)
 
-#set working directory
-working.dir <- getwd()
-setwd(working.dir)
+Zone = "Ningaloo"
 
-Zone = "Abrolhos"
+locations <-   read.csv("data/spatial/oceanography/network_scale_boundaries.csv", header = TRUE) %>%
+  glimpse()
 
+#i use the "zone" column for each since it distinguishes them all spatially
+Zone <- 'Ningaloo' #NW or SW
+locs <- locations[locations$Zone %in% c(Zone), ]               # just wa parks nearby
+
+# 113.266 114.511 -24.102 -21.62
 #lims of the spatial plots # change for each mp, bigger than you think because of arrrows #
-xxlim = c(112.8, 115) #all NW c(114, 117)#ABR c(112.8, 115) #long
-yylim = c(-29.5, -26) #all NW c(-21.5, -19) #ABR  #lat
+xxlim = c(113.266, 114.511) #all NW c(114, 117)#ABR c(112.8, 115) #long
+yylim = c(-24.102, -21.62) #all NW c(-21.5, -19) #ABR  #lat
 
 #all this is on git already - i don't know how to code in different for git??
 # only one I use for the plots so far is the "aus" one for the coast outline
 #setting up mapping/coastal are for spatial, taken from kingsley script X_siteplots
-aus    <- st_read("data/spatial/shp/61395_mif/australia/cstauscd_r.mif") #data/spatial/shp/cstauscd_r.mif")                            # geodata 100k coastline available: https://data.gov.au/dataset/ds-ga-a05f7892-eae3-7506-e044-00144fdd4fa6/
+aus    <- st_read("data/spatial/shapefiles/cstauscd_r.mif") #data/spatial/shp/cstauscd_r.mif")                            # geodata 100k coastline available: https://data.gov.au/dataset/ds-ga-a05f7892-eae3-7506-e044-00144fdd4fa6/
 dirkh  <- aus[aus$ISLAND_NAME == "DIRK HARTOG ISLAND", ]                        # just dirk hartog island
 aus    <- aus[aus$FEAT_CODE == "mainland", ]
 #extra bits haven't used or loaded for these maps
-aumpa  <- st_read("data/spatial/shp/AustraliaNetworkMarineParks.shp")         # all aus mpas
-wampa  <- st_read("data/spatial/shp/WA_MPA_2018.shp")                           # all wa mpas
+aumpa  <- st_read("data/spatial/shapefiles/AustraliaNetworkMarineParks.shp")         # all aus mpas
+wampa  <- st_read("data/spatial/shapefiles/WA_MPA_2018.shp")                           # all wa mpas
 ab_mpa <- wampa[wampa$NAME %in% c("Montebello Islands", #"Jurien Bay", "Ningaloo",
                                   "Hamelin Pool", "Shark Bay"), ]               # just wa parks nearby
 NW_mpa <- aumpa[aumpa$NetName %in% c("South-west", "North-west"), ]             # just W nat parks
 ab_nmp <- NW_mpa[NW_mpa$ResName %in% c("Montebello", "Jurien", "Shark Bay"), ]    # just nat parks nearby
-cwatr  <- readRDS('output/coastal_waters_limit_trimmed.rds')                    # coastal waters line trimmed in 'R/GA_coast_trim.R'
-bathdf <- readRDS("output/ga_bathy_trim.rds")                                   # bathymetry trimmed in 'R/GA_coast_trim.R'
-colnames(bathdf)[3] <- "Depth"
+cwatr  <- st_read('data/spatial/shapefiles/amb_coastal_waters_limit.shp')                    # coastal waters line trimmed in 'R/GA_coast_trim.R'
+# bathdf <- readRDS("output/ga_bathy_trim.rds")                                   # bathymetry trimmed in 'R/GA_coast_trim.R'
+# colnames(bathdf)[3] <- "Depth"
 st_crs(aus)         <- st_crs(aumpa)
 st_crs(dirkh)       <- st_crs(aumpa) 
 
 ## get data locations /limits that need from MPA
 ## do control F replace to replace names in the script 
 ##### SLA ####
-sla.data <- readRDS("data/spatial/oceanography/Abrolhos_SLA_month.rds")%>%
+sla.data <- readRDS(paste0("data/spatial/oceanography/", Zone, "_SLA_month.rds"))%>%
   ungroup()%>%
   dplyr::mutate(month=month.name[month])%>%
   dplyr::mutate(month = forcats::fct_relevel(month,c("January","February","March","April","May",
@@ -77,14 +81,16 @@ p_1 <- ggplot() +
   theme_minimal()+
   scale_x_continuous(breaks=c(113.0,114.0,115.0))+
   facet_wrap(~month, nrow = 4, ncol = 3)
-p_1
 
-ggsave('plots/spatial/Abrolhos_SLA_monthly_spatial.png',p_1, dpi = 300, width = 6, height = 6.75)
+png(filename = paste0("figures/spatial/", Zone, "_SLA_monthly_spatial.png"), 
+    units = "in", res = 300, width = 6, height = 6.75)
+p_1
 dev.off()
+
 
 ######### SST #########
 
-sst.data <- readRDS("data/spatial/oceanography/Abrolhos_SST_month.rds")%>%
+sst.data <- readRDS(paste0("data/spatial/oceanography/", Zone, "_SST_month.rds"))%>%
   ungroup()%>%
   dplyr::mutate(month=month.name[month])%>%
   dplyr::mutate(month = forcats::fct_relevel(month,c("January","February","March","April","May",
@@ -101,7 +107,7 @@ p_2 <- ggplot() +
                                                 "September","November")), 
             aes(x = Lon, y = Lat, fill = sst))+#, interpolate = TRUE) + 
   scale_fill_gradientn(colours = viridis(5),na.value = NA,
-                       breaks = seq(from = min_sst, to = max_sst, by = 0.5),
+                       breaks = seq(from = min_sst, to = max_sst, by = 1),
                        limits = c(min_sst, max_sst)) +
   geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.1) +
   # geom_quiver(data = curr_month, aes(x=long,y=lat,u=uu,v=vv), 
@@ -112,18 +118,18 @@ p_2 <- ggplot() +
   coord_sf(xlim = xxlim, ylim = yylim) +
   theme_minimal()+
   # ggtitle(month.name[[i]])+
-  scale_x_continuous(breaks=c(113.0,114.0,115.0))+
+  scale_x_continuous(breaks=c(113.5,114.0,114.5))+
   facet_wrap(~month, nrow = 4, ncol = 3)
+png(filename = paste0("figures/spatial/", Zone, "_SST_monthly_spatial.png"), 
+    units = "in", res = 300, width = 6, height = 6.75)
 p_2
-
-ggsave('plots/spatial/Abrolhos_SST_monthly_spatial.png',p_2, dpi = 300, width = 6, height = 6.75)
-
 dev.off()
 
 
+
 ##### DEGREE HEATING WEEKS ####
-dhw.heatwave <- readRDS("data/spatial/oceanography/Abrolhos_DHW_heatwave.rds")%>%
-  ungroup()%>%
+dhw.heatwave <- readRDS(paste0("data/spatial/oceanography/", Zone, "_DHW_heatwave.rds"))%>%
+  ungroup() %>%
   dplyr::mutate(title=ifelse(year=='2011',"2011 May",year))%>%
   dplyr::mutate(title=ifelse(title=='2021',"2021 May",title))%>%
   glimpse()
@@ -146,14 +152,15 @@ p_3 <- ggplot() +
   theme_minimal()+
   scale_x_continuous(breaks=c(113.0,114.0,115.0))+
   facet_wrap(~title)
+
+png(filename = paste0("figures/spatial/", Zone, "_DHW_monthly_spatial.png"), 
+    units = "in", res = 300, width = 6, height = 6)
 p_3
-
-ggsave('plots/spatial/Abrolhos_DHW_monthly_spatial.png',p_3, dpi = 300, width = 6, height = 6.75)
-
 dev.off()
 
+
 ##### ACIDIFICATION #####
-acd_ts_monthly <- readRDS("data/spatial/oceanography/Abrolhos_acidification.rds") %>%
+acd_ts_monthly <- readRDS(paste0("data/spatial/oceanography/", Zone, "_acidification.rds")) %>%
   dplyr::filter(!year %in% c(1870, 2013)) %>%
   glimpse()
 
@@ -168,7 +175,7 @@ acd_mean_plot #plot with the other time series
 
 ##### Average plots - time series ####
 #plot for sla, summer and winter mean
-sla.monthly <- readRDS("data/spatial/oceanography/Abrolhos_SLA_ts.rds")%>%
+sla.monthly <- readRDS(paste0("data/spatial/oceanography/", Zone, "_SLA_ts.rds"))%>%
   dplyr::mutate(season = case_when(month %in% c(6,7,8) ~ "Winter", 
                                    month %in% c(12,1,2) ~ "Summer", 
                                   month %in% c(3,4,5) ~ "Autumn", 
@@ -193,7 +200,7 @@ sla_mean_plot <- ggplot() +
 sla_mean_plot
 
 #plot for sst summer and winter mean
-sst_tss <- readRDS("data/spatial/oceanography/Abrolhos_SST_ts.rds")%>%
+sst_tss <- readRDS(paste0("data/spatial/oceanography/", Zone, "_SST_ts.rds"))%>%
   dplyr::mutate(season = case_when(month %in% c(6,7,8) ~ "Winter", month %in% c(12,1,2) ~ "Summer", 
                                    month %in% c(3,4,5) ~ "Autumn", month %in% c(9,10,11) ~ "Spring" )) %>%
   group_by(year, season) %>%
@@ -217,9 +224,9 @@ sst_mean_plot <- ggplot() +
 sst_mean_plot
 
 #plot for dhw data 
-dhw_plot <- readRDS("data/spatial/oceanography/Abrolhos_DHW_ts.rds")%>%
+dhw_plot <- readRDS(paste0("data/spatial/oceanography/", Zone, "_DHW_ts.rds")) %>%
   group_by(year) %>%
-  summarise(dhw_mean = mean(sst, na.rm = TRUE),sd_dhw = mean(sd, na.rm = TRUE)) %>%
+  summarise(dhw_mean = mean(dhw, na.rm = TRUE),sd_dhw = mean(sd, na.rm = TRUE)) %>%
   glimpse()
 
 #plot for dhw monthly
@@ -238,4 +245,4 @@ dhw_mean_plot
 
 acd_mean_plot+sla_mean_plot+sst_mean_plot + dhw_mean_plot+plot_layout(ncol = 1, nrow = 4)
 
-ggsave('plots/spatial/Abrolhos_acd_sla_sst_ts.png', dpi = 300, width = 6, height = 6.75)
+ggsave(paste0("figures/spatial/", Zone, "_acd_sla_sst_ts.png"), dpi = 300, width = 6, height = 6.75)

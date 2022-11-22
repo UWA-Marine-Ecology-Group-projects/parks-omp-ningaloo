@@ -3,7 +3,7 @@
 # Data:    Oceanography - SST, SLA, currents & acidification
 # Task:    Load in netCDF files from local copy
 # author:  Jess Kolbusz & Claude
-# date:    Feb 2022
+# date:    November 2022
 ##
 
 #### --- FILES ARE TOO BIG FOR GITHUB
