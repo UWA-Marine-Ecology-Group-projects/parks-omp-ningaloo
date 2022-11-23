@@ -20,7 +20,7 @@ library(raster)
 library(png)
 library(cowplot)
 
-
+name <- "Parks-Ningaloo-synthesis"  # set study name
 
 #OR set manually once
 theme_collapse<-theme(      
@@ -40,24 +40,21 @@ theme.larger.text<-theme(
 
 
 # read in maxn
-maxn <- read.csv()
-
-#NPZ6
+maxn <- read.csv(paste0("data/tidy/", name, ".checked.maxn.csv")) %>%
+  glimpse()
 
 # workout total maxn for each species ---
-maxn.npz6.10 <- maxn%>%
-  dplyr::filter(location%in%"NPZ6")%>%
+maxn.10 <- maxn %>%
   mutate(scientific=paste(genus,species,sep=" "))%>%
   group_by(scientific)%>%
   dplyr::summarise(maxn=sum(maxn))%>%
   ungroup()%>%
-  top_n(11)%>%
   dplyr::filter(!scientific %in% c('Unknown spp', 'SUS sus'))%>%
+  top_n(10)%>%
   glimpse()
 
 ## Total frequency of occurance 
-# I think we could remove this section - but maybe good to see sometimes
-bar.npz6<-ggplot(maxn.npz6.10, aes(x=reorder(scientific,maxn), y=maxn)) +   
+bar.10 <- ggplot(maxn.10, aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",position=position_dodge())+
   coord_flip()+
   xlab("Species")+
@@ -67,81 +64,57 @@ bar.npz6<-ggplot(maxn.npz6.10, aes(x=reorder(scientific,maxn), y=maxn)) +
   theme_bw()+
   theme(axis.text.x = element_text(angle = 90, hjust = 1))+
   theme_collapse
-bar.npz6
+bar.10
 
 # Load fish pictures for plotting ----
-#anampses geographicus
-a.g <- readPNG("data/images/Anampses_geographicus_nb_TAYLOR.png")
-a.g <- as.raster(a.g)
+# 1. Decapterus spp
+d.spp <- readPNG("data/images/Decapterus_spp_nb_TAYLOR.png") %>%
+  as.raster()
 
-#chaetodon assarius
-c.ass <- readPNG("data/images/Chaetodon assarius-3cmL.png")
-c.ass <- as.raster(c.ass)
+# 2. Pristipomoides multidens
+p.m <- readPNG("data/images/Pristipomoides multidens 300dpi.png") %>%
+  as.raster()
 
-#choerodon rubescens
-c.r <- readPNG("data/images/Choerodon rubescens 3cm.png")
-c.r <- as.raster(c.r)
+# 3. Lethrinus miniatus
+l.m <- readPNG("data/images/Lethrinus miniatus 3cm.png") %>%
+  as.raster()
 
-#chromis westaustralis
-c.w <- readPNG("data/images/Chromis westaustralis-3cmL.png")
-c.w <- as.raster(c.w)
+# 4. Lethrinus rubrioperculatus
+l.r <- readPNG("data/images/Lethrinidae-Dark.png") %>%
+  as.raster()
 
-#coris auricularis
-c.a <- readPNG("data/images/Coris auricularis-3cmL.png")
-c.a <- as.raster(c.a)
+# 5. Carangoides chrysophrys
+c.c <- readPNG("data/images/Carangoides_chrysophrys_nb_BORNT.png") %>%
+  as.raster()
 
-#suzeicthys cyanolaemus
-s.c <- readPNG("data/images/Labridae-Dark.png")
-s.c <- as.raster(s.c)
+# 6. Naso hexacanthus
+n.h <- readPNG("data/images/Acanthurus grammoptilus-3cmL.png") %>%
+  as.raster()
 
-#lethrinus miniatus
-l.m <- readPNG("data/images/Lethrinus miniatus 3cm.png")
-l.m <- as.raster(l.m)
+# 7. Gymnocranius grandoculis
+g.g <- readPNG("data/images/Gymnocranius_grandoculis_nb_TAYLOR.png") %>%
+  as.raster()
 
-#neatypus obliquus
-n.o <- readPNG("data/images/Neatypus obliquus-3cmL.png")
-n.o <- as.raster(n.o)
+# 8. Pentapodus nagasakiensis
+p.n <- readPNG("data/images/Pentapodus porosus-3cmL.png") %>%
+  as.raster()
 
-#parupeneus spilurus
-p.s <- readPNG("data/images/Parupeneus_spilurus_nb_TAYLOR.png")
-p.s <- as.raster(p.s)
+# 9. Carangoides gymnostethus
+c.g <- readPNG("data/images/Carangoides gymnostethus 3cm.png") %>%
+  as.raster()
 
-#chrysophrys auratus
-c.au <- readPNG("data/images/Chrysophrys auratus 3cm.png")
-c.au <- as.raster(c.au)
-
-#pentapous nagasakiensis
-p.n <- readPNG("data/images/Pentapodus porosus-3cmL.png")
-p.n <- as.raster(p.n)
-
-#lethrinus nebulosus
-l.n <- readPNG("data/images/lethrinus nebulosus 3cm.png")
-l.n <- as.raster(l.n)
-
-#seriola dumerili
-s.d <- readPNG("data/images/seriola_dumerili_nb.png")
-s.d <- as.raster(s.d)
-
-#pristipomoides multidens
-p.m <- readPNG("data/images/Pristipomoides multidens 3cm.png")
-p.m <- as.raster(p.m)
-
-#pseudocaranx spp
-p.spp <- readPNG("data/images/Pseudocaranx dentex-3cm.png")
-p.spp <- as.raster(p.spp)
-
-#gymnothorax woodwardi
-#aint no pic for this one
-
-# #pseudanthias
-# p.spp <- readPNG("data/images/Pseudanthias rubrizonatus.png")
-# p.spp <- as.raster(p.spp)
+# 10. Carangoides fulvoguttatus
+c.f <- readPNG("data/images/Carangoides fulvoguttatus-3cmL.png") %>%
+  as.raster()
 
 ## Top ten plot ----
-bar.npz6.top.10<-ggplot(maxn.npz6.10%>%mutate(scientific=str_replace_all(.$scientific,
-  c("miniatus"="miniatus*","auratus"="auratus*","rubescens"="rubescens*","nebulosus"="nebulosus*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
+bar.top.10<-ggplot(maxn.10 %>% mutate(scientific = str_replace_all(.$scientific,
+  c("fulvoguttatus"="fulvoguttatus*", "gymnostethus"="gymnostethus*",
+    "chrysophrys"="chrysophrys*", "grandoculis"="grandoculis*",
+    "rubrioperculatus"="rubrioperculatus*","miniatus"="miniatus*",
+    "multidens"="multidens*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",colour="black",fill="lightgrey",position=position_dodge())+
-  ylim (0, 1180)+
+  ylim (0, 1250)+
   coord_flip()+
   xlab("Species")+
   ylab(expression(Overall~abundance~(Sigma~MaxN)))+
@@ -149,20 +122,20 @@ bar.npz6.top.10<-ggplot(maxn.npz6.10%>%mutate(scientific=str_replace_all(.$scien
   theme(axis.text.y = element_text(face="italic"))+
   theme_collapse+
   theme.larger.text+
-  annotation_raster(c.w, xmin=9.85,xmax=10.15,ymin=1100, ymax=1180)+
-  annotation_raster(c.a, xmin=8.7,xmax=9.3,ymin=805, ymax=1005)+
-  annotation_raster(l.m, xmin=7.5, xmax=8.5, ymin=120, ymax=400)+
-  annotation_raster(c.au, xmin=6.5,xmax=7.5,ymin=110, ymax=405)+
-  annotation_raster(p.s, xmin=5.7,xmax=6.3,ymin=80, ymax=265)+
-  annotation_raster(c.r, xmin=4.6,xmax=5.4,ymin=75, ymax=330)+
-  annotation_raster(s.c, xmin=3.8,xmax=4.2,ymin=65, ymax=185)+
-  annotation_raster(n.o, xmin=2.75,xmax=3.25,ymin=65, ymax=190)+
-  annotation_raster(p.n, xmin=1.72,xmax=2.25,ymin=55, ymax=225)+
-  annotation_raster(l.n, xmin=0.5,xmax=1.5,ymin=55, ymax=330)
-# bar.npz6.top.10
+  annotation_raster(d.spp, xmin = 9.65, xmax = 10.35, ymin = 1089, ymax = 1089 + 210)+
+  annotation_raster(p.m, xmin = 8.5,xmax = 9.5,ymin = 361, ymax = 361 + 350)+
+  annotation_raster(l.m, xmin = 7.6, xmax = 8.4, ymin = 269 + 5, ymax = 269 + 270)+
+  annotation_raster(l.r, xmin = 6.6, xmax = 7.4, ymin = 251 + 5, ymax = 251 + 255)+
+  annotation_raster(c.c, xmin = 5.5, xmax = 6.5, ymin = 205 + 10, ymax = 205 + 270)+
+  annotation_raster(n.h, xmin = 4.65, xmax = 5.35, ymin = 179 + 5, ymax = 179 + 290)+
+  annotation_raster(g.g, xmin = 3.55, xmax = 4.45, ymin = 179, ymax = 179 + 220)+
+  annotation_raster(p.n, xmin = 2.85, xmax = 3.15, ymin = 171 + 5, ymax = 171 + 150)+
+  annotation_raster(c.g, xmin = 1.6, xmax = 2.4, ymin = 161 + 5, ymax = 161 + 290)+
+  annotation_raster(c.f, xmin = 0.6, xmax = 1.4, ymin = 157 + 5, ymax = 157 + 290)
+# bar.top.10
 
 #save out plot
-ggsave("plots/fish/stacked.bar.plot.npz6.png",bar.npz6.top.10,dpi=600,width=6.0, height = 6)
+ggsave(paste0("figures/fish/", name, "stacked.bar.plot.png"), bar.top.10, dpi = 600, width = 7, height = 8)
 
 #Recreationally targeted species
 #targeted species top 10 abundance
