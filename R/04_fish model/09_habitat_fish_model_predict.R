@@ -115,8 +115,41 @@ plot(prasts$p_richness)
 plot(prasts$p_legal)
 plot(prasts$p_sublegal)
 
+# Mask out the state SZs
+# State parks
+sf_use_s2(F)
+gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
+sppcrs  <- "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs"           # crs for sp objects
+e <- ext(112, 115, -23, -21)
+
+wampa <- st_read("data/spatial/shapefiles/WA_MPA_2020.shp")
+st_crs(wampa) <- gdacrs
+wampa <- st_crop(wampa, e) 
+wampa <- st_transform(wampa, sppcrs)
+# Simplify names for plot legend
+wampa$waname <- gsub("( \\().+(\\))", "", wampa$ZONE_TYPE)
+wampa$waname <- gsub(" [1-4]", "", wampa$waname)
+wampa$waname[wampa$NAME == "Hamelin Pool"]     <- "Marine Nature Reserve"
+wampa$waname[wampa$NAME == "Abrolhos Islands"] <- "Fish Habitat Protection Area"
+wampa$waname <- dplyr::recode(wampa$waname, 
+                              "General Use" = "General Use Zone",
+                              "Special Purpose Zone (Shore Based Activities)" = 
+                                "Special Purpose Zone\n(Shore Based Activities)",
+                              "Special Purpose Zone (Seagrass Protection) (IUCN IV)" = 
+                                "Special Purpose Zone",
+                              "MMA" = 'Marine Management Area' )
+
+                                                     # Crop to the study area
+wasanc <- wampa[wampa$waname %in% "Sanctuary Zone", ]
+wasanc <- vect(wasanc)
+
+prasts <- rast(prasts)
+prasts <- mask(prasts, wasanc, inverse = T)
+plot(prasts)
+
 # tidy and output data
-spreddf <- as.data.frame(prasts, xy = TRUE, na.rm = TRUE)                       # Back to df again lol
+spreddf <- terra::as.data.frame(prasts, xy = T, na.rm = TRUE) %>%
+  glimpse()
 
 summary(spreddf)                                                                # Mad outliers in detrended bathy, gonna have to suss it out
 

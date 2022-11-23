@@ -26,6 +26,9 @@ library(ggplot2)
 library(purrr)
 library(readr)
 library(corrr)
+library(terra)
+library(sf)
+
 
 campaignid <- "Parks-Ningaloo-synthesis"                                        # CampaignID name for the synthesis
 name       <- "Parks-Ningaloo-synthesis"                                        # Why both??
@@ -52,6 +55,50 @@ length <- list.files(path = "data/tidy/",
          scientific = paste(family, genus, species, sep = " "),
          sample = as.character(sample),
          site = as.character(site)) %>%
+  glimpse()
+
+# Mask out state sanctuary zones from both maxn and lengths
+# State parks
+sf_use_s2(F)
+gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
+e <- ext(112, 115, -23, -21)
+
+wampa <- st_read("data/spatial/shapefiles/WA_MPA_2020.shp")
+st_crs(wampa) <- gdacrs
+# Simplify names for plot legend
+wampa$waname <- gsub("( \\().+(\\))", "", wampa$ZONE_TYPE)
+wampa$waname <- gsub(" [1-4]", "", wampa$waname)
+wampa$waname[wampa$NAME == "Hamelin Pool"]     <- "Marine Nature Reserve"
+wampa$waname[wampa$NAME == "Abrolhos Islands"] <- "Fish Habitat Protection Area"
+wampa$waname <- dplyr::recode(wampa$waname, 
+                              "General Use" = "General Use Zone",
+                              "Special Purpose Zone (Shore Based Activities)" = 
+                                "Special Purpose Zone\n(Shore Based Activities)",
+                              "Special Purpose Zone (Seagrass Protection) (IUCN IV)" = 
+                                "Special Purpose Zone",
+                              "MMA" = 'Marine Management Area' )
+
+wampa <- st_crop(wampa, e)                                                      # Crop to the study area
+wasanc <- wampa[wampa$waname %in% "Sanctuary Zone", ]
+wasanc <- vect(wasanc)
+
+maxnv   <- vect(maxn, geom = c("longitude", "latitude"))                        # To terra vector
+lengthv <- vect(length, geom = c("longitude", "latitude"))                      # To terra vector
+
+maxnv <- mask(maxnv, wasanc, inverse = T)
+plot(wasanc)
+plot(maxnv, add = T)
+
+lengthv <- mask(lengthv, wasanc, inverse = T)
+plot(wasanc)
+plot(lengthv, add = T)
+
+maxn <- as.data.frame(maxnv, geom = "XY") %>%
+  dplyr::rename(longitude = x, latitude = y) %>%
+  glimpse()
+
+length <- as.data.frame(lengthv, geom = "XY") %>%
+  dplyr::rename(longitude = x, latitude = y) %>%
   glimpse()
 
 # Habitat
@@ -110,8 +157,7 @@ dat.maxn <- bind_rows(ta.sr) %>%
   
 summary(dat.maxn$depth)
 unique(dat.maxn$scientific)
-196*2
-# matches with metadata rows
+189*2 # Matches - sick
 
 # Set predictor variables---
 names(dat.maxn)

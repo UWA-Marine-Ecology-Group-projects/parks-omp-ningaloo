@@ -15,6 +15,7 @@ library(raster)
 library(patchwork)
 library(sf)
 library(cowplot)
+library(ggnewscale)
 
 # Set CRS for transformations
 wgscrs <- "+proj=longlat +datum=WGS84"                                          # Maybe wrong? 
@@ -23,10 +24,6 @@ sppcrs  <- "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs"           
 
 # read in outputs from 'R/habitat_fish_model_predict.R'
 spreddf <- readRDS("output/fssgam-fish/site_fish_predictions.rds")              # site predictions only
-# spredv <- vect(spreddf, geom = c("x", "y"))
-# crs(spredv) <- sppcrs
-# spredv <- project(spredv, "epsg:4326")                                          
-# spreddf <- as.data.frame(spredv, geom = "XY")
 
 # Set your study name
 name <- "Parks-Ningaloo-synthesis"                                              # Change here
@@ -95,13 +92,13 @@ wampa_cols <- scale_colour_manual(values = c("Marine Management Area" = "#b7cfe1
 #npz6
 #total abundance
 p11 <- ggplot() +
-  geom_raster(data = spreddf, aes(x = x, y = y, fill = p_totabund)) +
+  geom_tile(data = spreddf, aes(x = x, y = y, fill = p_totabund)) +
   scale_fill_viridis(direction = -1) +
   labs(x = NULL, y = NULL, fill = "Total abundance", title = "Whole assemblage")+
   new_scale_fill() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
   geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          
-  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         
+  # geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
   theme_minimal() +
@@ -113,13 +110,13 @@ p11 <- ggplot() +
 
 #species richness
 p21 <- ggplot() +
-  geom_raster(data = spreddf, aes(x = x, y = y, fill = p_richness)) +
+  geom_tile(data = spreddf, aes(x = x, y = y, fill = p_richness)) +
   scale_fill_viridis(direction = -1) +
   labs(x = NULL, y = NULL, fill = "Species richness")+
   new_scale_fill() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
   geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          
-  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         
+  # geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
   theme_minimal() +
@@ -131,13 +128,13 @@ p21 <- ggplot() +
 
 # greater than legal size
 p31 <- ggplot() +
-  geom_raster(data = spreddf, aes(x = x, y = y, fill = p_legal)) +
+  geom_tile(data = spreddf, aes(x = x, y = y, fill = p_legal)) +
   scale_fill_viridis(direction = -1) +
   labs(x = NULL, y = NULL, fill = "Legal", title = "Targeted assemblage")+
   new_scale_fill() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
   geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          
-  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         
+  # geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
   theme_minimal() +
@@ -149,13 +146,13 @@ p31 <- ggplot() +
 
 #smaller than legal size
 p41 <- ggplot() +
-  geom_raster(data = spreddf, aes(x = x, y = y, fill = p_sublegal)) +
+  geom_tile(data = spreddf, aes(x = x, y = y, fill = p_sublegal)) +
   scale_fill_viridis(direction = -1) +
   labs(x = NULL, y = NULL, fill = "Sublegal")+
   new_scale_fill() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
   geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          
-  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         
+  # geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
   coord_sf(xlim = c(min(spreddf$x), max(spreddf$x)), ylim = c(min(spreddf$y), max(spreddf$y)), crs = sppcrs) +
   theme_minimal() +
@@ -166,6 +163,6 @@ p41 <- ggplot() +
 # p41
 
 gg.predictions <- (p11 + p21) / (p31 + p41) & theme(legend.justification = "left")    
-# gg.predictions
+gg.predictions
 
 ggsave("figures/fish/site_fish_predictions.png", gg.predictions,width = 8, height = 7, dpi = 160)

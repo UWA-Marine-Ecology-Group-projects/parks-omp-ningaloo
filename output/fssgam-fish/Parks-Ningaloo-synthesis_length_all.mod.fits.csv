@@ -1,4 +1,5 @@
 "","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","mean.relief","roughness","detrended","habitat.class","cumsum.wi"
-"greater than legal size.detrended","detrended",957.909572628006,972.564286002872,0.08904,NA,2.63,0,0,0,0.663,0.821,0,0,0,1,0,0.663
-"greater than legal size.detrended+habitat.class","detrended+habitat.class",959.704116026484,977.206285849241,0.08994,NA,3.59,0,1.795,4.642,0.27,0.081,0,0,0,1,1,0.933
-"smaller than legal size","depth",472.014013835268,484.117074612593,0.02059,NA,2,0,0,0,0.618,0.636,1,0,0,0,0,0.618
+"greater than legal size.detrended","detrended",915.240500478993,929.56444350114,0.0767,NA,2.57,0,0,0,0.591,0.705,0,0,0,1,0,0.591
+"greater than legal size.detrended+habitat.class","detrended+habitat.class",916.647406920006,933.616648002223,0.07917,NA,3.48,0,1.407,4.052,0.293,0.093,0,0,0,1,1,0.884
+"smaller than legal size.depth","depth",460.118186521556,472.059598004976,0.02063,NA,2,0,0,0,0.527,0.571,1,0,0,0,0,0.527
+"smaller than legal size.detrended","detrended",461.785694062549,473.721284467083,0.01636,NA,2,0,1.668,1.662,0.229,0.249,0,0,0,1,0,0.756

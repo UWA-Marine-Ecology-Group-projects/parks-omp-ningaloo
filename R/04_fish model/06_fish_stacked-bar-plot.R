@@ -41,10 +41,46 @@ theme.larger.text<-theme(
 
 # read in maxn
 maxn <- read.csv(paste0("data/tidy/", name, ".checked.maxn.csv")) %>%
+  dplyr::mutate(sample = as.character(sample)) %>%
   glimpse()
 
+preds <- readRDS(paste0("data/tidy/", name, "_nesp-habitat-bathy-derivatives.rds")) %>%
+  dplyr::select(campaignid, sample, Z) %>%
+  glimpse()
+
+maxn <- maxn %>%
+  left_join(preds) %>%
+  glimpse()
+
+maxn.meso <- maxn %>%
+  dplyr::filter(Z >= -70)  %>%
+  glimpse()
+
+samps.meso <- maxn.meso %>%
+  dplyr::group_by(campaignid, sample) %>%
+  dplyr::summarise(n = n())
+
+maxn.raro <- maxn %>%
+  dplyr::filter(Z < -70) %>%
+  glimpse()
+
+samps.raro <- maxn.raro %>%
+  dplyr::group_by(campaignid, sample) %>%
+  dplyr::summarise(n = n())
+
 # workout total maxn for each species ---
-maxn.10 <- maxn %>%
+# Mesophotic (30 - 70m)
+maxn.10.meso <- maxn.meso %>%
+  mutate(scientific=paste(genus,species,sep=" "))%>%
+  group_by(scientific)%>%
+  dplyr::summarise(maxn=sum(maxn))%>%
+  ungroup()%>%
+  dplyr::filter(!scientific %in% c('Unknown spp', 'SUS sus'))%>%
+  top_n(10)%>%
+  glimpse()
+
+# Rariphotic (70 - 200m)
+maxn.10.raro <- maxn.raro %>%
   mutate(scientific=paste(genus,species,sep=" "))%>%
   group_by(scientific)%>%
   dplyr::summarise(maxn=sum(maxn))%>%
@@ -54,7 +90,7 @@ maxn.10 <- maxn %>%
   glimpse()
 
 ## Total frequency of occurance 
-bar.10 <- ggplot(maxn.10, aes(x=reorder(scientific,maxn), y=maxn)) +   
+bar.10.meso <- ggplot(maxn.10.meso, aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",position=position_dodge())+
   coord_flip()+
   xlab("Species")+
@@ -64,8 +100,96 @@ bar.10 <- ggplot(maxn.10, aes(x=reorder(scientific,maxn), y=maxn)) +
   theme_bw()+
   theme(axis.text.x = element_text(angle = 90, hjust = 1))+
   theme_collapse
-bar.10
+bar.10.meso
 
+bar.10.raro <- ggplot(maxn.10.raro, aes(x=reorder(scientific,maxn), y=maxn)) +   
+  geom_bar(stat="identity",position=position_dodge())+
+  coord_flip()+
+  xlab("Species")+
+  ylab(expression(Overall~abundance~(Sigma~MaxN)))+
+  #scale_x_discrete(limits = rev(levels(scientific)))+
+  #annotation_custom(lcpic, xmin=0.5, xmax=2.5, ymin=.75, ymax=1.5)+ 
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  theme_collapse
+bar.10.raro
+
+# Mesophotic 
+# Load fish pictures for plotting ----
+# 1. Decapterus spp
+d.spp <- readPNG("data/images/Decapterus_spp_nb_TAYLOR.png") %>%
+  as.raster()
+
+# 2. Pristipomoides multidens
+p.m <- readPNG("data/images/Pristipomoides multidens 300dpi.png") %>%
+  as.raster()
+
+# 3. Lethrinus miniatus
+l.m <- readPNG("data/images/Lethrinus miniatus 3cm.png") %>%
+  as.raster()
+
+# 4. Lethrinus rubrioperculatus
+l.r <- readPNG("data/images/Lethrinidae-Dark.png") %>%
+  as.raster()
+
+# 5. Carangoides chrysophrys
+c.c <- readPNG("data/images/Carangoides_chrysophrys_nb_BORNT.png") %>%
+  as.raster()
+
+# 6. Naso hexacanthus
+n.h <- readPNG("data/images/Acanthurus grammoptilus-3cmL.png") %>%
+  as.raster()
+
+# 7. Pentapodus nagasakiensis
+p.n <- readPNG("data/images/Pentapodus porosus-3cmL.png") %>%
+  as.raster()
+
+# 8. Gymnocranius grandoculis
+g.g <- readPNG("data/images/Gymnocranius_grandoculis_nb_TAYLOR.png") %>%
+  as.raster()
+
+# 9. Carangoides fulvoguttatus
+c.f <- readPNG("data/images/Carangoides fulvoguttatus-3cmL.png") %>%
+  as.raster()
+
+# 10. Gymnocranius sp1
+# Use Gymnocranius grandoculis image
+
+
+## Top ten plot ----
+bar.top.10.raro <-ggplot(maxn.10.raro %>% mutate(scientific = str_replace_all(.$scientific,
+  c("fulvoguttatus"="fulvoguttatus*", "gymnostethus"="gymnostethus*",
+    "chrysophrys"="chrysophrys*", "grandoculis"="grandoculis*",
+    "rubrioperculatus"="rubrioperculatus*","miniatus"="miniatus*",
+    "multidens"="multidens*", "sp1" = "sp1*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
+  geom_bar(stat="identity",colour="black",fill="lightgrey",position=position_dodge())+
+  # ylim (0, 1150)+
+  coord_flip()+
+  xlab("Species")+
+  ylab(expression(Overall~abundance~(Sigma~MaxN)))+
+  labs(title = "Rariphotic assemblage (70-200m)") +
+  theme_bw() +
+  theme(axis.text.y = element_text(face="italic"))+
+  theme_collapse +
+  theme.larger.text +
+  scale_y_continuous(breaks = c(0, 250, 500, 750, 1000), limits = c(0, 1150)) +
+  annotation_raster(d.spp, xmin = 9.65, xmax = 10.35, ymin = 995, ymax = 995 + 210)+
+  annotation_raster(p.m, xmin = 8.5,xmax = 9.5,ymin = 345, ymax = 345 + 350)+
+  annotation_raster(l.m, xmin = 7.6, xmax = 8.4, ymin = 268 + 5, ymax = 268 + 270)+
+  annotation_raster(l.r, xmin = 6.6, xmax = 7.4, ymin = 230 + 5, ymax = 230 + 255)+
+  annotation_raster(c.c, xmin = 5.5, xmax = 6.5, ymin = 195 + 10, ymax = 195 + 270)+
+  annotation_raster(n.h, xmin = 4.7, xmax = 5.3, ymin = 175 + 5, ymax = 175 + 290)+
+  annotation_raster(p.n, xmin = 3.85, xmax = 4.15, ymin = 169, ymax = 169 + 150)+
+  annotation_raster(g.g, xmin = 2.6, xmax = 3.4, ymin = 150 + 5, ymax = 150 + 290)+
+  annotation_raster(c.f, xmin = 1.6, xmax = 2.4, ymin = 150 + 5, ymax = 150 + 290)+
+  annotation_raster(g.g, xmin = 0.6, xmax = 1.4, ymin = 149 + 5, ymax = 149 + 290) +
+  annotate(geom = "text", x = 1, y = 1000, label = "n = 167", fontface = "italic")
+bar.top.10.raro
+
+#save out plot
+ggsave(paste0("figures/fish/", name, "_mesophotic.stacked.bar.plot.png"), bar.top.10.raro, dpi = 600, width = 7, height = 8)
+
+# Rariophotic 
 # Load fish pictures for plotting ----
 # 1. Decapterus spp
 d.spp <- readPNG("data/images/Decapterus_spp_nb_TAYLOR.png") %>%
@@ -109,10 +233,10 @@ c.f <- readPNG("data/images/Carangoides fulvoguttatus-3cmL.png") %>%
 
 ## Top ten plot ----
 bar.top.10<-ggplot(maxn.10 %>% mutate(scientific = str_replace_all(.$scientific,
-  c("fulvoguttatus"="fulvoguttatus*", "gymnostethus"="gymnostethus*",
-    "chrysophrys"="chrysophrys*", "grandoculis"="grandoculis*",
-    "rubrioperculatus"="rubrioperculatus*","miniatus"="miniatus*",
-    "multidens"="multidens*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
+                                                                   c("fulvoguttatus"="fulvoguttatus*", "gymnostethus"="gymnostethus*",
+                                                                     "chrysophrys"="chrysophrys*", "grandoculis"="grandoculis*",
+                                                                     "rubrioperculatus"="rubrioperculatus*","miniatus"="miniatus*",
+                                                                     "multidens"="multidens*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",colour="black",fill="lightgrey",position=position_dodge())+
   ylim (0, 1250)+
   coord_flip()+
@@ -135,7 +259,8 @@ bar.top.10<-ggplot(maxn.10 %>% mutate(scientific = str_replace_all(.$scientific,
 # bar.top.10
 
 #save out plot
-ggsave(paste0("figures/fish/", name, "stacked.bar.plot.png"), bar.top.10, dpi = 600, width = 7, height = 8)
+ggsave(paste0("figures/fish/", name, "_rariophotic.stacked.bar.plot.png"), bar.top.10, dpi = 600, width = 7, height = 8)
+
 
 #Recreationally targeted species
 #targeted species top 10 abundance
