@@ -114,7 +114,7 @@ bar.10.raro <- ggplot(maxn.10.raro, aes(x=reorder(scientific,maxn), y=maxn)) +
   theme_collapse
 bar.10.raro
 
-# Mesophotic 
+# Rariphotic 
 # Load fish pictures for plotting ----
 # 1. Decapterus spp
 d.spp <- readPNG("data/images/Decapterus_spp_nb_TAYLOR.png") %>%
@@ -187,58 +187,61 @@ bar.top.10.raro <-ggplot(maxn.10.raro %>% mutate(scientific = str_replace_all(.$
 bar.top.10.raro
 
 #save out plot
-ggsave(paste0("figures/fish/", name, "_mesophotic.stacked.bar.plot.png"), bar.top.10.raro, dpi = 600, width = 7, height = 8)
+ggsave(paste0("figures/fish/", name, "_rariphotic.stacked.bar.plot.png"), bar.top.10.raro, dpi = 600, width = 7, height = 8)
 
-# Rariophotic 
+# Mesophotic 
 # Load fish pictures for plotting ----
 # 1. Decapterus spp
 d.spp <- readPNG("data/images/Decapterus_spp_nb_TAYLOR.png") %>%
   as.raster()
 
-# 2. Pristipomoides multidens
-p.m <- readPNG("data/images/Pristipomoides multidens 300dpi.png") %>%
+# 2. Lutjanus vitta
+l.v <- readPNG("data/images/Lutjanus vitta 300dpi_nb.png") %>%
   as.raster()
 
-# 3. Lethrinus miniatus
-l.m <- readPNG("data/images/Lethrinus miniatus 3cm.png") %>%
-  as.raster()
-
-# 4. Lethrinus rubrioperculatus
-l.r <- readPNG("data/images/Lethrinidae-Dark.png") %>%
-  as.raster()
-
-# 5. Carangoides chrysophrys
-c.c <- readPNG("data/images/Carangoides_chrysophrys_nb_BORNT.png") %>%
-  as.raster()
-
-# 6. Naso hexacanthus
-n.h <- readPNG("data/images/Acanthurus grammoptilus-3cmL.png") %>%
-  as.raster()
-
-# 7. Gymnocranius grandoculis
-g.g <- readPNG("data/images/Gymnocranius_grandoculis_nb_TAYLOR.png") %>%
-  as.raster()
-
-# 8. Pentapodus nagasakiensis
-p.n <- readPNG("data/images/Pentapodus porosus-3cmL.png") %>%
-  as.raster()
-
-# 9. Carangoides gymnostethus
+# 3. Carangoides gymnostethus
 c.g <- readPNG("data/images/Carangoides gymnostethus 3cm.png") %>%
   as.raster()
 
-# 10. Carangoides fulvoguttatus
-c.f <- readPNG("data/images/Carangoides fulvoguttatus-3cmL.png") %>%
+# 4. Lethrinus punctulatus
+l.p <- readPNG("data/images/Lethrinus punctulatus-3cmL.png") %>%
+  as.raster()
+
+# 5. Gnathanodon speciosus
+g.s <- readPNG("data/images/Gnathanodon speciosus-3cmL.png") %>%
+  as.raster()
+
+# 6. Gymnocranius grandoculis
+g.g <- readPNG("data/images/Gymnocranius_grandoculis_nb_TAYLOR.png") %>%
+  as.raster()
+
+# 7. Lutjanus sebae
+l.s <- readPNG("data/images/Lutjanus sebae 300dpi.png") %>%
+  as.raster()
+
+# 8. Lethrinus rubrioperculatus
+l.r <- readPNG("data/images/Lethrinidae-Dark.png") %>%
+  as.raster()
+
+# 9. Lagocephalus sceleratus
+l.sc <- readPNG("data/images/Lagocephalus_sceleratus_nb_TAYLOR.png") %>%
+  as.raster()
+
+# 10. Epinephelus areolatus
+e.a <- readPNG("data/images/epinephelus_areolatus_nb.png") %>%
   as.raster()
 
 ## Top ten plot ----
-bar.top.10<-ggplot(maxn.10 %>% mutate(scientific = str_replace_all(.$scientific,
-                                                                   c("fulvoguttatus"="fulvoguttatus*", "gymnostethus"="gymnostethus*",
+bar.top.10.meso <-ggplot(maxn.10.meso %>% mutate(scientific = str_replace_all(.$scientific,
+                                                                   c("vitta"="vitta*", "gymnostethus"="gymnostethus*",
+                                                                     "speciosus" = "speciosus*",
+                                                                     "punctulatus" = "punctulatus*", "sebae" = "sebae*",
                                                                      "chrysophrys"="chrysophrys*", "grandoculis"="grandoculis*",
-                                                                     "rubrioperculatus"="rubrioperculatus*","miniatus"="miniatus*",
-                                                                     "multidens"="multidens*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
+                                                                     "rubrioperculatus"="rubrioperculatus*",
+                                                                     "areolatus" = "areolatus*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",colour="black",fill="lightgrey",position=position_dodge())+
-  ylim (0, 1250)+
+  ylim (0, 110)+
+  labs(title = "Mesophotic assemblage (30-70m)") +
   coord_flip()+
   xlab("Species")+
   ylab(expression(Overall~abundance~(Sigma~MaxN)))+
@@ -246,20 +249,21 @@ bar.top.10<-ggplot(maxn.10 %>% mutate(scientific = str_replace_all(.$scientific,
   theme(axis.text.y = element_text(face="italic"))+
   theme_collapse+
   theme.larger.text+
-  annotation_raster(d.spp, xmin = 9.65, xmax = 10.35, ymin = 1089, ymax = 1089 + 210)+
-  annotation_raster(p.m, xmin = 8.5,xmax = 9.5,ymin = 361, ymax = 361 + 350)+
-  annotation_raster(l.m, xmin = 7.6, xmax = 8.4, ymin = 269 + 5, ymax = 269 + 270)+
-  annotation_raster(l.r, xmin = 6.6, xmax = 7.4, ymin = 251 + 5, ymax = 251 + 255)+
-  annotation_raster(c.c, xmin = 5.5, xmax = 6.5, ymin = 205 + 10, ymax = 205 + 270)+
-  annotation_raster(n.h, xmin = 4.65, xmax = 5.35, ymin = 179 + 5, ymax = 179 + 290)+
-  annotation_raster(g.g, xmin = 3.55, xmax = 4.45, ymin = 179, ymax = 179 + 220)+
-  annotation_raster(p.n, xmin = 2.85, xmax = 3.15, ymin = 171 + 5, ymax = 171 + 150)+
-  annotation_raster(c.g, xmin = 1.6, xmax = 2.4, ymin = 161 + 5, ymax = 161 + 290)+
-  annotation_raster(c.f, xmin = 0.6, xmax = 1.4, ymin = 157 + 5, ymax = 157 + 290)
-# bar.top.10
+  annotation_raster(d.spp, xmin = 9.7, xmax = 10.3, ymin = 93, ymax = 93 + 17)+
+  annotation_raster(l.v, xmin = 8.65,xmax = 9.35,ymin = 66, ymax = 66 + 20)+
+  annotation_raster(c.g, xmin = 7.6, xmax = 8.4, ymin = 31 + 1, ymax = 31 + 33)+
+  annotation_raster(l.p, xmin = 6.7, xmax = 7.3, ymin = 28 + 1, ymax = 28 + 20)+
+  annotation_raster(g.s, xmin = 5.5, xmax = 6.5, ymin = 27 + 1, ymax = 27 + 36)+
+  annotation_raster(g.g, xmin = 4.65, xmax = 5.35, ymin = 26, ymax = 26 + 20)+
+  annotation_raster(l.s, xmin = 3.55, xmax = 4.45, ymin = 25, ymax = 25 + 25)+
+  annotation_raster(l.r, xmin = 2.75, xmax = 3.25, ymin = 21 + 1, ymax = 21 + 20)+
+  annotation_raster(l.sc, xmin = 1.8, xmax = 2.2, ymin = 21, ymax = 21 + 30)+
+  annotation_raster(e.a, xmin = 0.65, xmax = 1.35, ymin = 16, ymax = 16 + 20) +
+  annotate(geom = "text", x = 1, y = 90, label = "n = 14", fontface = "italic")
+# bar.top.10.meso
 
 #save out plot
-ggsave(paste0("figures/fish/", name, "_rariophotic.stacked.bar.plot.png"), bar.top.10, dpi = 600, width = 7, height = 8)
+ggsave(paste0("figures/fish/", name, "_mesophotic.stacked.bar.plot.png"), bar.top.10.meso, dpi = 600, width = 7, height = 8)
 
 
 #Recreationally targeted species
@@ -275,20 +279,48 @@ master <- googlesheets4::read_sheet(url)%>%
   distinct()%>%
   glimpse()
 
-fished.species <- maxn %>%
+fished.meso <- maxn.meso %>%
+  dplyr::mutate(scientific = paste(family, genus, species, sep = " ")) %>%
   dplyr::left_join(master) %>%
-  dplyr::mutate(fishing.type = ifelse(scientific %in%c("Serranidae Plectropomus spp","Scombridae Scomberomorus spp","Lethrinidae Gymnocranius spp",
-                                                       "Lethrinidae Lethrinus spp","Lethrinidae Unknown spp","Platycephalidae Platycephalus spp")
+  dplyr::mutate(fishing.type = ifelse(scientific %in% c("Serranidae Plectropomus spp","Scombridae Scomberomorus spp",
+                                                        "Lethrinidae Gymnocranius spp","Lethrinidae Lethrinus spp",
+                                                        "Lethrinidae Unknown spp","Platycephalidae Platycephalus spp", 
+                                                        "Lutjanidae Pristipomoides spp", "Lutjanidae Pristipomoides sp1",
+                                                        "Lethrinidae Gymnocranius sp1")
                                       ,"R",fishing.type))%>%
   dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Serranidae Plectropomus spp"), "450", minlegal.wa))%>%
   dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Scombridae Scomberomorus spp"), "900", minlegal.wa))%>%
   dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Gymnocranius spp"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Gymnocranius sp1"), "280", minlegal.wa))%>%
   dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Lethrinus spp"), "280", minlegal.wa))%>%
   dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Unknown spp"), "280", minlegal.wa))%>%
   dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Platycephalidae Platycephalus spp"), "280", minlegal.wa))%>%
   dplyr::filter(fishing.type %in% c("B/R","B/C/R","R","C/R","C"))%>%
-  dplyr::filter(!family%in%c("Monacanthidae", "Scorpididae", "Mullidae"))%>%    # Brooke removed leatherjackets, sea sweeps and goat fish
-  dplyr::filter(!species%in%c("albimarginatus","longimanus"))%>%
+  dplyr::filter(!family%in%c("Monacanthidae", "Scorpididae", "Mullidae", 
+                             "Carcharhinidae", "Sphyrnidae", "Pomacanthidae"))%>%    # Remove non-targeted families   
+  dplyr::mutate(minlegal.wa = as.double(minlegal.wa)) %>%
+  glimpse()
+
+fished.raro <- maxn.raro %>%
+  dplyr::mutate(scientific = paste(family, genus, species, sep = " ")) %>%
+  dplyr::left_join(master) %>%
+  dplyr::mutate(fishing.type = ifelse(scientific %in% c("Serranidae Plectropomus spp","Scombridae Scomberomorus spp",
+                                                        "Lethrinidae Gymnocranius spp","Lethrinidae Lethrinus spp",
+                                                        "Lethrinidae Unknown spp","Platycephalidae Platycephalus spp", 
+                                                        "Lutjanidae Pristipomoides spp", "Lutjanidae Pristipomoides sp1",
+                                                        "Lethrinidae Gymnocranius sp1")
+                                      ,"R",fishing.type))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Serranidae Plectropomus spp"), "450", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Scombridae Scomberomorus spp"), "900", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Gymnocranius spp"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Gymnocranius sp1"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Lethrinus spp"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Lethrinidae Unknown spp"), "280", minlegal.wa))%>%
+  dplyr::mutate(minlegal.wa = ifelse(scientific %in% c("Platycephalidae Platycephalus spp"), "280", minlegal.wa))%>%
+  dplyr::filter(fishing.type %in% c("B/R","B/C/R","R","C/R","C"))%>%
+  dplyr::filter(!family%in%c("Monacanthidae", "Scorpididae", "Mullidae", 
+                             "Carcharhinidae", "Sphyrnidae", "Pomacanthidae"))%>%    # Remove non-targeted families   
+  dplyr::mutate(minlegal.wa = as.double(minlegal.wa)) %>%
   glimpse()
 
 # workout total maxn for each species ---
