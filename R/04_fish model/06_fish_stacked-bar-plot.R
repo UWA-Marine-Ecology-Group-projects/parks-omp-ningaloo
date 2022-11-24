@@ -71,6 +71,8 @@ samps.raro <- maxn.raro %>%
 # workout total maxn for each species ---
 # Mesophotic (30 - 70m)
 maxn.10.meso <- maxn.meso %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "sp1", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "sp1", species)) %>%
   mutate(scientific=paste(genus,species,sep=" "))%>%
   group_by(scientific)%>%
   dplyr::summarise(maxn=sum(maxn))%>%
@@ -81,6 +83,8 @@ maxn.10.meso <- maxn.meso %>%
 
 # Rariphotic (70 - 200m)
 maxn.10.raro <- maxn.raro %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "sp1", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "sp1", species)) %>%
   mutate(scientific=paste(genus,species,sep=" "))%>%
   group_by(scientific)%>%
   dplyr::summarise(maxn=sum(maxn))%>%
@@ -124,37 +128,37 @@ d.spp <- readPNG("data/images/Decapterus_spp_nb_TAYLOR.png") %>%
 p.m <- readPNG("data/images/Pristipomoides multidens 300dpi.png") %>%
   as.raster()
 
-# 3. Lethrinus miniatus
-l.m <- readPNG("data/images/Lethrinus miniatus 3cm.png") %>%
-  as.raster()
-
-# 4. Lethrinus rubrioperculatus
-l.r <- readPNG("data/images/Lethrinidae-Dark.png") %>%
-  as.raster()
-
-# 5. Carangoides chrysophrys
-c.c <- readPNG("data/images/Carangoides_chrysophrys_nb_BORNT.png") %>%
-  as.raster()
-
-# 6. Naso hexacanthus
-n.h <- readPNG("data/images/Acanthurus grammoptilus-3cmL.png") %>%
-  as.raster()
-
-# 7. Pentapodus nagasakiensis
-p.n <- readPNG("data/images/Pentapodus porosus-3cmL.png") %>%
-  as.raster()
-
-# 8. Gymnocranius grandoculis
+# 3. Gymnocranius sp1.
 g.g <- readPNG("data/images/Gymnocranius_grandoculis_nb_TAYLOR.png") %>%
   as.raster()
 
-# 9. Carangoides fulvoguttatus
-c.f <- readPNG("data/images/Carangoides fulvoguttatus-3cmL.png") %>%
+# 4. Lethrinus miniatus
+l.m <- readPNG("data/images/Lethrinus miniatus 3cm.png") %>%
   as.raster()
 
-# 10. Gymnocranius sp1
-# Use Gymnocranius grandoculis image
+# 5. Lethrinus rubrioperculatus
+l.r <- readPNG("data/images/Lethrinidae-Dark.png") %>%
+  as.raster()
 
+# 6. Pristipomoides sp1.
+p.t <- readPNG("data/images/Pristipomoides typus 3cm.png") %>%
+  as.raster()
+
+# 7. Carangoides chrysophrys
+c.c <- readPNG("data/images/Carangoides_chrysophrys_nb_BORNT.png") %>%
+  as.raster()
+
+# 8. Naso hexacanthus
+n.h <- readPNG("data/images/Acanthurus grammoptilus-3cmL.png") %>%
+  as.raster()
+
+# 9. Pentapodus nagasakiensis
+p.n <- readPNG("data/images/Pentapodus porosus-3cmL.png") %>%
+  as.raster()
+
+# 10. Carangoides fulvoguttatus
+c.f <- readPNG("data/images/Carangoides fulvoguttatus-3cmL.png") %>%
+  as.raster()
 
 ## Top ten plot ----
 bar.top.10.raro <-ggplot(maxn.10.raro %>% mutate(scientific = str_replace_all(.$scientific,
@@ -175,16 +179,16 @@ bar.top.10.raro <-ggplot(maxn.10.raro %>% mutate(scientific = str_replace_all(.$
   scale_y_continuous(breaks = c(0, 250, 500, 750, 1000), limits = c(0, 1150)) +
   annotation_raster(d.spp, xmin = 9.65, xmax = 10.35, ymin = 995, ymax = 995 + 210)+
   annotation_raster(p.m, xmin = 8.5,xmax = 9.5,ymin = 345, ymax = 345 + 350)+
-  annotation_raster(l.m, xmin = 7.6, xmax = 8.4, ymin = 268 + 5, ymax = 268 + 270)+
-  annotation_raster(l.r, xmin = 6.6, xmax = 7.4, ymin = 230 + 5, ymax = 230 + 255)+
-  annotation_raster(c.c, xmin = 5.5, xmax = 6.5, ymin = 195 + 10, ymax = 195 + 270)+
-  annotation_raster(n.h, xmin = 4.7, xmax = 5.3, ymin = 175 + 5, ymax = 175 + 290)+
-  annotation_raster(p.n, xmin = 3.85, xmax = 4.15, ymin = 169, ymax = 169 + 150)+
-  annotation_raster(g.g, xmin = 2.6, xmax = 3.4, ymin = 150 + 5, ymax = 150 + 290)+
-  annotation_raster(c.f, xmin = 1.6, xmax = 2.4, ymin = 150 + 5, ymax = 150 + 290)+
-  annotation_raster(g.g, xmin = 0.6, xmax = 1.4, ymin = 149 + 5, ymax = 149 + 290) +
+  annotation_raster(g.g, xmin = 7.6, xmax = 8.4, ymin = 339 + 5, ymax = 339 + 270)+
+  annotation_raster(l.m, xmin = 6.6, xmax = 7.4, ymin = 268 + 5, ymax = 268 + 255)+
+  annotation_raster(l.r, xmin = 5.65, xmax = 6.35, ymin = 230 + 10, ymax = 230 + 270)+
+  annotation_raster(p.t, xmin = 4.6, xmax = 5.4, ymin = 213 + 5, ymax = 213 + 290)+
+  annotation_raster(c.c, xmin = 3.6, xmax = 4.4, ymin = 195 + 5, ymax = 195 + 250)+
+  annotation_raster(n.h, xmin = 2.7, xmax = 3.3, ymin = 175 + 5, ymax = 175 + 290)+
+  annotation_raster(p.n, xmin = 1.75, xmax = 2.25, ymin = 169 + 5, ymax = 169 + 150)+
+  annotation_raster(c.f, xmin = 0.6, xmax = 1.4, ymin = 150 + 5, ymax = 150 + 290) +
   annotate(geom = "text", x = 1, y = 1000, label = "n = 167", fontface = "italic")
-bar.top.10.raro
+# bar.top.10.raro
 
 #save out plot
 ggsave(paste0("figures/fish/", name, "_rariphotic.stacked.bar.plot.png"), bar.top.10.raro, dpi = 600, width = 7, height = 8)
@@ -274,7 +278,7 @@ url <- "https://docs.google.com/spreadsheets/d/1SMLvR9t8_F-gXapR2EemQMEPSw_bUbPL
 master <- googlesheets4::read_sheet(url)%>%
   ga.clean.names()%>%
   filter(grepl('Australia', global.region))%>%
-  # filter(grepl('NW', marine.region))%>%
+  filter(grepl('NW', marine.region))%>%
   dplyr::select(family,genus,species,iucn.ranking,fishing.mortality,fishing.type,australian.common.name,minlegal.wa)%>% 
   distinct()%>%
   glimpse()
@@ -324,18 +328,28 @@ fished.raro <- maxn.raro %>%
   glimpse()
 
 # workout total maxn for each species ---
-maxn.fished.npz6<-fished.species %>%
-  dplyr::filter(location%in%"NPZ6")%>%
-  mutate(scientific=paste(genus,species,sep=" "))%>%
+maxn.fished.meso <- fished.meso %>%
+  mutate(scientific = paste(genus,species,sep=" "))%>%
   group_by(scientific)%>%
-  dplyr::summarise(maxn=sum(maxn))%>%
+  dplyr::summarise(maxn=sum(maxn)) %>%
+  # dplyr::filter(!scientific%in%"Lethrinus spp")%>%
+  ungroup()%>%
+  top_n(10)%>%
+  glimpse()
+
+maxn.fished.raro <- fished.raro %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "sp1", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "sp1", species)) %>%
+  mutate(scientific = paste(genus,species,sep=" ")) %>%
+  group_by(scientific) %>%
+  dplyr::summarise(maxn=sum(maxn)) %>%
   # dplyr::filter(!scientific%in%"Lethrinus spp")%>%
   ungroup()%>%
   top_n(10)%>%
   glimpse()
 
 #have a look
-bar.npz6<-ggplot(maxn.fished.npz6, aes(x=reorder(scientific,maxn), y=maxn)) +   
+bar.fished.meso <- ggplot(maxn.fished.meso, aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",position=position_dodge())+
   coord_flip()+
   xlab("Species")+
@@ -343,48 +357,59 @@ bar.npz6<-ggplot(maxn.fished.npz6, aes(x=reorder(scientific,maxn), y=maxn)) +
   theme_bw()+
   theme(axis.text.x = element_text(angle = 90, hjust = 1))+
   theme_collapse
-bar.npz6
+bar.fished.meso
 
+bar.fished.raro <- ggplot(maxn.fished.raro, aes(x=reorder(scientific,maxn), y=maxn)) +   
+  geom_bar(stat="identity",position=position_dodge())+
+  coord_flip()+
+  xlab("Species")+
+  ylab(expression(Overall~abundance~(Sigma~MaxN)))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  theme_collapse
+bar.fished.raro
 
-#load fish pics
-#NPZ6
-#1 Lethrinus miniatus
-#already loaded
+# Mesophotic
+# Load fish pics
+# 1. Lutjanus vitta
+# Already loaded
 
-#2 Chrysophrys auratus
-#already loaded
+# 2. Lethrinus punctulatus
+# Already loaded
 
-#3 Choerodon rubescens
-#already loaded
+# 3. Gymnocranius grandoculis
+# Already loaded
 
-#4 Lethrinus nebulosus
-#already loaded
+# 4. Lutjanus sebae
+# Already loaded
 
-#5 Seriola hippos
-s.h <- as.raster(readPNG("data/images/Seriola_hippos_nb_HQ_TAYLOR.png"))
+# 5. Gymnocranius griseus
+# Already loaded - use grandoculis
 
-#6 Scomberomorus spp
-s.spp <- as.raster(readPNG("data/images/Scombridae-Dark.png"))
+# 6. Lethrinus nebulosus
+l.n <- readPNG("data/images/lethrinus nebulosus 3cm.png") %>%
+  as.raster()
 
-#7 Lethrinus spp
-l.spp <- as.raster(readPNG("data/images/Lethrinidae-Dark.png"))
+# 7. Pristipomoides multidens
+# Already loaded
 
-#8 Lethrinus ravus
-#as above
+# 8. Lethrinus ravus
+# Already loaded - use lethrinus spp
 
-#9 Epinephelus rivulatus
-e.r <- as.raster(readPNG("data/images/Serranidae-Dark.png"))
+# 9. Argyrops spinifer
+a.s <- readPNG("data/images/Argyrops spinifer - bw.png") %>%
+  as.raster()
 
-#10 Carcharhinus plumbeus
-c.p <- as.raster(readPNG("data/images/Carcharinus plumbeus 5cmL adapt.png"))
+# 10. Choerodon cauteroma
+c.c <- readPNG("data/images/Choerodon cauteroma-3cmL.png") %>%
+  as.raster()
 
-
-
-#plot final bar plot
-#npz6
-bar.fished.npz6<-ggplot(maxn.fished.npz6, aes(x=reorder(scientific,maxn), y=maxn)) +   
+## Top ten plot ----
+bar.fished.meso <-ggplot(maxn.fished.meso %>% mutate(scientific = str_replace_all(.$scientific, 
+                                                                                               c("spinifer" = "bleekeri"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",colour="black",fill="lightgrey",position=position_dodge())+
-  ylim (0, 110)+
+  ylim (0, 80)+
+  labs(title = "Mesophotic assemblage (30-70m)") +
   coord_flip()+
   xlab("Species")+
   ylab(expression(Overall~abundance~(Sigma~MaxN)))+
@@ -392,21 +417,86 @@ bar.fished.npz6<-ggplot(maxn.fished.npz6, aes(x=reorder(scientific,maxn), y=maxn
   theme(axis.text.y = element_text(face="italic"))+
   theme_collapse+
   theme.larger.text+
-  annotation_raster(l.m, xmin=9.6,xmax=10.4,ymin=90, ymax=115)+
-  annotation_raster(c.au, xmin=8.6,xmax=9.4,ymin=80, ymax=105)+
-  annotation_raster(c.r, xmin=7.65, xmax=8.35, ymin=50, ymax=75)+
-  annotation_raster(l.n, xmin=6.55,xmax=7.45,ymin=28, ymax=55)+
-  annotation_raster(s.h, xmin=5.55,xmax=6.45,ymin=20, ymax=50)+
-  annotation_raster(s.spp, xmin=4.55,xmax=5.45,ymin=10, ymax=45)+
-  annotation_raster(l.spp, xmin=3.7,xmax=4.3,ymin=7, ymax=25)+
-  annotation_raster(l.spp, xmin=2.7,xmax=3.3,ymin=7, ymax=25)+
-  annotation_raster(e.r, xmin=1.75,xmax=2.25,ymin=5, ymax=20)+
-  annotation_raster(c.p, xmin=0.4,xmax=1.6,ymin=5, ymax=50)
-# ggtitle("10 most abundant species") +
-# theme(plot.title = element_text(hjust = 0))
-bar.fished.npz6
-  
+  annotation_raster(l.v, xmin = 9.7, xmax = 10.3, ymin = 66, ymax = 66 + 13)+
+  annotation_raster(l.p, xmin = 8.65,xmax = 9.35,ymin = 28 + 1, ymax = 28 + 20)+
+  annotation_raster(g.g, xmin = 7.65, xmax = 8.35, ymin = 26 + 1, ymax = 26 + 18)+
+  annotation_raster(l.s, xmin = 6.55, xmax = 7.45, ymin = 25 + 1, ymax = 25 + 22)+
+  annotation_raster(g.g, xmin = 5.7, xmax = 6.3, ymin = 8 + 1, ymax = 8 + 15)+
+  annotation_raster(l.n, xmin = 4.6, xmax = 5.4, ymin = 6 + 1, ymax = 6 + 25)+
+  annotation_raster(p.m, xmin = 3.55, xmax = 4.45, ymin = 5, ymax = 5 + 30)+
+  annotation_raster(l.r, xmin = 2.75, xmax = 3.25, ymin = 5 + 1, ymax = 5 + 15)+
+  annotation_raster(a.s, xmin = 1.7, xmax = 2.3, ymin = 4 + 1, ymax = 4 + 13)+
+  annotation_raster(c.c, xmin = 0.65, xmax = 1.35, ymin = 3 + 1, ymax = 3 + 20) +
+  annotate(geom = "text", x = 1, y = 60, label = "n = 14", fontface = "italic")
+# bar.fished.meso
+
 #save out plot
-ggsave("plots/fish/abundant.targets.npz6.png",bar.fished.npz6,dpi=600,width=6.0, height = 6.0)
+ggsave(paste0("figures/fish/", name, "_mesophotic.fished..stacked.bar.plot.png"), bar.fished.meso, dpi = 600, width = 7, height = 8)
+
+# Rariphotic
+# Load fish pics
+# 1. Pristipomoides multidens
+# Already loaded
+
+# 2. Gymnocranius sp1.
+# Already loaded - use grandoculis
+
+# 3. Lethrinus miniatus
+# Already loaded
+
+# 4. Pristipomoides sp1
+# Already loaded - use typus
+
+# 5. Argyrops spinifer/bleekeri
+# Already loaded
+
+# 6. Lutjanus sebae
+# Already loaded
+
+# 7. Lethrinus ravus - use lethrinus spp
+# Already loaded
+
+# 8. Lethrinus nebulosus
+# Already loaded 
+
+# 9. Lethrinus punctulatus
+# Already loaded
+
+# 10. Dentex carpenteri
+d.c <- readPNG("data/images/Dentex_carpenteri_nb_GIBBONS.png") %>%
+  as.raster()
+
+
+## Top ten plot ----
+bar.fished.raro<-ggplot(maxn.fished.raro %>% mutate(scientific = str_replace_all(.$scientific, 
+                                                                                  c("spinifer" = "bleekeri"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
+  geom_bar(stat="identity",colour="black",fill="lightgrey",position=position_dodge())+
+  ylim (0, 425)+
+  labs(title = "Rariphotic assemblage (70-200m)") +
+  coord_flip()+
+  xlab("Species")+
+  ylab(expression(Overall~abundance~(Sigma~MaxN)))+
+  theme_bw()+
+  theme(axis.text.y = element_text(face="italic"))+
+  theme_collapse+
+  theme.larger.text+
+  annotation_raster(p.m, xmin = 9.6, xmax = 10.4, ymin = 345, ymax = 345 + 100)+
+  annotation_raster(g.g, xmin = 8.65,xmax = 9.35,ymin = 339 + 1, ymax = 339 + 75)+
+  annotation_raster(l.m, xmin = 7.55, xmax = 8.45, ymin = 268 + 1, ymax = 268 + 100)+
+  annotation_raster(p.t, xmin = 6.65, xmax = 7.35, ymin = 213 + 1, ymax = 213 + 100)+
+  annotation_raster(a.s, xmin = 5.7, xmax = 6.3, ymin = 136 + 1, ymax = 136 + 60)+
+  annotation_raster(l.s, xmin = 4.6, xmax = 5.4, ymin = 89 + 1, ymax = 89 + 100)+
+  annotation_raster(l.r, xmin = 3.65, xmax = 4.35, ymin = 75+1, ymax = 75 + 100)+
+  annotation_raster(l.n, xmin = 2.6, xmax = 3.4, ymin = 41 + 1, ymax = 41 + 100)+
+  annotation_raster(l.p, xmin = 1.7, xmax = 2.3, ymin = 19 + 1, ymax = 19 + 75)+
+  annotation_raster(d.c, xmin = 0.65, xmax = 1.35, ymin = 19 + 1, ymax = 19 + 65) +
+  annotate(geom = "text", x = 1, y = 300, label = "n = 167", fontface = "italic")
+bar.fished.raro
+
+#save out plot
+ggsave(paste0("figures/fish/", name, "_rariphotic.fished.stacked.bar.plot.png"), bar.fished.raro, dpi = 600, width = 7, height = 8)
+
+
+
 
 

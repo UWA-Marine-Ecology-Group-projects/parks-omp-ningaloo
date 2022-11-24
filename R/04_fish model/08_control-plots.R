@@ -1,14 +1,14 @@
 ###
-# Project: Parks - Abrolhos
-# Data:    BOSS fish, habitat
-# Task:    Plotting species richness and greater than legal targeted species
+# Project: Parks OMP Ningaloo
+# Data:    BRUV fish
+# Task:    Time series plots of species richness, 
+#          greater than legal size targeted species & Community Thermal Index
 # author:  Claude
-# date:    Nov-Dec 2021
+# date:    November 2022
 ##
 
 # Clear memory----
 rm(list=ls())
-gc()
 
 # Libraries required
 library(GlobalArchive)
@@ -17,6 +17,10 @@ library(dplyr)
 library(ggplot2)
 library(cowplot)
 library(patchwork)
+
+# Set your study name
+name       <- "Parks-Ningaloo-synthesis"
+zone       <- "Ningaloo"
 
 #load theme
 Theme1 <-
@@ -38,36 +42,18 @@ Theme1 <-
     axis.line.y=element_line(colour="black", size=0.5,linetype='solid'),
     strip.background = element_blank())
 
-## Set your working directory ----
-working.dir <- getwd()
-setwd(working.dir)
-#OR set manually once
-
 #standard error function
 se <- function(x) sd(x)/sqrt(length(x))
 
 # read in maxn and lengths
-maxn <- readRDS("data/Tidy/dat.maxn.rds")%>%
+maxn <- readRDS(paste0("data/tidy/", name, "_gam-abundance.rds"))%>%
   glimpse()
 
-length <- readRDS("data/Tidy/dat.length.rds")%>%
+length <- readRDS(paste0("data/tidy/", name, "_gam-abundance.rds"))%>%
   glimpse()
-
-# read in raw maxn data 
-boss <- read.csv("data/Tidy/2021-05_Abrolhos_BOSS.complete.maxn.csv")%>%
-  dplyr::filter(maxn>0)%>%
-  glimpse()
-
-bruv <- read.csv("data/Tidy/2021-05_Abrolhos_stereo-BRUVs.complete.maxn.csv")%>%
-  dplyr::filter(maxn>0)%>%
-  glimpse()
-
-full.maxn <- bind_rows(boss,bruv)
-
-length(unique(full.maxn$id))
 
 #read in SST
-sst <- readRDS("data/spatial/oceanography/Abrolhos_SST_winter.rds")%>%
+sst <- readRDS(paste0("data/spatial/oceanography/", zone, "_SST_winter.rds")) %>%
   ungroup()%>%
   dplyr::mutate(year=as.numeric(year))%>%
   glimpse()
@@ -188,7 +174,7 @@ gg.npz6.sr <- ggplot(data = npz6, aes(x = year, y = species.richness, fill = sta
   geom_vline(xintercept = 2018, linetype="dashed",color = "black", size=0.5,alpha = 0.5)+
   ylab("Species richness")+
   xlab("Year")+
-  labs(title = "a)")+
+  labs(title = "")+
   scale_fill_manual(labels = c("Special Purpose Zone*", "National Park Zone"),values=c("#6daff4", "#7bbc63"))+
   guides(fill=guide_legend(title = "Marine Park Zone"))+
   Theme1

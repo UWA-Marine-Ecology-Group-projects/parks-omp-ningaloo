@@ -118,7 +118,7 @@ gg.scatterpie <- ggplot() +
   depth_fills +
   new_scale_fill()+
   geom_sf(data = aus, fill = "seashell2", colour = "black", size = 0.1) +
-  geom_sf(data = wampa,fill = "#bfd054", alpha = 2/5, color = NA) +
+  geom_sf(data = wasanc ,fill = "#bfd054", alpha = 2/5, color = NA) +
   wampa_fills +
   labs(fill = "State Marine Parks") +
   new_scale_fill() +
