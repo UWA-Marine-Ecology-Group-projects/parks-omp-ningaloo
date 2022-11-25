@@ -57,50 +57,6 @@ length <- list.files(path = "data/tidy/",
          site = as.character(site)) %>%
   glimpse()
 
-# Mask out state sanctuary zones from both maxn and lengths
-# State parks
-sf_use_s2(F)
-gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
-e <- ext(112, 115, -23, -21)
-
-wampa <- st_read("data/spatial/shapefiles/WA_MPA_2020.shp")
-st_crs(wampa) <- gdacrs
-# Simplify names for plot legend
-wampa$waname <- gsub("( \\().+(\\))", "", wampa$ZONE_TYPE)
-wampa$waname <- gsub(" [1-4]", "", wampa$waname)
-wampa$waname[wampa$NAME == "Hamelin Pool"]     <- "Marine Nature Reserve"
-wampa$waname[wampa$NAME == "Abrolhos Islands"] <- "Fish Habitat Protection Area"
-wampa$waname <- dplyr::recode(wampa$waname, 
-                              "General Use" = "General Use Zone",
-                              "Special Purpose Zone (Shore Based Activities)" = 
-                                "Special Purpose Zone\n(Shore Based Activities)",
-                              "Special Purpose Zone (Seagrass Protection) (IUCN IV)" = 
-                                "Special Purpose Zone",
-                              "MMA" = 'Marine Management Area' )
-
-wampa <- st_crop(wampa, e)                                                      # Crop to the study area
-wasanc <- wampa[wampa$waname %in% "Sanctuary Zone", ]
-wasanc <- vect(wasanc)
-
-maxnv   <- vect(maxn, geom = c("longitude", "latitude"))                        # To terra vector
-lengthv <- vect(length, geom = c("longitude", "latitude"))                      # To terra vector
-
-maxnv <- mask(maxnv, wasanc, inverse = T)
-plot(wasanc)
-plot(maxnv, add = T)
-
-lengthv <- mask(lengthv, wasanc, inverse = T)
-plot(wasanc)
-plot(lengthv, add = T)
-
-maxn <- as.data.frame(maxnv, geom = "XY") %>%
-  dplyr::rename(longitude = x, latitude = y) %>%
-  glimpse()
-
-length <- as.data.frame(lengthv, geom = "XY") %>%
-  dplyr::rename(longitude = x, latitude = y) %>%
-  glimpse()
-
 # Habitat
 allhab <- readRDS(paste(paste0('data/tidy/', name), 
                         'nesp-habitat-bathy-derivatives.rds', sep = "_")) %>%   # Only  few missing from here

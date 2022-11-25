@@ -1,197 +1,190 @@
-"campaignid","sample","latitude","longitude","date","time","location","status","site","depth","observer","successful.count","successful.length"
-"2019-08_Ningaloo_stereo-BRUVs","1.01","-22.84786205","113.5404917","12082019","09:23:00","Ningaloo Marine Park",NA,"1","?","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","1.02","-22.85016136","113.5252875","12082019","09:35:00","Ningaloo Marine Park",NA,"1","?","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","1.03","-22.84437","113.51304","12082019","09:43:00","Ningaloo Marine Park",NA,"1","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","1.04","-22.8402743","113.5183981","12082019","09:51:00","Ningaloo Marine Park",NA,"1","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","1.05","-22.83417","113.51601","12082019","09:58:00","Ningaloo Marine Park",NA,"1","?","Charlotte Aston","Yes","No"
-"2019-08_Ningaloo_stereo-BRUVs","1.06","-22.83153691","113.523387","12082019","10:06:00","Ningaloo Marine Park",NA,"1","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","2.02","-22.83153691","113.5625852","12082019","11:47:00","Ningaloo Marine Park",NA,"2","?","Brooke Gibbons","Yes","No"
-"2019-08_Ningaloo_stereo-BRUVs","2.03","-22.82900766","113.5659111","12082019","11:57:00","Ningaloo Marine Park",NA,"2","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","2.04","-22.82440903","113.5815904","12082019","12:05:00","Ningaloo Marine Park",NA,"2","?","Charlote Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","2.05","-22.82256957","113.5770767","12082019","12:12:00","Ningaloo Marine Park",NA,"2","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","2.06","-22.82164985","113.5716127","12082019","12:18:00","Ningaloo Marine Park",NA,"2","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","2.07","-22.8191206","113.5640106","12082019","12:24:00","Ningaloo Marine Park",NA,"2","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","3.01","-22.81314238","113.5207738","12082019","14:12:00","Ningaloo Marine Park",NA,"3","?","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","3.02","-22.81015327","113.5262378","12082019","14:07:00","Ningaloo Marine Park",NA,"3","?","Charlotte Aston","Yes","No"
-"2019-08_Ningaloo_stereo-BRUVs","3.03","-22.80693423","113.5338398","12082019","14:00:00","Ningaloo Marine Park",NA,"3","?","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","3.04","-22.80608","113.51938","12082019","14:17:00","Ningaloo Marine Park",NA,"3","?","Brooke Gibbons","Yes","No"
-"2019-08_Ningaloo_stereo-BRUVs","3.05","-22.80532471","113.51626","12082019","14:21:00","Ningaloo Marine Park",NA,"3","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","3.06","-22.80463491","113.5105585","12082019","14:25:00","Ningaloo Marine Park",NA,"3","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","4.01","-22.80504","113.49708","13082019","08:05:00","Ningaloo Marine Park",NA,"4","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","4.02","-22.79001","113.51077","13082019","08:15:00","Ningaloo Marine Park",NA,"4","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","4.03","-22.78991929","113.5005807","13082019","08:24:00","Ningaloo Marine Park",NA,"4","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","4.08","-22.78601045","113.4984427","13082019","08:29:00","Ningaloo Marine Park",NA,"4","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","4.11","-22.78371114","113.496067","13082019","08:33:00","Ningaloo Marine Park",NA,"4","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","4.12","-22.78578052","113.4877522","13082019","08:56:00","Ningaloo Marine Park",NA,"4","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","5.02","-22.78253","113.54762","13082019","15:37:00","Ningaloo Marine Park",NA,"5","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","5.03","-22.78303","113.56188","13082019","15:42:00","Ningaloo Marine Park",NA,"5","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","5.07","-22.7727833","113.57245","13082019","15:49:00","Ningaloo Marine Park",NA,"5","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","5.08","-22.76807579","113.5716127","13082019","15:53:00","Ningaloo Marine Park",NA,"5","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","5.11","-22.76278737","113.5723254","13082019","16:05:00","Ningaloo Marine Park",NA,"5","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","5.13","-22.76082","113.58319","13082019","16:11:00","Ningaloo Marine Park",NA,"5","?","Charlotte Aston","Yes","No"
-"2019-08_Ningaloo_stereo-BRUVs","6.01","-22.77091","113.53596","13082019","13:41:00","Ningaloo Marine Park",NA,"6","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","6.02","-22.75818","113.55367","13082019","13:31:00","Ningaloo Marine Park",NA,"6","?","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","6.03","-22.75754","113.54189","13082019","13:25:00","Ningaloo Marine Park",NA,"6","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","6.04","-22.75175065","113.5402541","13082019","13:21:00","Ningaloo Marine Park",NA,"6","?","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","6.05","-22.7411738","113.5412044","13082019","13:15:00","Ningaloo Marine Park",NA,"6","?","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","6.12","-22.73059695","113.541917","13082019","13:11:00","Ningaloo Marine Park",NA,"6","?","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","7.01","-22.73427585","113.5509445","14082019","08:24:00","Ningaloo Marine Park",NA,"7","85","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","7.02","-22.7317466","113.5533202","14082019","08:21:00","Ningaloo Marine Park",NA,"7","84","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","7.03","-22.72507859","113.5554582","14082019","08:16:00","Ningaloo Marine Park",NA,"7","82","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","7.04","-22.72760784","113.5630603","14082019","08:13:00","Ningaloo Marine Park",NA,"7","75","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","7.05","-22.72875749","113.5732756","14082019","08:08:00","Ningaloo Marine Park",NA,"7","72","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","7.08","-22.73059695","113.5756513","14082019","08:03:00","Ningaloo Marine Park",NA,"7","72","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","8.01","-22.71266228","113.5497567","14082019","10:00:00","Ningaloo Marine Park",NA,"8","87","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","8.02","-22.70277523","113.5559334","14082019","10:06:00","Ningaloo Marine Park",NA,"8","76","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","8.05","-22.7017","113.57994","14082019","10:31:00","Ningaloo Marine Park",NA,"8","63","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","8.06","-22.69621","113.58157","14082019","10:27:00","Ningaloo Marine Park",NA,"8","61","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","8.07","-22.69542","113.57783","14082019","10:23:00","Ningaloo Marine Park",NA,"8","63","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","8.12","-22.69932625","113.547381","14082019","10:11:00","Ningaloo Marine Park",NA,"8","95","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","9.01","-22.70139564","113.5359779","13082019","11:16:00","Ningaloo Marine Park",NA,"9","?","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","9.02","-22.7025453","113.5214865","13082019","11:00:00","Ningaloo Marine Park",NA,"9","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","9.05","-22.69150858","113.5248124","13082019","11:05:00","Ningaloo Marine Park",NA,"9","?","Charlotte Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","9.06","-22.6931181","113.5319393","13082019","11:10:00","Ningaloo Marine Park",NA,"9","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","9.07","-22.71082283","113.5255251","13082019","10:52:00","Ningaloo Marine Park",NA,"9","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","9.08","-22.71220242","113.5136468","13082019","10:45:00","Ningaloo Marine Park",NA,"9","?","Todd Bond","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.01","-22.67587323","113.5564085","14082019","12:13:00","Ningaloo Marine Park",NA,"10","93","Charlotte Aston","Yes","No"
-"2019-08_Ningaloo_stereo-BRUVs","10.02","-22.67334399","113.5564085","14082019","12:19:00","Ningaloo Marine Park",NA,"10","95","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.03","-22.66874535","113.5628228","14082019","12:24:00","Ningaloo Marine Park",NA,"10","88","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.04","-22.6669059","113.5518948","14082019","12:33:00","Ningaloo Marine Park",NA,"10","110","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.07","-22.67311405","113.5400165","14082019","12:40:00","Ningaloo Marine Park",NA,"10","138","Charlotte Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","10.08","-22.67035488","113.5383536","14082019","12:46:00","Ningaloo Marine Park",NA,"10","157","Charlotte Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","10.09","-22.62918","113.55942","14082019","14:34:00","Ningaloo Marine Park",NA,"10","160","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.11","-22.61773","113.5636","14082019","14:41:00","Ningaloo Marine Park",NA,"10","160","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.12","-22.59615","113.57775","14082019","15:20:00","Ningaloo Marine Park",NA,"10","136","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.13","-22.638","113.579","14082019","14:53:00","Ningaloo Marine Park",NA,"10","78","Brooke Gibbons","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.14","-22.624","113.5916667","14082019","15:02:00","Ningaloo Marine Park",NA,"10","74","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","10.15","-22.6058333","113.594","14082019","15:10:00","Ningaloo Marine Park",NA,"10","84","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","11.01","-22.54044354","113.6215013","15082019","08:06:00","Ningaloo Marine Park",NA,"11","84","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","11.02","-22.5365347","113.6248272","15082019","08:11:00","Ningaloo Marine Park",NA,"11","81","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","11.03","-22.53377552","113.6274404","15082019","08:15:00","Ningaloo Marine Park",NA,"11","79","Charlotte Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","11.04","-22.52871703","113.6243521","15082019","08:19:00","Ningaloo Marine Park",NA,"11","91","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","11.05","-22.52618778","113.6255399","15082019","08:25:00","Ningaloo Marine Park",NA,"11","91","Charlotte Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","11.06","-22.52388847","113.6345674","15082019","08:31:00","Ningaloo Marine Park",NA,"11","77","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","12.02","-22.46724","113.67504","15082019","10:37:00","Ningaloo Marine Park",NA,"12","56","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","12.03","-22.46824503","113.6678265","15082019","10:44:00","Ningaloo Marine Park",NA,"12","65","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","12.04","-22.46433619","113.6687767","15082019","10:48:00","Ningaloo Marine Park",NA,"12","70","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","12.05","-22.4673253","113.6599868","15082019","10:29:00","Ningaloo Marine Park",NA,"12","86","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","12.06","-22.46548585","113.6573736","15082019","10:25:00","Ningaloo Marine Park",NA,"12","94","Charlotte Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","12.11","-22.48475","113.64333","15082019","10:14:00","Ningaloo Marine Park",NA,"12","100","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","13.02","-22.40386419","113.7058369","15082019","12:32:00","Ningaloo Marine Park",NA,"13","69","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","13.03","-22.39903562","113.7013231","15082019","12:52:00","Ningaloo Marine Park",NA,"13","83","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","13.04","-22.39765604","113.6972845","15082019","12:48:00","Ningaloo Marine Park",NA,"13","92","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","13.05","-22.40087508","113.6932459","15082019","12:43:00","Ningaloo Marine Park",NA,"13","96","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","13.06","-22.40478391","113.6922957","15082019","12:39:00","Ningaloo Marine Park",NA,"13","94.5","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","13.08","-22.39328734","113.7039364","15082019","12:56:00","Ningaloo Marine Park",NA,"13","85","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","14.01","-22.32524","113.72408","15082019","14:46:00","Ningaloo Marine Park",NA,"14","96","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","14.02","-22.30284","113.73251","15082019","15:12:00","Ningaloo Marine Park",NA,"14","101","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","14.03","-22.27651","113.74266","15082019","15:25:00","Ningaloo Marine Park",NA,"14","109","Charlote Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","14.06","-22.17832","113.79046","16082019","08:12:00","Ningaloo Marine Park",NA,"14","100","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","14.11","-22.3266667","113.7371667","15082019","14:53:00","Ningaloo Marine Park",NA,"14","75","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","14.12","-22.3071667","113.746","15082019","15:05:00","Ningaloo Marine Park",NA,"14","82","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","14.13","-22.2866667","113.7416667","15082019","15:20:00","Ningaloo Marine Park",NA,"14","101","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","15.01","-22.17344","113.7915","16082019","08:16:00","Ningaloo Marine Park",NA,"15","100","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","15.02","-22.16882","113.7941","16082019","08:20:00","Ningaloo Marine Park",NA,"15","100","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","15.05","-22.16173","113.78335","16082019","08:27:00","Ningaloo Marine Park",NA,"15","122","Charlotte Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","15.07","-22.13639","113.79163","16082019","08:43:00","Ningaloo Marine Park",NA,"15","116","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","15.12","-22.14381158","113.7899349","16082019","08:39:00","Ningaloo Marine Park",NA,"15","110","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","16.01","-22.12155","113.80074","16082019","10:22:00","Ningaloo Marine Park",NA,"18","101","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","16.02","-22.11624","113.79192","16082019","10:28:00","Ningaloo Marine Park",NA,"16","145","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","16.03","-22.10669","113.7967","16082019","10:39:00","Ningaloo Marine Park",NA,"16","190","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","16.04","-22.09742","113.8081","16082019","10:48:00","Ningaloo Marine Park",NA,"16","100","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","16.05","-22.0856","113.82563","16082019","11:00:00","Ningaloo Marine Park",NA,"16","85","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","17.08","-22.0943763","113.8193929","16082019","10:53:00","Ningaloo Marine Park",NA,"17","90","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","18.01","-22.06954369","113.812266","16082019","12:33:00","Ningaloo Marine Park",NA,"18","91","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","18.02","-22.06517499","113.8120284","16082019","12:38:00","Ningaloo Marine Park",NA,"18","91","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","18.03","-22.06563485","113.8082274","16082019","12:46:00","Ningaloo Marine Park",NA,"18","117","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","18.04","-22.06172601","113.810603","16082019","12:50:00","Ningaloo Marine Park",NA,"18","134","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","18.07","-22.06264574","113.8281828","16082019","12:54:00","Ningaloo Marine Park",NA,"18","109","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","18.08","-22.0725328","113.823194","16082019","12:58:00","Ningaloo Marine Park",NA,"18","96","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","19.01","-22.01347","113.82289","16082019","14:42:00","Ningaloo Marine Park",NA,"19","107","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","19.02","-22.00792203","113.821531","16082019","14:44:00","Ningaloo Marine Park",NA,"19","122","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","19.03","-22.00286353","113.8305585","16082019","14:55:00","Ningaloo Marine Park",NA,"19","99","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","19.04","-22.00056422","113.8255696","16082019","14:49:00","Ningaloo Marine Park",NA,"19","109","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","19.05","-21.99757511","113.8291331","16082019","14:59:00","Ningaloo Marine Park",NA,"19","101","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","19.08","-21.99412613","113.8234315","16082019","15:03:00","Ningaloo Marine Park",NA,"19","130","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","23.01","-21.68647769","114.0835652","17082019","13:22:00","Ningaloo Marine Park",NA,"23","102","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","23.02","-21.68555797","114.0785763","17082019","13:28:00","Ningaloo Marine Park",NA,"23","106","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","23.03","-21.68233893","114.0811896","17082019","13:31:00","Ningaloo Marine Park",NA,"23","109","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","23.04","-21.67980968","114.0845155","17082019","13:35:00","Ningaloo Marine Park",NA,"23","110","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","23.06","-21.67475118","114.0944932","17082019","13:46:00","Ningaloo Marine Park",NA,"23","107","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","23.09","-21.706867","114.0747","17082019","13:13:00","Ningaloo Marine Park",NA,"23","67","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","30.01","-21.91122","113.90413","17082019","10:04:00","Ningaloo Marine Park",NA,"30","69","Charlotte Aston","No","No"
-"2019-08_Ningaloo_stereo-BRUVs","30.02","-21.90687","113.90722","17082019","10:08:00","Ningaloo Marine Park",NA,"30","69","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","30.03","-21.89999","113.91082","17082019","10:13:00","Ningaloo Marine Park",NA,"30","67","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","30.04","-21.89513","113.91423","17082019","10:16:00","Ningaloo Marine Park",NA,"30","69","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","30.05","-21.88983","113.91801","17082019","10:20:00","Ningaloo Marine Park",NA,"30","68","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","30.06","-21.8876","113.9202","17082019","10:23:00","Ningaloo Marine Park",NA,"30","66","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","31.01","-21.6873167","114.08985","17082019","15:25:00","Ningaloo Marine Park",NA,"31","77","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","31.02","-21.6919667","114.09","17082019","15:29:00","Ningaloo Marine Park",NA,"31","71","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","31.03","-21.69445","114.0887667","17082019","15:31:00","Ningaloo Marine Park",NA,"31","66","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","31.04","-21.69635","114.0877667","17082019","15:34:00","Ningaloo Marine Park",NA,"31","64","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","31.05","-21.70045","114.0814333","17082019","15:39:00","Ningaloo Marine Park",NA,"31","67","Charlotte Aston","Yes","Yes"
-"2019-08_Ningaloo_stereo-BRUVs","31.06","-21.7025167","114.0774833","17082019","15:45:00","Ningaloo Marine Park",NA,"31","66","Charlotte Aston","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","54","-22.7654","113.5392","20220520","8:32:36",NA,NA,NA,"83.1","Molly","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","52","-22.7635","113.5348","20220520","8:50:37",NA,NA,NA,"91","Molly","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","26","-22.7615","113.5484","20220520","9:08:31",NA,NA,NA,"77.2","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","45","-22.7602","113.5432","20220520","9:23:19",NA,NA,NA,"81.8","test video","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","7","-22.7574","113.5382","20220520","9:36:32",NA,NA,NA,"89.3","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","55","-22.7564","113.529","20220520","9:48:49",NA,NA,NA,"89.1","test video","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","56","-22.7534","113.5302","20220520","10:09:08",NA,NA,NA,"99.8","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","31","-22.7542","113.5424","20220520","10:27:48",NA,NA,NA,"82.3","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","40","-22.7522","113.5444","20220520","11:58:07",NA,NA,NA,"84.1","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","60","-22.7516","113.5386","20220520","12:05:02",NA,NA,NA,"91","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","12","-22.7505","113.5476","20220520","12:11:27",NA,NA,NA,"80.5","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","44","-22.7482","113.549","20220520","12:17:32",NA,NA,NA,"79.4","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","37","-22.7475","113.5445","20220520","12:23:05",NA,NA,NA,"81.3","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","6","-22.7459","113.5531","20220520","12:30:12",NA,NA,NA,"74.3","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","59","-22.7437","113.5452","20220520","12:37:35",NA,NA,NA,"83.5","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","24","-22.7426","113.5507","20220520","12:42:58",NA,NA,NA,"79.3","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","16","-22.7406","113.5395","20220520","14:06:11",NA,NA,NA,"93.2","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","62","-22.7375","113.542","20220520","14:11:26",NA,NA,NA,"90.1","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","23","-22.734","113.542","20220520","14:15:28",NA,NA,NA,"91.4","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","49","-22.7309","113.5443","20220520","14:20:55",NA,NA,NA,"89.5","N/A","No","No"
-"2022-05_PtCloates_stereo-BRUVS","36","-22.7318","113.5477","20220520","14:25:23",NA,NA,NA,"83.2","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","64","-22.7343","113.5508","20220520","14:30:16",NA,NA,NA,"79.2","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","3","-22.7379","113.5515","20220520","14:34:36",NA,NA,NA,"78.3","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","4","-22.7337","113.5555","20220520","14:40:43",NA,NA,NA,"73.9","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","43","-22.7328","113.5589","20220522","8:03:30",NA,NA,NA,"70.6","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","8","-22.7298","113.5538","20220522","8:12:35",NA,NA,NA,"76.4","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","11","-22.7274","113.5498","20220522","8:18:17",NA,NA,NA,"81","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","10","-22.7272","113.5424","20220522","8:25:30",NA,NA,NA,"94.7","N/A","No","No"
-"2022-05_PtCloates_stereo-BRUVS","27","-22.7254","113.5459","20220522","8:31:16",NA,NA,NA,"90.4","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","32","-22.7239","113.5552","20220522","8:39:35",NA,NA,NA,"78.3","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","20","-22.7212","113.5561","20220522","8:44:53",NA,NA,NA,"76","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","5","-22.7218","113.5506","20220522","8:50:54",NA,NA,NA,"81.9","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","1","-22.7221","113.5447","20220522","10:03:24",NA,NA,NA,"93.9","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","33","-22.719","113.549","20220522","10:09:30",NA,NA,NA,"85.4","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","50","-22.7173","113.5528","20220522","10:14:30",NA,NA,NA,"81.9","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","41","-22.7154","113.5479","20220522","10:21:59",NA,NA,NA,"89.7","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","18","-22.7101","113.5492","20220522","10:29:53",NA,NA,NA,"91.5","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","39","-22.7105","113.5539","20220522","10:35:24",NA,NA,NA,"78.9","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","22","-22.7072","113.5554","20220522","10:42:04",NA,NA,NA,"81.3","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","30","-22.7058","113.5588","20220522","10:47:54",NA,NA,NA,"78.5","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","58","-22.7056","113.5502","20220522","12:28:44",NA,NA,NA,"90.9","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","25","-22.7053","113.5466","20220522","12:34:21",NA,NA,NA,"99.5","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","17","-22.7011","113.5532","20220522","12:45:32",NA,NA,NA,"86.5","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","35","-22.6987","113.551","20220522","12:46:10",NA,NA,NA,"94.6","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","42","-22.6952","113.5537","20220522","12:51:14",NA,NA,NA,"92.3","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","15","-22.6977","113.5561","20220522","12:55:29",NA,NA,NA,"83.9","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","47","-22.6999","113.5592","20220522","12:59:50",NA,NA,NA,"80.8","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","28","-22.6987","113.5625","20220522","13:05:17",NA,NA,NA,"76.3","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","2","-22.6957","113.5628","20220522","14:16:25",NA,NA,NA,"77.3","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","48","-22.696","113.5596","20220522","14:21:46",NA,NA,NA,"80.2","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","9","-22.6934","113.5571","20220522","14:27:15",NA,NA,NA,"84.9","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","46","-22.693","113.5605","20220522","14:30:54",NA,NA,NA,"79.5","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","34","-22.6928","113.5645","20220522","14:38:27",NA,NA,NA,"76.4","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","21","-22.6893","113.5652","20220522","14:43:14",NA,NA,NA,"77.3","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","51","-22.69","113.5609","20220522","14:49:13",NA,NA,NA,"79.4","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","29","-22.691","113.5564","20220522","14:54:59",NA,NA,NA,"87.9","Henry","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","57","-22.6751","113.561","20220526","8:11:51",NA,NA,NA,"88.2","Kaitlin","Yes","Yes"
-"2022-05_PtCloates_stereo-BRUVS","63","-22.6744","113.5666","20220526","8:17:59",NA,NA,NA,"81.1","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","61","-22.6779","113.5654","20220526","8:23:34",NA,NA,NA,"79.8","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","53","-22.6839","113.5636","20220526","8:29:10",NA,NA,NA,"78.2","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","19","-22.6847","113.5669","20220526","8:33:41",NA,NA,NA,"76.4","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","38","-22.6868","113.5642","20220526","8:38:39",NA,NA,NA,"78.6","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","13","-22.6872","113.5606","20220526","8:42:37",NA,NA,NA,"82.1","Kaitlin","Yes","No"
-"2022-05_PtCloates_stereo-BRUVS","14","-22.6876","113.5568","20220526","8:48:10",NA,NA,NA,"90.5","Kaitlin","Yes","Yes"
+"campaignid","sample","date","time","location","status","site","depth","observer","successful.count","successful.length","ZoneName","longitude","latitude","commonwealth","waname"
+"2019-08_Ningaloo_stereo-BRUVs","2.03","12082019","11:57:00","Ningaloo Marine Park","Fished","2","?","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.5659111,-22.82900766,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","2.04","12082019","12:05:00","Ningaloo Marine Park","Fished","2","?","Charlote Aston","Yes","Yes","Recreational Use Zone",113.5815904,-22.82440903,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","2.05","12082019","12:12:00","Ningaloo Marine Park","Fished","2","?","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.5770767,-22.82256957,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","2.06","12082019","12:18:00","Ningaloo Marine Park","Fished","2","?","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.5716127,-22.82164985,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","2.07","12082019","12:24:00","Ningaloo Marine Park","Fished","2","?","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.5640106,-22.8191206,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","5.02","13082019","15:37:00","Ningaloo Marine Park","No-take","5","?","Charlotte Aston","Yes","Yes","National Park Zone",113.54762,-22.78253,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","5.03","13082019","15:42:00","Ningaloo Marine Park","No-take","5","?","Charlotte Aston","Yes","Yes","National Park Zone",113.56188,-22.78303,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","5.07","13082019","15:49:00","Ningaloo Marine Park","No-take","5","?","Charlotte Aston","Yes","Yes","National Park Zone",113.57245,-22.7727833,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","5.08","13082019","15:53:00","Ningaloo Marine Park","No-take","5","?","Charlotte Aston","Yes","Yes","National Park Zone",113.5716127,-22.76807579,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","5.11","13082019","16:05:00","Ningaloo Marine Park","No-take","5","?","Charlotte Aston","Yes","Yes","National Park Zone",113.5723254,-22.76278737,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","5.13","13082019","16:11:00","Ningaloo Marine Park","No-take","5","?","Charlotte Aston","Yes","No","National Park Zone",113.58319,-22.76082,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","6.01","13082019","13:41:00","Ningaloo Marine Park","No-take","6","?","Charlotte Aston","Yes","Yes","National Park Zone",113.53596,-22.77091,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","6.02","13082019","13:31:00","Ningaloo Marine Park","No-take","6","?","Brooke Gibbons","Yes","Yes","National Park Zone",113.55367,-22.75818,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","6.03","13082019","13:25:00","Ningaloo Marine Park","No-take","6","?","Charlotte Aston","Yes","Yes","National Park Zone",113.54189,-22.75754,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","6.04","13082019","13:21:00","Ningaloo Marine Park","No-take","6","?","Brooke Gibbons","Yes","Yes","National Park Zone",113.5402541,-22.75175065,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","6.05","13082019","13:15:00","Ningaloo Marine Park","No-take","6","?","Brooke Gibbons","Yes","Yes","National Park Zone",113.5412044,-22.7411738,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","6.12","13082019","13:11:00","Ningaloo Marine Park","No-take","6","?","Brooke Gibbons","Yes","Yes","National Park Zone",113.541917,-22.73059695,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","7.01","14082019","08:24:00","Ningaloo Marine Park","No-take","7","85","Charlotte Aston","Yes","Yes","National Park Zone",113.5509445,-22.73427585,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","7.02","14082019","08:21:00","Ningaloo Marine Park","No-take","7","84","Brooke Gibbons","Yes","Yes","National Park Zone",113.5533202,-22.7317466,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","7.03","14082019","08:16:00","Ningaloo Marine Park","No-take","7","82","Charlotte Aston","Yes","Yes","National Park Zone",113.5554582,-22.72507859,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","7.04","14082019","08:13:00","Ningaloo Marine Park","No-take","7","75","Brooke Gibbons","Yes","Yes","National Park Zone",113.5630603,-22.72760784,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","7.05","14082019","08:08:00","Ningaloo Marine Park","No-take","7","72","Brooke Gibbons","Yes","Yes","National Park Zone",113.5732756,-22.72875749,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","7.08","14082019","08:03:00","Ningaloo Marine Park","No-take","7","72","Charlotte Aston","Yes","Yes","National Park Zone",113.5756513,-22.73059695,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","8.01","14082019","10:00:00","Ningaloo Marine Park","No-take","8","87","Charlotte Aston","Yes","Yes","National Park Zone",113.5497567,-22.71266228,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","8.02","14082019","10:06:00","Ningaloo Marine Park","No-take","8","76","Charlotte Aston","Yes","Yes","National Park Zone",113.5559334,-22.70277523,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","8.05","14082019","10:31:00","Ningaloo Marine Park","No-take","8","63","Charlotte Aston","Yes","Yes","National Park Zone",113.57994,-22.7017,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","8.06","14082019","10:27:00","Ningaloo Marine Park","No-take","8","61","Charlotte Aston","Yes","Yes","National Park Zone",113.58157,-22.69621,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","8.07","14082019","10:23:00","Ningaloo Marine Park","No-take","8","63","Charlotte Aston","Yes","Yes","National Park Zone",113.57783,-22.69542,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","8.12","14082019","10:11:00","Ningaloo Marine Park","No-take","8","95","Charlotte Aston","Yes","Yes","National Park Zone",113.547381,-22.69932625,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","9.01","13082019","11:16:00","Ningaloo Marine Park","No-take","9","?","Charlotte Aston","Yes","Yes","National Park Zone",113.5359779,-22.70139564,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","9.02","13082019","11:00:00","Ningaloo Marine Park","No-take","9","?","Todd Bond","Yes","Yes","National Park Zone",113.5214865,-22.7025453,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","9.05","13082019","11:05:00","Ningaloo Marine Park","No-take","9","?","Charlotte Aston","No","No","National Park Zone",113.5248124,-22.69150858,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","9.06","13082019","11:10:00","Ningaloo Marine Park","No-take","9","?","Todd Bond","Yes","Yes","National Park Zone",113.5319393,-22.6931181,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","9.07","13082019","10:52:00","Ningaloo Marine Park","No-take","9","?","Todd Bond","Yes","Yes","National Park Zone",113.5255251,-22.71082283,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","9.08","13082019","10:45:00","Ningaloo Marine Park","No-take","9","?","Todd Bond","Yes","Yes","National Park Zone",113.5136468,-22.71220242,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","10.01","14082019","12:13:00","Ningaloo Marine Park","No-take","10","93","Charlotte Aston","Yes","No","National Park Zone",113.5564085,-22.67587323,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","10.02","14082019","12:19:00","Ningaloo Marine Park","No-take","10","95","Charlotte Aston","Yes","Yes","National Park Zone",113.5564085,-22.67334399,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","10.03","14082019","12:24:00","Ningaloo Marine Park","No-take","10","88","Charlotte Aston","Yes","Yes","National Park Zone",113.5628228,-22.66874535,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","10.04","14082019","12:33:00","Ningaloo Marine Park","No-take","10","110","Charlotte Aston","Yes","Yes","National Park Zone",113.5518948,-22.6669059,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","10.07","14082019","12:40:00","Ningaloo Marine Park","No-take","10","138","Charlotte Aston","No","No","National Park Zone",113.5400165,-22.67311405,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","10.08","14082019","12:46:00","Ningaloo Marine Park","No-take","10","157","Charlotte Aston","No","No","National Park Zone",113.5383536,-22.67035488,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","54","20220520","8:32:36",NA,"No-take",NA,"83.1","Molly","Yes","Yes","National Park Zone",113.5392,-22.7654,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","52","20220520","8:50:37",NA,"No-take",NA,"91","Molly","Yes","Yes","National Park Zone",113.5348,-22.7635,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","26","20220520","9:08:31",NA,"No-take",NA,"77.2","Kaitlin","Yes","Yes","National Park Zone",113.5484,-22.7615,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","45","20220520","9:23:19",NA,"No-take",NA,"81.8","test video","Yes","No","National Park Zone",113.5432,-22.7602,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","7","20220520","9:36:32",NA,"No-take",NA,"89.3","Kaitlin","Yes","Yes","National Park Zone",113.5382,-22.7574,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","55","20220520","9:48:49",NA,"No-take",NA,"89.1","test video","Yes","No","National Park Zone",113.529,-22.7564,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","56","20220520","10:09:08",NA,"No-take",NA,"99.8","Kaitlin","Yes","Yes","National Park Zone",113.5302,-22.7534,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","31","20220520","10:27:48",NA,"No-take",NA,"82.3","Kaitlin","Yes","Yes","National Park Zone",113.5424,-22.7542,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","40","20220520","11:58:07",NA,"No-take",NA,"84.1","Henry","Yes","Yes","National Park Zone",113.5444,-22.7522,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","60","20220520","12:05:02",NA,"No-take",NA,"91","Kaitlin","Yes","Yes","National Park Zone",113.5386,-22.7516,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","12","20220520","12:11:27",NA,"No-take",NA,"80.5","Henry","Yes","Yes","National Park Zone",113.5476,-22.7505,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","44","20220520","12:17:32",NA,"No-take",NA,"79.4","Henry","Yes","Yes","National Park Zone",113.549,-22.7482,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","37","20220520","12:23:05",NA,"No-take",NA,"81.3","Kaitlin","Yes","Yes","National Park Zone",113.5445,-22.7475,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","6","20220520","12:30:12",NA,"No-take",NA,"74.3","Kaitlin","Yes","Yes","National Park Zone",113.5531,-22.7459,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","59","20220520","12:37:35",NA,"No-take",NA,"83.5","Kaitlin","Yes","Yes","National Park Zone",113.5452,-22.7437,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","24","20220520","12:42:58",NA,"No-take",NA,"79.3","Kaitlin","Yes","Yes","National Park Zone",113.5507,-22.7426,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","16","20220520","14:06:11",NA,"No-take",NA,"93.2","Henry","Yes","Yes","National Park Zone",113.5395,-22.7406,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","62","20220520","14:11:26",NA,"No-take",NA,"90.1","Henry","Yes","Yes","National Park Zone",113.542,-22.7375,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","23","20220520","14:15:28",NA,"No-take",NA,"91.4","Henry","Yes","Yes","National Park Zone",113.542,-22.734,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","49","20220520","14:20:55",NA,"No-take",NA,"89.5","N/A","No","No","National Park Zone",113.5443,-22.7309,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","36","20220520","14:25:23",NA,"No-take",NA,"83.2","Henry","Yes","Yes","National Park Zone",113.5477,-22.7318,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","64","20220520","14:30:16",NA,"No-take",NA,"79.2","Kaitlin","Yes","Yes","National Park Zone",113.5508,-22.7343,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","3","20220520","14:34:36",NA,"No-take",NA,"78.3","Kaitlin","Yes","Yes","National Park Zone",113.5515,-22.7379,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","4","20220520","14:40:43",NA,"No-take",NA,"73.9","Kaitlin","Yes","Yes","National Park Zone",113.5555,-22.7337,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","43","20220522","8:03:30",NA,"No-take",NA,"70.6","Henry","Yes","Yes","National Park Zone",113.5589,-22.7328,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","8","20220522","8:12:35",NA,"No-take",NA,"76.4","Kaitlin","Yes","Yes","National Park Zone",113.5538,-22.7298,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","11","20220522","8:18:17",NA,"No-take",NA,"81","Henry","Yes","Yes","National Park Zone",113.5498,-22.7274,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","10","20220522","8:25:30",NA,"No-take",NA,"94.7","N/A","No","No","National Park Zone",113.5424,-22.7272,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","27","20220522","8:31:16",NA,"No-take",NA,"90.4","Kaitlin","Yes","Yes","National Park Zone",113.5459,-22.7254,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","32","20220522","8:39:35",NA,"No-take",NA,"78.3","Henry","Yes","Yes","National Park Zone",113.5552,-22.7239,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","20","20220522","8:44:53",NA,"No-take",NA,"76","Henry","Yes","Yes","National Park Zone",113.5561,-22.7212,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","5","20220522","8:50:54",NA,"No-take",NA,"81.9","Kaitlin","Yes","Yes","National Park Zone",113.5506,-22.7218,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","1","20220522","10:03:24",NA,"No-take",NA,"93.9","Kaitlin","Yes","Yes","National Park Zone",113.5447,-22.7221,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","33","20220522","10:09:30",NA,"No-take",NA,"85.4","Kaitlin","Yes","Yes","National Park Zone",113.549,-22.719,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","50","20220522","10:14:30",NA,"No-take",NA,"81.9","Kaitlin","Yes","Yes","National Park Zone",113.5528,-22.7173,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","41","20220522","10:21:59",NA,"No-take",NA,"89.7","Henry","Yes","Yes","National Park Zone",113.5479,-22.7154,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","18","20220522","10:29:53",NA,"No-take",NA,"91.5","Henry","Yes","Yes","National Park Zone",113.5492,-22.7101,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","39","20220522","10:35:24",NA,"No-take",NA,"78.9","Kaitlin","Yes","Yes","National Park Zone",113.5539,-22.7105,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","22","20220522","10:42:04",NA,"No-take",NA,"81.3","Henry","Yes","Yes","National Park Zone",113.5554,-22.7072,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","30","20220522","10:47:54",NA,"No-take",NA,"78.5","Kaitlin","Yes","Yes","National Park Zone",113.5588,-22.7058,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","58","20220522","12:28:44",NA,"No-take",NA,"90.9","Kaitlin","Yes","Yes","National Park Zone",113.5502,-22.7056,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","25","20220522","12:34:21",NA,"No-take",NA,"99.5","Kaitlin","Yes","Yes","National Park Zone",113.5466,-22.7053,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","17","20220522","12:45:32",NA,"No-take",NA,"86.5","Henry","Yes","Yes","National Park Zone",113.5532,-22.7011,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","35","20220522","12:46:10",NA,"No-take",NA,"94.6","Kaitlin","Yes","Yes","National Park Zone",113.551,-22.6987,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","42","20220522","12:51:14",NA,"No-take",NA,"92.3","Kaitlin","Yes","Yes","National Park Zone",113.5537,-22.6952,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","15","20220522","12:55:29",NA,"No-take",NA,"83.9","Kaitlin","Yes","Yes","National Park Zone",113.5561,-22.6977,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","47","20220522","12:59:50",NA,"No-take",NA,"80.8","Kaitlin","Yes","No","National Park Zone",113.5592,-22.6999,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","28","20220522","13:05:17",NA,"No-take",NA,"76.3","Kaitlin","Yes","Yes","National Park Zone",113.5625,-22.6987,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","2","20220522","14:16:25",NA,"No-take",NA,"77.3","Kaitlin","Yes","No","National Park Zone",113.5628,-22.6957,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","48","20220522","14:21:46",NA,"No-take",NA,"80.2","Henry","Yes","Yes","National Park Zone",113.5596,-22.696,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","9","20220522","14:27:15",NA,"No-take",NA,"84.9","Henry","Yes","Yes","National Park Zone",113.5571,-22.6934,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","46","20220522","14:30:54",NA,"No-take",NA,"79.5","Kaitlin","Yes","Yes","National Park Zone",113.5605,-22.693,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","34","20220522","14:38:27",NA,"No-take",NA,"76.4","Kaitlin","Yes","Yes","National Park Zone",113.5645,-22.6928,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","21","20220522","14:43:14",NA,"No-take",NA,"77.3","Kaitlin","Yes","No","National Park Zone",113.5652,-22.6893,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","51","20220522","14:49:13",NA,"No-take",NA,"79.4","Henry","Yes","Yes","National Park Zone",113.5609,-22.69,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","29","20220522","14:54:59",NA,"No-take",NA,"87.9","Henry","Yes","Yes","National Park Zone",113.5564,-22.691,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","57","20220526","8:11:51",NA,"No-take",NA,"88.2","Kaitlin","Yes","Yes","National Park Zone",113.561,-22.6751,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","63","20220526","8:17:59",NA,"No-take",NA,"81.1","Kaitlin","Yes","No","National Park Zone",113.5666,-22.6744,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","61","20220526","8:23:34",NA,"No-take",NA,"79.8","Kaitlin","Yes","No","National Park Zone",113.5654,-22.6779,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","53","20220526","8:29:10",NA,"No-take",NA,"78.2","Kaitlin","Yes","No","National Park Zone",113.5636,-22.6839,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","19","20220526","8:33:41",NA,"No-take",NA,"76.4","Kaitlin","Yes","No","National Park Zone",113.5669,-22.6847,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","38","20220526","8:38:39",NA,"No-take",NA,"78.6","Kaitlin","Yes","No","National Park Zone",113.5642,-22.6868,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","13","20220526","8:42:37",NA,"No-take",NA,"82.1","Kaitlin","Yes","No","National Park Zone",113.5606,-22.6872,"state",NA
+"2022-05_PtCloates_stereo-BRUVS","14","20220526","8:48:10",NA,"No-take",NA,"90.5","Kaitlin","Yes","Yes","National Park Zone",113.5568,-22.6876,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","10.09","14082019","14:34:00","Ningaloo Marine Park","Fished","10","160","Brooke Gibbons","Yes","Yes","Recreational Use Zone",113.55942,-22.62918,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","10.11","14082019","14:41:00","Ningaloo Marine Park","Fished","10","160","Brooke Gibbons","Yes","Yes","Recreational Use Zone",113.5636,-22.61773,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","14.03","15082019","15:25:00","Ningaloo Marine Park","Fished","14","109","Charlote Aston","No","No","Recreational Use Zone",113.74266,-22.27651,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","15.01","16082019","08:16:00","Ningaloo Marine Park","Fished","15","100","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.7915,-22.17344,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","15.02","16082019","08:20:00","Ningaloo Marine Park","Fished","15","100","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.7941,-22.16882,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","15.05","16082019","08:27:00","Ningaloo Marine Park","Fished","15","122","Charlotte Aston","No","No","Recreational Use Zone",113.78335,-22.16173,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","15.07","16082019","08:43:00","Ningaloo Marine Park","Fished","15","116","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.79163,-22.13639,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","15.12","16082019","08:39:00","Ningaloo Marine Park","Fished","15","110","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.7899349,-22.14381158,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","16.01","16082019","10:22:00","Ningaloo Marine Park","Fished","18","101","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.80074,-22.12155,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","16.02","16082019","10:28:00","Ningaloo Marine Park","Fished","16","145","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.79192,-22.11624,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","16.03","16082019","10:39:00","Ningaloo Marine Park","Fished","16","190","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.7967,-22.10669,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","16.04","16082019","10:48:00","Ningaloo Marine Park","Fished","16","100","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8081,-22.09742,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","17.08","16082019","10:53:00","Ningaloo Marine Park","Fished","17","90","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8193929,-22.0943763,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","18.01","16082019","12:33:00","Ningaloo Marine Park","Fished","18","91","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.812266,-22.06954369,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","18.02","16082019","12:38:00","Ningaloo Marine Park","Fished","18","91","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8120284,-22.06517499,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","18.03","16082019","12:46:00","Ningaloo Marine Park","Fished","18","117","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8082274,-22.06563485,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","18.04","16082019","12:50:00","Ningaloo Marine Park","Fished","18","134","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.810603,-22.06172601,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","18.07","16082019","12:54:00","Ningaloo Marine Park","Fished","18","109","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8281828,-22.06264574,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","18.08","16082019","12:58:00","Ningaloo Marine Park","Fished","18","96","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.823194,-22.0725328,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","19.01","16082019","14:42:00","Ningaloo Marine Park","Fished","19","107","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.82289,-22.01347,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","19.02","16082019","14:44:00","Ningaloo Marine Park","Fished","19","122","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.821531,-22.00792203,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","19.03","16082019","14:55:00","Ningaloo Marine Park","Fished","19","99","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8305585,-22.00286353,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","19.04","16082019","14:49:00","Ningaloo Marine Park","Fished","19","109","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8255696,-22.00056422,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","19.05","16082019","14:59:00","Ningaloo Marine Park","Fished","19","101","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8291331,-21.99757511,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","19.08","16082019","15:03:00","Ningaloo Marine Park","Fished","19","130","Charlotte Aston","Yes","Yes","Recreational Use Zone",113.8234315,-21.99412613,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","23.01","17082019","13:22:00","Ningaloo Marine Park","Fished","23","102","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0835652,-21.68647769,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","23.02","17082019","13:28:00","Ningaloo Marine Park","Fished","23","106","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0785763,-21.68555797,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","23.03","17082019","13:31:00","Ningaloo Marine Park","Fished","23","109","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0811896,-21.68233893,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","23.04","17082019","13:35:00","Ningaloo Marine Park","Fished","23","110","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0845155,-21.67980968,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","23.06","17082019","13:46:00","Ningaloo Marine Park","Fished","23","107","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0944932,-21.67475118,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","23.09","17082019","13:13:00","Ningaloo Marine Park","Fished","23","67","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0747,-21.706867,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","31.01","17082019","15:25:00","Ningaloo Marine Park","Fished","31","77","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.08985,-21.6873167,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","31.02","17082019","15:29:00","Ningaloo Marine Park","Fished","31","71","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.09,-21.6919667,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","31.03","17082019","15:31:00","Ningaloo Marine Park","Fished","31","66","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0887667,-21.69445,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","31.04","17082019","15:34:00","Ningaloo Marine Park","Fished","31","64","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0877667,-21.69635,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","31.05","17082019","15:39:00","Ningaloo Marine Park","Fished","31","67","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0814333,-21.70045,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","31.06","17082019","15:45:00","Ningaloo Marine Park","Fished","31","66","Charlotte Aston","Yes","Yes","Recreational Use Zone",114.0774833,-21.7025167,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","1.01","12082019","09:23:00","Ningaloo Marine Park","Fished","1","?","Brooke Gibbons","Yes","Yes","Multiple Use Zone",113.5404917,-22.84786205,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","1.02","12082019","09:35:00","Ningaloo Marine Park","Fished","1","?","Brooke Gibbons","Yes","Yes","Multiple Use Zone",113.5252875,-22.85016136,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","1.03","12082019","09:43:00","Ningaloo Marine Park","Fished","1","?","Charlotte Aston","Yes","Yes","Multiple Use Zone",113.51304,-22.84437,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","1.04","12082019","09:51:00","Ningaloo Marine Park","Fished","1","?","Charlotte Aston","Yes","Yes","Multiple Use Zone",113.5183981,-22.8402743,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","1.05","12082019","09:58:00","Ningaloo Marine Park","Fished","1","?","Charlotte Aston","Yes","No","Multiple Use Zone",113.51601,-22.83417,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","1.06","12082019","10:06:00","Ningaloo Marine Park","Fished","1","?","Charlotte Aston","Yes","Yes","Multiple Use Zone",113.523387,-22.83153691,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","2.02","12082019","11:47:00","Ningaloo Marine Park","Fished","2","?","Brooke Gibbons","Yes","No","Multiple Use Zone",113.5625852,-22.83153691,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","3.01","12082019","14:12:00","Ningaloo Marine Park","Fished","3","?","Brooke Gibbons","Yes","Yes","Multiple Use Zone",113.5207738,-22.81314238,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","3.02","12082019","14:07:00","Ningaloo Marine Park","Fished","3","?","Charlotte Aston","Yes","No","Multiple Use Zone",113.5262378,-22.81015327,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","3.03","12082019","14:00:00","Ningaloo Marine Park","Fished","3","?","Brooke Gibbons","Yes","Yes","Multiple Use Zone",113.5338398,-22.80693423,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","3.04","12082019","14:17:00","Ningaloo Marine Park","Fished","3","?","Brooke Gibbons","Yes","No","Multiple Use Zone",113.51938,-22.80608,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","3.05","12082019","14:21:00","Ningaloo Marine Park","Fished","3","?","Todd Bond","Yes","Yes","Multiple Use Zone",113.51626,-22.80532471,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","3.06","12082019","14:25:00","Ningaloo Marine Park","Fished","3","?","Todd Bond","Yes","Yes","Multiple Use Zone",113.5105585,-22.80463491,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","4.01","13082019","08:05:00","Ningaloo Marine Park","Fished","4","?","Todd Bond","Yes","Yes","Multiple Use Zone",113.49708,-22.80504,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","4.02","13082019","08:15:00","Ningaloo Marine Park","Fished","4","?","Todd Bond","Yes","Yes","Multiple Use Zone",113.51077,-22.79001,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","4.03","13082019","08:24:00","Ningaloo Marine Park","Fished","4","?","Todd Bond","Yes","Yes","Multiple Use Zone",113.5005807,-22.78991929,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","4.08","13082019","08:29:00","Ningaloo Marine Park","Fished","4","?","Todd Bond","Yes","Yes","Multiple Use Zone",113.4984427,-22.78601045,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","4.11","13082019","08:33:00","Ningaloo Marine Park","Fished","4","?","Todd Bond","Yes","Yes","Multiple Use Zone",113.496067,-22.78371114,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","4.12","13082019","08:56:00","Ningaloo Marine Park","Fished","4","?","Todd Bond","Yes","Yes","Multiple Use Zone",113.4877522,-22.78578052,"state",NA
+"2019-08_Ningaloo_stereo-BRUVs","30.01","17082019","10:04:00","Ningaloo Marine Park","Fished","30","69","Charlotte Aston","No","No",NA,113.90413,-21.91122,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","30.02","17082019","10:08:00","Ningaloo Marine Park","Fished","30","69","Charlotte Aston","Yes","Yes",NA,113.90722,-21.90687,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","30.03","17082019","10:13:00","Ningaloo Marine Park","Fished","30","67","Charlotte Aston","Yes","Yes",NA,113.91082,-21.89999,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","30.04","17082019","10:16:00","Ningaloo Marine Park","Fished","30","69","Charlotte Aston","Yes","Yes",NA,113.91423,-21.89513,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","30.05","17082019","10:20:00","Ningaloo Marine Park","Fished","30","68","Charlotte Aston","Yes","Yes",NA,113.91801,-21.88983,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","30.06","17082019","10:23:00","Ningaloo Marine Park","Fished","30","66","Charlotte Aston","Yes","Yes",NA,113.9202,-21.8876,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","11.01","15082019","08:06:00","Ningaloo Marine Park","Fished","11","84","Charlotte Aston","Yes","Yes",NA,113.6215013,-22.54044354,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","11.02","15082019","08:11:00","Ningaloo Marine Park","Fished","11","81","Charlotte Aston","Yes","Yes",NA,113.6248272,-22.5365347,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","11.03","15082019","08:15:00","Ningaloo Marine Park","Fished","11","79","Charlotte Aston","No","No",NA,113.6274404,-22.53377552,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","11.04","15082019","08:19:00","Ningaloo Marine Park","Fished","11","91","Charlotte Aston","Yes","Yes",NA,113.6243521,-22.52871703,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","11.05","15082019","08:25:00","Ningaloo Marine Park","Fished","11","91","Charlotte Aston","No","No",NA,113.6255399,-22.52618778,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","11.06","15082019","08:31:00","Ningaloo Marine Park","Fished","11","77","Charlotte Aston","Yes","Yes",NA,113.6345674,-22.52388847,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","12.02","15082019","10:37:00","Ningaloo Marine Park","Fished","12","56","Charlotte Aston","Yes","Yes",NA,113.67504,-22.46724,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","12.03","15082019","10:44:00","Ningaloo Marine Park","Fished","12","65","Charlotte Aston","Yes","Yes",NA,113.6678265,-22.46824503,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","12.04","15082019","10:48:00","Ningaloo Marine Park","Fished","12","70","Charlotte Aston","Yes","Yes",NA,113.6687767,-22.46433619,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","12.05","15082019","10:29:00","Ningaloo Marine Park","Fished","12","86","Charlotte Aston","Yes","Yes",NA,113.6599868,-22.4673253,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","12.06","15082019","10:25:00","Ningaloo Marine Park","Fished","12","94","Charlotte Aston","No","No",NA,113.6573736,-22.46548585,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","12.11","15082019","10:14:00","Ningaloo Marine Park","Fished","12","100","Charlotte Aston","Yes","Yes",NA,113.64333,-22.48475,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","13.02","15082019","12:32:00","Ningaloo Marine Park","Fished","13","69","Charlotte Aston","Yes","Yes",NA,113.7058369,-22.40386419,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","13.03","15082019","12:52:00","Ningaloo Marine Park","Fished","13","83","Charlotte Aston","Yes","Yes",NA,113.7013231,-22.39903562,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","13.04","15082019","12:48:00","Ningaloo Marine Park","Fished","13","92","Charlotte Aston","Yes","Yes",NA,113.6972845,-22.39765604,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","13.05","15082019","12:43:00","Ningaloo Marine Park","Fished","13","96","Charlotte Aston","Yes","Yes",NA,113.6932459,-22.40087508,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","13.06","15082019","12:39:00","Ningaloo Marine Park","Fished","13","94.5","Charlotte Aston","Yes","Yes",NA,113.6922957,-22.40478391,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","13.08","15082019","12:56:00","Ningaloo Marine Park","Fished","13","85","Charlotte Aston","Yes","Yes",NA,113.7039364,-22.39328734,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","14.01","15082019","14:46:00","Ningaloo Marine Park","Fished","14","96","Charlotte Aston","Yes","Yes",NA,113.72408,-22.32524,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","14.11","15082019","14:53:00","Ningaloo Marine Park","Fished","14","75","Charlotte Aston","Yes","Yes",NA,113.7371667,-22.3266667,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","14.06","16082019","08:12:00","Ningaloo Marine Park","Fished","14","100","Charlotte Aston","Yes","Yes",NA,113.79046,-22.17832,"State","General Use Zone"
+"2019-08_Ningaloo_stereo-BRUVs","16.05","16082019","11:00:00","Ningaloo Marine Park","Fished","16","85","Charlotte Aston","Yes","Yes",NA,113.82563,-22.0856,"State","Special Purpose Zone"
