@@ -15,6 +15,8 @@ library(viridis)
 library(raster)
 library(dplyr)
 library(stringr)
+library(terra)
+library(sf)
 
 name <- "Parks-Ningaloo-synthesis"  # set study name
 
@@ -148,8 +150,9 @@ prasts <- mask(prasts, wasanc, inverse = T)
 plot(prasts)
 
 library(raster)
-nin.spat.fish <- raster(prasts)
+nin.spat.fish <- stack(prasts)
 crs(nin.spat.fish) <- sppcrs
+plot(nin.spat.fish)
 saveRDS(nin.spat.fish, file = "output/fssgam-fish/ningaloo-fish-spatial_UTM49.rds")
 
 # tidy and output data
