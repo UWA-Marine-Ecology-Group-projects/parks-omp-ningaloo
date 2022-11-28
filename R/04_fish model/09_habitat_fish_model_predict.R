@@ -147,6 +147,11 @@ prasts <- rast(prasts)
 prasts <- mask(prasts, wasanc, inverse = T)
 plot(prasts)
 
+library(raster)
+nin.spat.fish <- raster(prasts)
+crs(nin.spat.fish) <- sppcrs
+saveRDS(nin.spat.fish, file = "output/fssgam-fish/ningaloo-fish-spatial_UTM49.rds")
+
 # tidy and output data
 spreddf <- terra::as.data.frame(prasts, xy = T, na.rm = TRUE) %>%
   glimpse()

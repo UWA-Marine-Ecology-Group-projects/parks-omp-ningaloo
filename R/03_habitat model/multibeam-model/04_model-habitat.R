@@ -213,3 +213,5 @@ plot(pred_prob)
 
 writeRaster(pred_class, filename = paste0("output/rf-habitat/", name, "_nesp_predicted-habitat.tif"),
             overwrite = T)
+
+saveRDS(pred_class, file = "output/rf-habitat/ningaloo-habitat-spatial_UTM49.rds")

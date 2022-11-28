@@ -35,7 +35,7 @@ wgscrs <- "+proj=longlat +datum=WGS84"
 gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
 
 # Set cropping extent - larger than most zoomed out plot
-e <- ext(112, 115, -23.4, -21)
+e <- ext(112, 115, -24, -21)
 
 # Load necessary spatial files
 sf_use_s2(F)                                                                    # Switch off spatial geometry for cropping
@@ -123,8 +123,9 @@ p1 <- ggplot() +
   geom_sf(data = wasanc, fill = NA, colour = "#bfd054") +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 1, size = 0.6) +
   new_scale_color() +
-  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.25, -21.5)) +
-  labs(x = NULL, y = NULL)
+  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +
+  labs(x = NULL, y = NULL, title = "a)") +
+  theme(axis.text.x = element_text(size = 8))
 p1
 
 p2 <- ggplot() +
@@ -147,9 +148,10 @@ p2 <- ggplot() +
   new_scale_color() +
   geom_sf(data = wasanc, fill = NA, colour = "#bfd054") +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 1, size = 0.6) +
-  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.25, -21.5)) +
-  labs(x = NULL, y = NULL) +
-  theme(legend.key = element_rect(colour = NA, fill = NA))
+  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +
+  labs(x = NULL, y = NULL, title = "b)") +
+  theme(legend.key = element_rect(colour = NA, fill = NA)) +
+  theme(axis.text.x = element_text(size = 8))
 p2
 
 png(filename = paste0("figures/spatial/", name, "_spatial-use_kernel.png"), 

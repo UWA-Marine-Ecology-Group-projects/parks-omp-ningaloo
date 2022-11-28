@@ -43,7 +43,7 @@ gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
 sppcrs <- CRS("+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs")       # crs for sp objects
 
 # Set cropping extent - larger than most zoomed out plot
-e <- ext(112, 115, -23, -21)
+e <- ext(112, 115, -24, -21)
 
 # Load necessary spatial files
 sf_use_s2(F)                                                                    # Switch off spatial geometry for cropping
@@ -114,7 +114,7 @@ cbathy <- lapply(cbaths, function(x){read.table(file = x, header = TRUE, sep = "
 cbathy <- do.call("rbind", lapply(cbathy, as.data.frame))                       # All bathy in tiles as a dataframe
 bath_r <- rast(cbathy)
 crs(bath_r) <- wgscrs
-bath_r <- crop(bath_r, ext(113.3, 114.45,-22.9, -21.4))
+bath_r <- crop(bath_r, ext(112.9, 114.45,-24, -21.4))
 bath_df <- as.data.frame(bath_r, xy = T, na.rm = T)                             # Dataframe - cropped and above 0 use for bath cross section
 bath_r <- clamp(bath_r, upper = 0, value = F)                               # Only data below 0
 bathy <- as.data.frame(bath_r, xy = T, na.rm = T)
@@ -181,9 +181,10 @@ nrm_fills <- scale_fill_manual(values = c(
   "Upper slope rocky reefs shelf break to 700 m depth" = "indianred3",
   # "Artificial reefs pipelines and cables" = "saddlebrown",
   "Mid slope reef" = "azure4",
-  "Lower slope reef and sediments" = "burlywood3",
+  # "Lower slope reef and sediments" = "burlywood3",
   # "Abyssal reef and sediments" = "bisque4",
-  "Shelf incising and other canyons" = "darkslategrey"))
+  "Shelf incising and other canyons" = "darkslategrey"),
+  name = "Habtiat classification")
 
 terr_fills <- scale_fill_manual(values = c("National Park" = "#c4cea6",          # Set the colours for terrestrial parks
                                             "Nature Reserve" = "#e4d0bb"),
@@ -193,28 +194,44 @@ terr_fills <- scale_fill_manual(values = c("National Park" = "#c4cea6",         
 nmpa_cols <- scale_color_manual(values = c("Habitat Protection Zone" = "#fff8a3",
                                            "National Park Zone" = "#7bbc63",
                                            "Multiple Use Zone" = "#b9e6fb",
-                                           "Recreational Use Zone" = "#ffb36b"))
+                                           "Recreational Use Zone" = "#ffb36b"),
+                                name = "Australian Marine Parks")
+
+wampa_cols <- scale_colour_manual(values = c("Marine Management Area" = "#b7cfe1",
+                                            "Conservation Area" = "#b3a63d",
+                                            "Sanctuary Zone" = "#bfd054",
+                                            "General Use Zone" = "#bddde1",
+                                            "Recreation Area" = "#f4e952",
+                                            "Special Purpose Zone" = "#c5bcc9",
+                                            "Marine Nature Reserve" = "#bfd054"),
+                                  name = "State Marine Parks")
 
 p2 <- ggplot() +
+  geom_tile(data = nrm_df, aes(x, y, fill = exp.ecosystem.names)) +
+  nrm_fills +
+  new_scale_fill() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
   geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
   terr_fills +
   new_scale_fill() +
-  geom_tile(data = nrm_df, aes(x, y, fill = exp.ecosystem.names)) +
-  nrm_fills +
+  geom_sf(data = wampa %>% dplyr::filter(!waname %in% "Unassigned"), fill = NA, aes(colour = waname), size = 0.4) +
+  wampa_cols +
+  new_scale_colour() +
   geom_contour(data = bathy, aes(x = x, y = y, z = Z),
                breaks = c(-30, -70, -200, - 700, - 7000), colour = "black", alpha = 1, size = 0.18) +
   geom_sf(data = mpa, fill = NA, aes(colour = ZoneName), size = 0.4) +
   nmpa_cols +
+  new_scale_colour() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 1, size = 0.6) +
-  labs(color = "Australian Marine Parks") +
   new_scale_color() +
-  coord_sf(xlim = c(113, 114.35), ylim = c(-22.8, -21.5)) +                            # e <- ext(112, 115, -23, -21)
-  labs(fill = "Habitat classification", x = NULL, y = NULL) +
+  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                            # e <- ext(112, 115, -23, -21)
+  labs(x = NULL, y = NULL) +
+  guides(colour = guide_legend(order = 2),
+         fill = guide_legend(order = 1)) +
   theme_minimal()
 
 png(filename = paste(paste0('figures/spatial/', name) , 'national-reef-model.png',
-                     sep = "-"), width = 10, height = 7,
+                     sep = "-"), width = 8, height = 7,
     units = "in", res = 300)
 p2
 dev.off()
@@ -223,9 +240,10 @@ dev.off()
 # assign mpa colours - full levels are saved at end of script for future ref
 nmpa_fills <- scale_fill_manual(values = c("National Park Zone" = "#7bbc63",
                                           "Multiple Use Zone" = "#b9e6fb",
-                                          "Recreational Use Zone" = "#ffb36b",
-                                          "Habitat Protection Zone" = "#fff8a3"
-))
+                                          "Recreational Use Zone" = "#ffb36b"
+                                          # "Habitat Protection Zone" = "#fff8a3"
+), 
+name = "Australian Marine Parks")
 
 wampa_fills <- scale_fill_manual(values = c("Marine Management Area" = "#b7cfe1",
                                             "Conservation Area" = "#b3a63d",
@@ -234,7 +252,14 @@ wampa_fills <- scale_fill_manual(values = c("Marine Management Area" = "#b7cfe1"
                                            "Recreation Area" = "#f4e952",
                                            "Special Purpose Zone" = "#c5bcc9",
                                            "Marine Nature Reserve" = "#bfd054"
-))
+),
+name = "State Marine Parks")
+
+nmpa <- mpa %>%
+  dplyr::filter(ResName %in% "Ningaloo")
+
+gmpa <- mpa %>%
+  dplyr::filter(ResName %in% "Gascoyne")
 
 p3 <- ggplot() +
   geom_contour_filled(data = bathy, aes(x = x, y = y, z = Z,
@@ -250,21 +275,24 @@ p3 <- ggplot() +
   labs(fill = "State Marine Parks") +
   new_scale_fill() +
   geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
-  labs(fill = "State Managed Areas") +
   terr_fills +
   new_scale_fill() +
-  geom_sf(data = mpa, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
-  nmpa_fills +
-  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
-  labs(x = NULL, y = NULL, fill = "Australian Marine Parks") +
+  geom_sf(data = nmpa, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
+  geom_sf(data = gmpa, aes(fill = ZoneName), alpha = 0.2, colour = NA) +
+  nmpa_fills + 
+  labs(fill = "Australian Marine Parks") +
+  new_scale_fill() +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.4) +
+  labs(x = NULL, y = NULL) +
   guides(fill = guide_legend(order = 1)) +
-  annotate(geom = "text", x = c((114.1279 + 0.08), (113.6775 + 0.1)), 
+  annotate(geom = "text", x = c((114.1279 + 0.14), (113.6775 + 0.14)), 
            y = c(-21.9323, -22.7212), label = c("Exmouth", "Pt Cloates"),
            size = 3) +
   annotate(geom = "point", x = c(114.1279, 113.6775), 
            y = c(-21.9323, -22.7212)) +
-  coord_sf(xlim = c(113, 114.35), ylim = c(-22.8, -21.5)) +                            # Change here
-  theme_minimal()
+  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                   
+  theme_minimal() +
+  theme(legend.justification = "top")
 p3
 
 # inset map
@@ -282,15 +310,16 @@ p3.1 <- ggplot(data = aus) +
 p3.1
 
 # plot both 
-p3.1 + p3 + plot_layout(widths = c(0.8, 2.2))
+p3 + inset_element(p3.1, left = 1.01, right = 1.6, top = 0.4, bottom = -0.01)  
+# + plot_layout(widths = c(0.8, 2.2))
 
 ggsave(paste(paste0('figures/spatial/', name) , 'broad-site-plot.png', 
-             sep = "-"), dpi = 200, width = 10, height = 6)
+             sep = "-"), dpi = 200, width = 8, height = 6)
 
 # 4. Site zoom plot - including sampling points (p4)
 
 ##### Next bit doesn't run anymore! Just need to use different file #####
-metadata <- readRDS("data/tidy/Parks-Ningaloo-synthesis_habitat-bathy-derivatives.rds") %>%
+metadata <- read.csv("data/tidy/Parks-Ningaloo-synthesis_random-points_broad.habitat.csv") %>%
   dplyr::mutate(method = ifelse(str_detect(.$campaignid, "BOSS"), "Drop camera", "BRUV")) %>%
   glimpse
 
@@ -322,13 +351,13 @@ p4 <- ggplot() +
   geom_contour(data = bathy, aes(x = x, y = y, z = Z), 
                breaks = c(0, -30, -70, -200, - 700, - 9000), colour = "white", alpha = 1, size = 0.2) +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
-  geom_point(data = metadata, aes(x, y, colour = method),
+  geom_point(data = metadata %>% arrange(method), aes(longitude, latitude, colour = method),
              alpha = 3/5, shape = 10) +
   scale_colour_manual(values = c("BRUV" = "indianred4",
                                  "Drop Camera" = "seagreen4")) +
   labs(colour = "Sample", x = NULL, y = NULL) +
   guides(fill = guide_legend(order = 2), col = guide_legend(order = 1)) +
-  coord_sf(xlim = c(min(metadata$x), max(metadata$x)), ylim = c(min(metadata$y), max(metadata$y))) +                            # Change here
+  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                            # Change here
   theme_minimal()
 
 png(filename = paste(paste0('figures/spatial/', name) , 'sampling-locations.png', 
@@ -346,6 +375,9 @@ kef_fills <- scale_fill_manual(values = c("Continental slope fish" = "#ffb677",
                                           "Exmouth Plateau" = "#b66dff",
                                           "Ningaloo Reef" = "#ff6db6"))
 
+heri <- st_read("data/spatial/shapefiles/world_heritage_public.shp") %>%
+  dplyr::filter(NAME %in% "The Ningaloo Coast")
+
 p5 <- ggplot() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
   geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA, show.legend = F) +
@@ -356,21 +388,62 @@ p5 <- ggplot() +
   kef_fills +
   geom_sf(data = mpa, fill = NA, alpha = 1, aes(color = ZoneName), show.legend = F, size = 0.4) +
   nmpa_cols +
-  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.2) +
+  new_scale_colour() +
+  geom_sf(data = wampa, fill = NA, alpha = 1, aes(color = waname), show.legend = F, size = 0.4) +
+  wampa_cols + 
+  new_scale_colour() +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.4) +
+  geom_sf(data = heri, colour = "black", size = 0.2, fill = NA) +
   labs(x = NULL, y = NULL,  fill = "Key Ecological Features") +
   guides(fill = guide_legend(order = 1)) +
-  annotate(geom = "text", x = c((114.1279 + 0.08), (113.6775 + 0.1)), 
-           y = c(-21.9323, -22.7212), label = c("Exmouth", "Pt Cloates"),
+  annotate(geom = "text", x = c((114.1279 + 0.13), (113.6775 + 0.16)), 
+           y = c(-21.9323, -22.7), label = c("Exmouth", "Pt Cloates"),
            size = 3) +
   annotate(geom = "point", x = c(114.1279, 113.6775), 
            y = c(-21.9323, -22.7212)) +
-  coord_sf(xlim = c(113, 114.35), ylim = c(-22.8, -21.5)) +                            # Change here
+  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                         
   theme_minimal()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 png(filename = paste(paste0('figures/spatial/', name) , 'key-ecological-features.png',
                      sep = "-"), units = "in", res = 200, width = 8, height = 6)
 p5
+dev.off()
+
+
+ext(heri)
+
+# 7. Old sea level map (p7)
+depth_fills <- scale_fill_manual(values = c("#b8d9a9","#8dbc80", "#5d9d52"),
+                                 labels = c("9-10 Ka", "15-17 Ka", "20-30 Ka"),
+                                 name = "Coastline age")
+
+# build basic plot elements
+
+p7 <- ggplot() +
+  geom_tile(data = bathy %>% dplyr::filter(Z < -50), aes(x = x, y = y, fill = Z)) +
+  scale_fill_gradient2(low = "royalblue4", mid = "lightskyblue1", high = "white", name = "Depth (m)") +
+  new_scale_fill() +
+  geom_contour_filled(data = bathy, aes(x = x, y = y, z = Z,
+                                        fill = after_stat(level)),
+                      breaks = c(0, -40, -70, -125)) +
+  depth_fills +
+  new_scale_fill() +
+  geom_sf(data = ausc, fill = "seashell2", colour = "grey62", size = 0.2) +
+  new_scale_fill() +
+  geom_sf(data = mpa%>%dplyr::filter(!ZoneName %in% "National Park Zone"), 
+          colour = "grey61", size = 0.2, fill = NA) +
+  geom_sf(data = npz, 
+          colour = "#7bbc63", size = 0.55, fill = NA) +
+  geom_sf(data = wampa, colour = "grey61", size = 0.2, fill = NA) +
+  geom_sf(data = cwatr, colour = "firebrick", alpha = 0.7, size = 0.3) +
+  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                            # Change here
+  labs(x = "Longitude", y = "Latitude") +
+  theme_minimal()+
+  theme(panel.background = element_rect(fill = "#b8d9a9", colour = NA))
+png(filename = paste(paste0('figures/spatial/', name) , 'old-sea-levels.png', 
+                     sep = "-"), units = "in", res = 200, width = 8, height = 6)
+p7
 dev.off()
 
 # 6. Bathymetry cross section (p6)
@@ -452,37 +525,6 @@ png(filename = paste(paste0('figures/spatial/', name) , 'bathymetry-cross-sectio
 p6
 dev.off()
 
-# 7. Old sea level map (p7)
-depth_fills <- scale_fill_manual(values = c("#b8d9a9","#8dbc80", "#5d9d52"),
-                                labels = c("9-10 Ka", "15-17 Ka", "20-30 Ka"),
-                                name = "Coastline age")
-
-# build basic plot elements
-
-p7 <- ggplot() +
-  geom_tile(data = bathy %>% dplyr::filter(Z < -50), aes(x = x, y = y, fill = Z)) +
-  scale_fill_gradient2(low = "royalblue4", mid = "lightskyblue1", high = "white", name = "Depth (m)") +
-  new_scale_fill() +
-  geom_contour_filled(data = bathy, aes(x = x, y = y, z = Z,
-                                         fill = after_stat(level)),
-                      breaks = c(0, -40, -70, -125)) +
-  depth_fills +
-  new_scale_fill() +
-  geom_sf(data = ausc, fill = "seashell2", colour = "grey62", size = 0.2) +
-  new_scale_fill() +
-  geom_sf(data = mpa%>%dplyr::filter(!ZoneName %in% "National Park Zone"), 
-          colour = "grey61", size = 0.2, fill = NA) +
-  geom_sf(data = npz, 
-          colour = "#7bbc63", size = 0.55, fill = NA) +
-  geom_sf(data = cwatr, colour = "firebrick", alpha = 0.7, size = 0.3) +
-  coord_sf(xlim = c(113.4, 114.35), ylim = c(-22.8, -21.5)) +                            # Change here
-  labs(x = "Longitude", y = "Latitude") +
-  theme_minimal()+
-  theme(panel.background = element_rect(fill = "#b8d9a9", colour = NA))
-png(filename = paste(paste0('figures/spatial/', name) , 'old-sea-levels.png', 
-                     sep = "-"), units = "in", res = 200, width = 8, height = 6)
-p7
-dev.off()
 
 # 8. Bathymetry derived metrics (p8)
 # depth
