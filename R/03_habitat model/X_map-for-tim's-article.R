@@ -122,6 +122,7 @@ p1 <- ggplot() +
                        values = rescale(c(-5696, -120, 0))) +
   new_scale_fill() +
   geom_sf(data = aus, fill = "seashell2", colour = "grey80", size = 0.1) +
+  geom_sf(data = heri, fill = "#1e7529", color = NA, alpha = 0.5) +
   geom_sf(data = wampa, alpha = 0.2, colour = "grey85", fill = "white", show.legend = F) +
   wampa_cols +
   labs(fill = "State Marine Parks") +
@@ -130,7 +131,6 @@ p1 <- ggplot() +
   nmpa_cols + 
   labs(x = NULL, y = NULL, fill = "Australian Marine Parks") +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 5, size = 0.5) +
-  geom_sf(data = heri, fill = "#1e7529", color = NA, alpha = 0.5) +
   annotate(geom = "rect", xmin = 113.485009644915, xmax = 113.661711520183, 
            ymin = -22.7605962651795, ymax = -22.66265703905  ,
            colour = "goldenrod1", fill = "white", alpha = 0.2, size = 0.6) +
