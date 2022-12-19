@@ -1,6 +1,6 @@
-"","modname","AICc","BIC","r2.vals","r2.vals.unique","edf","edf.less.1","delta.AICc","delta.BIC","wi.AICc","wi.BIC","depth","mean.relief","roughness","detrended","habitat.class","cumsum.wi"
-"total.abundance.detrended+mean.relief","detrended+mean.relief",1594.63098909898,1614.1241594565,0.06227,NA,3.91,0,0,5.036,0.34,0.043,0,1,0,1,0,0.34
-"total.abundance.detrended","detrended",1595.52344918952,1611.03143277485,0.04524,NA,2.75,0,0.892,1.943,0.218,0.204,0,0,0,1,0,0.558
-"total.abundance.depth","depth",1596.47513873151,1609.08836424176,0.04065,NA,2,0,1.844,0,0.135,0.539,1,0,0,0,0,0.693
-"species.richness.depth+habitat.class","depth+habitat.class",1109.23403727364,1124.942484987,0.21775,NA,3,0,0,0,0.647,0.83,1,0,0,0,1,0.647
-"species.richness.detrended+habitat.class","detrended+habitat.class",1110.89253761155,1129.29498896774,0.18924,NA,3.65,0,1.659,4.353,0.282,0.094,0,0,0,1,1,0.929
+,modname,delta.AICc,wi.AICc,r2.vals,edf
+total.abundance.detrended+mean.relief,detrended+mean.relief,0,0.34,0.06227,3.91
+total.abundance.detrended,detrended,0.892,0.218,0.04524,2.75
+total.abundance.depth,depth,1.844,0.135,0.04065,2
+species.richness.depth+habitat.class,depth+habitat.class,0,0.647,0.21775,3
+species.richness.detrended+habitat.class,detrended+habitat.class,1.659,0.282,0.18924,3.65

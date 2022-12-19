@@ -285,7 +285,7 @@ p3 <- ggplot() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.4) +
   labs(x = NULL, y = NULL) +
   guides(fill = guide_legend(order = 1)) +
-  annotate(geom = "text", x = c((114.1279 + 0.14), (113.6775 + 0.14)), 
+  annotate(geom = "text", x = c((114.1279 + 0.14), (113.6775 + 0.16)), 
            y = c(-21.9323, -22.7212), label = c("Exmouth", "Pt Cloates"),
            size = 3) +
   annotate(geom = "point", x = c(114.1279, 113.6775), 
@@ -293,7 +293,7 @@ p3 <- ggplot() +
   coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                   
   theme_minimal() +
   theme(legend.justification = "top")
-p3
+# p3
 
 # inset map
 p3.1 <- ggplot(data = aus) +
@@ -307,7 +307,7 @@ p3.1 <- ggplot(data = aus) +
         axis.ticks = element_blank(),
         panel.grid.major = element_blank(),
         panel.border = element_rect(colour = "grey70"))
-p3.1
+# p3.1
 
 # plot both 
 p3 + inset_element(p3.1, left = 1.01, right = 1.6, top = 0.4, bottom = -0.01)  

@@ -125,7 +125,8 @@ p1 <- ggplot() +
   new_scale_color() +
   coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +
   labs(x = NULL, y = NULL, title = "a)") +
-  theme(axis.text.x = element_text(size = 8))
+  theme(axis.text.x = element_text(size = 8),
+        axis.ticks = element_blank()) 
 p1
 
 p2 <- ggplot() +
@@ -151,7 +152,8 @@ p2 <- ggplot() +
   coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +
   labs(x = NULL, y = NULL, title = "b)") +
   theme(legend.key = element_rect(colour = NA, fill = NA)) +
-  theme(axis.text.x = element_text(size = 8))
+  theme(axis.text.x = element_text(size = 8),
+        axis.ticks = element_blank())
 p2
 
 png(filename = paste0("figures/spatial/", name, "_spatial-use_kernel.png"), 

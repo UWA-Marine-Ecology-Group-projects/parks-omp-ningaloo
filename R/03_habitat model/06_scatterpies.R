@@ -27,7 +27,7 @@ gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
 sppcrs  <- "+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs"           # crs for sp objects
 
 # Set cropping extent - larger than most zoomed out plot
-e <- ext(113, 114.5, -23, -21)
+e <- ext(113, 114.5, -24, -21)
 
 # Load necessary spatial files
 sf_use_s2(F)                                                                    # Switch off spatial geometry for cropping
@@ -130,8 +130,8 @@ gg.scatterpie <- ggplot() +
                   pie_scale = 0.45, color = NA) +
   labs(fill = "Habitat",x = 'Longitude', y = 'Latitude') +
   hab_fills + 
-  coord_sf(xlim = c(min(dat$x), max(dat$x)),                                    # Set plot limits
-           ylim = c(min(dat$y), max(dat$y)), crs = sppcrs) +
+  coord_sf(xlim = c(745004.7, max(dat$x)), ylim = c(7356849, max(dat$y)), crs = sppcrs) +
+  # coord_sf(xlim = c(744904.144, 7620186.193), ylim = c(7388003.569, 225444.201), crs = sppcrs) +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "#b9d1d6", colour = NA),
         panel.grid.major = element_blank(), 
