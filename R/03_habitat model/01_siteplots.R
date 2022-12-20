@@ -43,7 +43,7 @@ gdacrs <- "+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs"
 sppcrs <- CRS("+proj=utm +zone=49 +south +datum=WGS84 +units=m +no_defs")       # crs for sp objects
 
 # Set cropping extent - larger than most zoomed out plot
-e <- ext(112, 115, -24, -21)
+e <- ext(112, 115, -24.2, -21)
 
 # Load necessary spatial files
 sf_use_s2(F)                                                                    # Switch off spatial geometry for cropping
@@ -119,6 +119,13 @@ bath_df <- as.data.frame(bath_r, xy = T, na.rm = T)                             
 bath_r <- clamp(bath_r, upper = 0, value = F)                               # Only data below 0
 bathy <- as.data.frame(bath_r, xy = T, na.rm = T)
 
+# nincom <- aumpa %>%
+#   dplyr::filter(ResName == "Ningaloo") %>%
+#   vect()
+# plot(nincom)
+# ninbath <- terra::mask(bath_r, nincom)
+# plot(ninbath)
+# summary(ninbath)
 # # Generate hillshading
 # slope  <- terrain(bath_r, v = 'slope', unit = 'degrees')                        # Slope 
 # aspect <- terrain(bath_r, v = 'aspect', unit = 'degrees')                       # Aspect
@@ -393,15 +400,16 @@ p5 <- ggplot() +
   wampa_cols + 
   new_scale_colour() +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.4) +
-  geom_sf(data = heri, colour = "black", size = 0.2, fill = NA) +
+  geom_sf(data = heri, colour = "black", size = 0.4, fill = NA) +
   labs(x = NULL, y = NULL,  fill = "Key Ecological Features") +
   guides(fill = guide_legend(order = 1)) +
-  annotate(geom = "text", x = c((114.1279 + 0.13), (113.6775 + 0.16)), 
-           y = c(-21.9323, -22.7), label = c("Exmouth", "Pt Cloates"),
+  annotate(geom = "text", x = c((114.1279 + 0.16), (113.6775 + 0.16)), 
+           y = c(-21.9323, -22.7 + 0.01), label = c("Exmouth", "Pt Cloates"),
            size = 3) +
   annotate(geom = "point", x = c(114.1279, 113.6775), 
            y = c(-21.9323, -22.7212)) +
-  coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                         
+  # coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +  
+  coord_sf(xlim = c(113.369121533, 114.458190005), ylim = c(-24.033532778, -21.573710932)) +
   theme_minimal()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
@@ -409,9 +417,6 @@ png(filename = paste(paste0('figures/spatial/', name) , 'key-ecological-features
                      sep = "-"), units = "in", res = 200, width = 8, height = 6)
 p5
 dev.off()
-
-
-ext(heri)
 
 # 7. Old sea level map (p7)
 depth_fills <- scale_fill_manual(values = c("#b8d9a9","#8dbc80", "#5d9d52"),
@@ -509,6 +514,7 @@ rm("temp", "dat")
 
 p6 <- ggplot() +
   geom_rect(aes(xmin = min(bath_df1$distance.from.coast), xmax = 9, ymin =-Inf, ymax = 0), fill = "#12a5db", alpha = 0.5) +
+  annotate("segment", x = -5.556, xend = - 5.556, y = 0, yend = -33, colour = "red") +
   geom_line(data = bath_df1, aes(y = depth, x = distance.from.coast)) +
   geom_ribbon(data = bath_df1, aes(ymin = -Inf, ymax = depth, x = distance.from.coast), fill = "tan") +
   theme_classic() +

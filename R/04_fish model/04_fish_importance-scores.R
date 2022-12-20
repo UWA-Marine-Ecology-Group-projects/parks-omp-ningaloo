@@ -28,7 +28,8 @@ dat2 <- read.csv(paste("output/fssgam-fish", paste(name, "length_all.var.imp.csv
   gather(key=predictor,value=importance,2:ncol(.))%>%
   glimpse()
 
-dat <- bind_rows(dat1,dat2)%>%
+dat <- bind_rows(dat1,dat2) %>%
+  dplyr::mutate(importance = ifelse(predictor == "depth", importance * -1, importance)) %>%
   glimpse()
 
 dat.taxa <- dat %>%
@@ -67,20 +68,6 @@ re <- colorRampPalette(c("blue3", "white","red2"))(200)
 
 # Labels-
 legend_title<-"Importance"
-
-# Plot gg.importance.scores ----
-# gg.importance.npz6 <- ggplot(dat.taxa.npz6, 
-#                                aes(x=predictor,y=resp.var,fill=importance)) +
-#    geom_tile(show.legend=T) +
-#    scale_fill_gradientn(legend_title, colours=c(re), na.value = "grey98",
-#                          limits = c(-1, 1))+
-#    scale_y_discrete(labels=c("Smaller than legal size*","Greater than legal size*","Species richness","Total abundance"))+
-#    scale_x_discrete(labels = c("Biogenic", "Depth", "Detrended", "Macroalgae", "Relief","Roughness", 'TPI'))+
-#    labs(x = NULL, y = NULL) +
-#    theme_classic()+
-#    Theme1+
-#    geom_text(aes(label=label))
-# gg.importance.npz6
 
 imp.full <- ggplot(dat.taxa %>% dplyr::filter(resp.var%in%c("total.abundance", "species.richness")), 
                    aes(x=predictor,y=resp.var,fill=importance)) +

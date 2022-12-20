@@ -130,14 +130,15 @@ gg.scatterpie <- ggplot() +
                   pie_scale = 0.45, color = NA) +
   labs(fill = "Habitat",x = 'Longitude', y = 'Latitude') +
   hab_fills + 
-  coord_sf(xlim = c(745004.7, max(dat$x)), ylim = c(7356849, max(dat$y)), crs = sppcrs) +
-  # coord_sf(xlim = c(744904.144, 7620186.193), ylim = c(7388003.569, 225444.201), crs = sppcrs) +
+  # coord_sf(xlim = c(745004.7, max(dat$x)), ylim = c(7356849, max(dat$y)), crs = sppcrs) +
+  coord_sf(xlim = c(min(dat$x), 830000), ylim = c(min(dat$y), 7600000), crs = sppcrs) +
+  scale_x_continuous(breaks = c(113.5, 113.7, 113.9, 114.1)) +
   theme_minimal() +
   theme(panel.background = element_rect(fill = "#b9d1d6", colour = NA),
         panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank())
 png(filename = paste(paste0('figures/habitat/', name), 'scatterpies.png', sep = "_"),
-    units = "in", height = 8, width = 6, res = 300)
+    units = "in", height = 7, width = 6, res = 300)
 gg.scatterpie
 dev.off()
 

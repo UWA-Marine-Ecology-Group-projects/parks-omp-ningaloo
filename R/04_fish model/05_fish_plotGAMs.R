@@ -120,7 +120,10 @@ fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
 predicts.species.habitat = testdata%>%data.frame(fits)%>%
   group_by(habitat.class)%>% #only change here
-  summarise(maxn=mean(fit),se.fit=mean(se.fit))%>%
+  summarise(maxn=mean(fit),se.fit=mean(se.fit)) %>%
+  dplyr::mutate(habitat.class = recode(habitat.class, 
+                                       "sand" = "Sand", 
+                                       "inverts" = "Sessile invertebrates")) %>%
   ungroup()
 
 # PLOTS for Species richness ----
@@ -145,8 +148,8 @@ ggmod.species.habitat<- ggplot(data = predicts.species.habitat, aes(x = habitat.
   xlab("Depth")+
   geom_bar(stat = 'identity', show.legend = F) +
   geom_errorbar(aes(ymin = maxn - se.fit, ymax = maxn + se.fit), show.legend = F) +
-  scale_fill_manual(labels = c("Fished", "No-take"),values=c("red", "black"))+
-  scale_colour_manual(labels = c("Fished", "No-take"),values=c("red", "black"))+
+  scale_fill_manual(labels = c("Sand", "Sessile invertebrates"),values=c("wheat", "plum"))+
+  scale_colour_manual(labels = c("Sand", "Sessile invertebrates"),values=c("wheat", "plum"))+
   theme_classic()+
   Theme1+
   ggtitle("Species richness") +
@@ -154,136 +157,82 @@ ggmod.species.habitat<- ggplot(data = predicts.species.habitat, aes(x = habitat.
 ggmod.species.habitat
 
 # MODEL Legals (mean relief) ----
-dat.legal <- dat %>% filter(response=="greater than legal size")
+dat.legal <- dat %>% filter(scientific=="greater than legal size")
 
-mod=gam(number~ s(mean.relief,k=3,bs='cr'), family=tw,data=dat.legal)
-
-# predict - mean relief ----
-testdata <- expand.grid(mean.relief=seq(min(dat$mean.relief),max(dat$mean.relief),length.out = 20)) %>%
-  distinct()%>%
-  glimpse()
-
-fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
-
-predicts.legal.relief = testdata%>%data.frame(fits)%>%
-  group_by(mean.relief)%>% #only change here
-  summarise(maxn=mean(fit),se.fit=mean(se.fit))%>%
-  ungroup()
-
-# PLOTS for Legals ----
-# mean relief ----
-ggmod.legal.relief<- ggplot() +
-  ylab("")+
-  xlab("Mean relief")+
-  geom_point(data=dat.legal,aes(x=mean.relief,y=number),  alpha=0.2, size=1,show.legend=FALSE)+
-  geom_line(data=predicts.legal.relief,aes(x=mean.relief,y=maxn),alpha=0.5)+
-  geom_line(data=predicts.legal.relief,aes(x=mean.relief,y=maxn - se.fit),linetype="dashed",alpha=0.5)+
-  geom_line(data=predicts.legal.relief,aes(x=mean.relief,y=maxn + se.fit),linetype="dashed",alpha=0.5)+
-  theme_classic()+
-  Theme1+
-  ggtitle("Legal") +
-  theme(plot.title = element_text(hjust = 0))
-ggmod.legal.relief
-
-# MODEL Sublegals (detrended + mean.relief + tpi) ----
-dat.sublegal <- dat %>% filter(response=="smaller than legal size")
-
-mod=gam(number~s(detrended,k=3,bs='cr') + s(mean.relief,k=3,bs='cr') + s(tpi,k=3,bs='cr'), 
-        family=tw,data=dat.sublegal)
+mod=gam(number~ s(detrended,k=3,bs='cr'), family=tw,data=dat.legal)
 
 # predict - detrended ----
-testdata <- expand.grid(detrended=seq(min(dat$detrended),max(dat$detrended),length.out = 20),
-                        mean.relief=mean(mod$model$mean.relief),
-                        tpi=mean(mod$model$tpi)) %>%
+testdata <- expand.grid(detrended=seq(min(dat$detrended),max(dat$detrended),length.out = 20)) %>%
   distinct()%>%
   glimpse()
 
 fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
-predicts.sublegal.detrended = testdata%>%data.frame(fits)%>%
+predicts.legal.detrended = testdata%>%data.frame(fits)%>%
   group_by(detrended)%>% #only change here
   summarise(maxn=mean(fit),se.fit=mean(se.fit))%>%
   ungroup()
 
-# predict - mean relief ----
-testdata <- expand.grid(mean.relief=seq(min(dat$mean.relief),max(dat$mean.relief),length.out = 20),
-                        detrended=mean(mod$model$detrended),
-                        tpi=mean(mod$model$tpi)) %>%
+# PLOTS for Legals ----
+# detrended ----
+ggmod.legal.detrended <- ggplot() +
+  ylab("")+
+  xlab("Detrended")+
+  geom_point(data=dat.legal,aes(x=detrended,y=number),  alpha=0.2, size=1,show.legend=FALSE)+
+  geom_line(data=predicts.legal.detrended,aes(x=detrended,y=maxn),alpha=0.5)+
+  geom_line(data=predicts.legal.detrended,aes(x=detrended,y=maxn - se.fit),linetype="dashed",alpha=0.5)+
+  geom_line(data=predicts.legal.detrended,aes(x=detrended,y=maxn + se.fit),linetype="dashed",alpha=0.5)+
+  theme_classic()+
+  Theme1+
+  ggtitle("Legal") +
+  theme(plot.title = element_text(hjust = 0))
+ggmod.legal.detrended
+
+# MODEL Sublegals (depth) ----
+dat.sublegal <- dat %>% filter(scientific=="smaller than legal size")
+
+mod=gam(number~s(depth,k=3,bs='cr'), 
+        family=tw,data=dat.sublegal)
+
+# predict - depth ----
+testdata <- expand.grid(depth=seq(min(dat$depth),max(dat$depth),length.out = 20)) %>%
   distinct()%>%
   glimpse()
 
 fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
 
-predicts.sublegal.relief = testdata%>%data.frame(fits)%>%
-  group_by(mean.relief)%>% #only change here
-  summarise(maxn=mean(fit),se.fit=mean(se.fit))%>%
-  ungroup()
-
-# predict - tpi ----
-testdata <- expand.grid(tpi=seq(min(dat$tpi),max(dat$tpi),length.out = 20),
-                        detrended=mean(mod$model$detrended),
-                        mean.relief=mean(mod$model$mean.relief)) %>%
-  distinct()%>%
-  glimpse()
-
-fits <- predict.gam(mod, newdata=testdata, type='response', se.fit=T)
-
-predicts.sublegal.tpi = testdata%>%data.frame(fits)%>%
-  group_by(tpi)%>% #only change here
+predicts.sublegal.depth = testdata%>%data.frame(fits)%>%
+  group_by(depth)%>% #only change here
   summarise(maxn=mean(fit),se.fit=mean(se.fit))%>%
   ungroup()
 
 # PLOTS for Sublegals ----
 # depth ----
 # detrended ----
-ggmod.sublegal.detrended<- ggplot() +
+ggmod.sublegal.depth <- ggplot() +
   ylab("")+
-  xlab("Detrended")+
-  geom_point(data=dat.sublegal,aes(x=detrended,y=number),  alpha=0.2, size=1,show.legend=FALSE)+
-  geom_line(data=predicts.sublegal.detrended,aes(x=detrended,y=maxn),alpha=0.5)+
-  geom_line(data=predicts.sublegal.detrended,aes(x=detrended,y=maxn - se.fit),linetype="dashed",alpha=0.5)+
-  geom_line(data=predicts.sublegal.detrended,aes(x=detrended,y=maxn + se.fit),linetype="dashed",alpha=0.5)+
+  xlab("Depth")+
+  geom_point(data=dat.sublegal,aes(x=depth,y=number),  alpha=0.2, size=1,show.legend=FALSE)+
+  geom_line(data=predicts.sublegal.depth,aes(x=depth,y=maxn),alpha=0.5)+
+  geom_line(data=predicts.sublegal.depth,aes(x=depth,y=maxn - se.fit),linetype="dashed",alpha=0.5)+
+  geom_line(data=predicts.sublegal.depth,aes(x=depth,y=maxn + se.fit),linetype="dashed",alpha=0.5)+
   theme_classic()+
   Theme1+
   ggtitle("Sublegal") +
   theme(plot.title = element_text(hjust = 0))
-ggmod.sublegal.detrended
-
-# mean relief ----
-ggmod.sublegal.relief<- ggplot() +
-  ylab("")+
-  xlab("Mean relief")+
-  geom_point(data=dat.sublegal,aes(x=mean.relief,y=number),  alpha=0.2, size=1,show.legend=FALSE)+
-  geom_line(data=predicts.sublegal.relief,aes(x=mean.relief,y=maxn),alpha=0.5)+
-  geom_line(data=predicts.sublegal.relief,aes(x=mean.relief,y=maxn - se.fit),linetype="dashed",alpha=0.5)+
-  geom_line(data=predicts.sublegal.relief,aes(x=mean.relief,y=maxn + se.fit),linetype="dashed",alpha=0.5)+
-  theme_classic()+
-  Theme1
-ggmod.sublegal.relief
-
-# tpi ----
-ggmod.sublegal.tpi<- ggplot() +
-  ylab("")+
-  xlab("TPI")+
-  geom_point(data=dat.sublegal,aes(x=tpi,y=number),  alpha=0.2, size=1,show.legend=FALSE)+
-  geom_line(data=predicts.sublegal.tpi,aes(x=tpi,y=maxn),alpha=0.5)+
-  geom_line(data=predicts.sublegal.tpi,aes(x=tpi,y=maxn - se.fit),linetype="dashed",alpha=0.5)+
-  geom_line(data=predicts.sublegal.tpi,aes(x=tpi,y=maxn + se.fit),linetype="dashed",alpha=0.5)+
-  theme_classic()+
-  Theme1
-ggmod.sublegal.tpi
+ggmod.sublegal.depth
 
 # Combine with patchwork
 library(patchwork)
 
 # view plots
-plot.grid.gam <- ggmod.total.relief + plot_spacer() + plot_spacer() +
-  ggmod.species.relief +  plot_spacer() +  plot_spacer() + 
-  ggmod.legal.relief + plot_spacer() + plot_spacer() +
-  ggmod.sublegal.detrended + ggmod.sublegal.relief + ggmod.sublegal.tpi +
-  plot_annotation(tag_levels = 'a') + plot_layout(ncol = 3,nrow = 4)
+plot.grid.gam <- ggmod.total.detrended + plot_spacer() + 
+  ggmod.species.depth +  ggmod.species.habitat +  
+  ggmod.legal.detrended + plot_spacer() + 
+  ggmod.sublegal.depth + plot_spacer() + 
+  plot_annotation(tag_levels = 'a') + plot_layout(ncol = 2, nrow = 4)
 plot.grid.gam
 
 
 #Save plots
-save_plot("plots/montes.synthesis.gam.png", plot.grid.gam,base_height = 9,base_width = 8.5)
+save_plot(paste0("figures/fish/", name, "_gam-plots.png"), plot.grid.gam,base_height = 9,base_width = 8.5)
