@@ -39,6 +39,12 @@ dat <- readRDS(paste(paste0('data/tidy/', name),
   #                                  (broad.consolidated/broad.total.points.annotated) < 0.2, "sand", dom_tag)) %>%
   glimpse()
 
+test <- dat %>%
+  dplyr::group_by(campaignid) %>%
+  dplyr::summarise(n = n(),
+                   max.depth = min(Z),
+                   min.depth = max(Z))
+
 unique(dat$dom_tag)
 # dat$dom_tag <- apply(dat %>% dplyr::select(sand, inverts), 1,
 #                                         FUN = function(x){names(which.max(x))})
