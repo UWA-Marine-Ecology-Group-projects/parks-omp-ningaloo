@@ -324,11 +324,15 @@ ggsave(paste(paste0('figures/spatial/', name) , 'broad-site-plot.png',
              sep = "-"), dpi = 200, width = 8, height = 6)
 
 # 4. Site zoom plot - including sampling points (p4)
-
-##### Next bit doesn't run anymore! Just need to use different file #####
 metadata <- read.csv("data/tidy/Parks-Ningaloo-synthesis_random-points_broad.habitat.csv") %>%
   dplyr::mutate(method = ifelse(str_detect(.$campaignid, "BOSS"), "Drop camera", "BRUV")) %>%
   glimpse
+
+no.samps <- metadata %>%
+  dplyr::filter(!successful.count %in% "No") %>%
+  dplyr::group_by(method) %>%
+  dplyr::summarise(n = n()) %>%
+  glimpse()
 
 wampaf_fills <- scale_fill_manual(values = c("Sanctuary Zone" = "#bfd054",
                                             "General Use Zone" = "#bddde1",
@@ -537,6 +541,7 @@ dev.off()
 spreds <- readRDS("data/spatial/rasters/raw bathymetry/Parks-Ningaloo-synthesis_spatial_covariates.rds") %>%
   rast()
 plot(spreds)
+summary(spreds)
 spreddf <- as.data.frame(spreds, xy = T, na.rm = T)
 names(spreddf)
 
