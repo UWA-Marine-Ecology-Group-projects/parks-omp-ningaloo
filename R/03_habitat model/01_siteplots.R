@@ -446,9 +446,11 @@ p7 <- ggplot() +
           colour = "#7bbc63", size = 0.55, fill = NA) +
   geom_sf(data = wampa, colour = "grey61", size = 0.2, fill = NA) +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 0.7, size = 0.3) +
+  annotate(geom = "segment", x = 113.5, xend = 113.73, y = -22.706, yend = -22.706,
+           linetype = "dashed", colour = "gray25") +
   coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                            # Change here
   labs(x = "Longitude", y = "Latitude") +
-  theme_minimal()+
+  theme_minimal() +
   theme(panel.background = element_rect(fill = "#b8d9a9", colour = NA))
 png(filename = paste(paste0('figures/spatial/', name) , 'old-sea-levels.png', 
                      sep = "-"), units = "in", res = 200, width = 8, height = 6)
