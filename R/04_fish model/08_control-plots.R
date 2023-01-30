@@ -202,4 +202,86 @@ plot.grid
 save_plot(paste0("figures/fish/", name, "control-plots.png"), plot.grid, 
           base_height = 6,base_width = 8, dpi = 300)
 
+monitor <- read.csv(paste0("data/tidy/", name, "_socio-spatial-use.csv"))%>%
+  dplyr::select(metric, year, Lower.ci, Mean, Upper.ci)%>%
+  dplyr::mutate(year = as.numeric(year)) %>%
+  glimpse()
 
+#do socio economic ones separately - too many columns!
+socec <- dat %>%
+  dplyr::select(-status) %>%
+  distinct() %>%
+  left_join(monitor) %>%
+  mutate(year = as.factor(year)) %>%
+  complete(metric, year) %>%
+  glimpse()
+
+
+#Plot socio economic stuff, we need 5 plots I think?
+#1. awareness of MP
+socec.1x <- ggplot(data = socec%>%dplyr::filter(metric%in%"Awarenes of an AMP in area"), 
+                   aes(x = year, y = Mean))+
+  geom_errorbar(data = socec%>%dplyr::filter(metric%in%"Awarenes of an AMP in area"),
+                aes(ymin=Lower.ci, ymax= Upper.ci), width = 0.2)+
+  geom_point(shape = 21,size = 2, fill = "black")+
+  theme_classic()+
+  scale_y_continuous(limits = c(0,100))+
+  geom_vline(xintercept = 2.5, linetype="dashed",color = "black", size=0.5,alpha = 0.5)+
+  labs(title = "Awareness of the NMP", x = "Year", y = "% of participants")+
+  Theme1
+socec.1x
+
+#2. correctly name MP
+socec.2x <- ggplot(data = socec%>%dplyr::filter(metric%in%"Correctly name an AMP"), 
+                   aes(x = year, y = Mean))+
+  geom_errorbar(data = socec%>%dplyr::filter(metric%in%"Correctly name an AMP"),
+                aes(ymin=Lower.ci, ymax= Upper.ci), width = 0.2)+
+  geom_point(shape = 21,size = 2, fill = "black")+
+  theme_classic()+
+  scale_y_continuous(limits = c(0,100))+
+  geom_vline(xintercept = 2.5, linetype="dashed",color = "black", size=0.5,alpha = 0.5)+
+  labs(title = "Correctly name the NMP", x = "Year", y = "% of participants")+
+  Theme1
+socec.2x
+
+#3. supportive of MP
+socec.3x <- ggplot(data = socec%>%dplyr::filter(metric%in%"Supportive of AMP NPZ"), 
+                   aes(x = year, y = Mean))+
+  geom_errorbar(data = socec%>%dplyr::filter(metric%in%"Supportive of AMP NPZ"),
+                aes(ymin=Lower.ci, ymax = Upper.ci), width = 0.2)+
+  geom_point(shape = 21,size = 2, fill = "black")+
+  theme_classic()+
+  scale_y_continuous(limits = c(0,100))+
+  geom_vline(xintercept = 2.5, linetype="dashed",color = "black", size=0.5,alpha = 0.5)+
+  labs(title = "Supportive of the NPZs in the NMP",x = "Year", y = "% of participants")+
+  Theme1
+socec.3x
+
+#4. NTR benefit environment
+socec.4x <- ggplot(data = socec%>%dplyr::filter(metric%in%"AMP NPZ benefit environment"), 
+                   aes(x = year, y = Mean))+
+  geom_errorbar(data = socec%>%dplyr::filter(metric%in%"AMP NPZ benefit environment"),
+                aes(ymin=Lower.ci, ymax = Upper.ci), width = 0.2)+
+  geom_point(shape = 21,size = 2, fill = "black")+
+  theme_classic()+
+  scale_y_continuous(limits = c(0,100))+
+  geom_vline(xintercept = 2.5, linetype="dashed",color = "black", size=0.5,alpha = 0.5)+
+  labs(title = "Perception that NPZs in the NMP benefit the marine environment",x = "Year", y = "% of participants")+
+  Theme1
+socec.4x
+
+#5. NTR negatively affect my fishing
+socec.5x <- ggplot(data = socec%>%dplyr::filter(metric%in%"AMP NPZ negatively effect my fishing"), 
+                   aes(x = year, y = Mean))+
+  geom_errorbar(data = socec%>%dplyr::filter(metric%in%"AMP NPZ negatively effect my fishing"),
+                aes(ymin=Lower.ci, ymax = Upper.ci), width = 0.2)+
+  geom_point(shape = 21,size = 2, fill = "black")+
+  theme_classic()+
+  scale_y_reverse(limits = c(100,0))+
+  geom_vline(xintercept = 2.5, linetype="dashed",color = "black", size=0.5,alpha = 0.5)+
+  labs(title = "Perception that NPZs in the NMP negatively impact recreational fishing", x = "Year", y = "% of participants")+
+  Theme1
+socec.5x
+
+socgrid.noband <- socec.1x / socec.2x / socec.3x / socec.4x / socec.5x
+save_plot("figures/spatial/socio-economic.control.plots.png",socgrid.noband,base_height = 10,base_width = 7.5)
