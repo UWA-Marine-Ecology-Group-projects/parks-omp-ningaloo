@@ -182,16 +182,16 @@ bar.top.10.raro <-ggplot(maxn.10.raro %>% mutate(scientific = str_replace_all(.$
   theme_collapse +
   theme.larger.text +
   scale_y_continuous(breaks = c(0, 250, 500, 750, 1000), limits = c(0, 1150)) +
-  annotation_raster(d.spp, xmin = 9.65, xmax = 10.35, ymin = 995, ymax = 995 + 210)+
-  annotation_raster(p.m, xmin = 8.5,xmax = 9.5,ymin = 345, ymax = 345 + 350)+
-  annotation_raster(g.g, xmin = 7.6, xmax = 8.4, ymin = 339 + 5, ymax = 339 + 270)+
-  annotation_raster(l.m, xmin = 6.6, xmax = 7.4, ymin = 268 + 5, ymax = 268 + 255)+
-  annotation_raster(l.r, xmin = 5.65, xmax = 6.35, ymin = 230 + 10, ymax = 230 + 270)+
-  annotation_raster(p.t, xmin = 4.6, xmax = 5.4, ymin = 213 + 5, ymax = 213 + 290)+
-  annotation_raster(c.c, xmin = 3.6, xmax = 4.4, ymin = 195 + 5, ymax = 195 + 250)+
-  annotation_raster(n.h, xmin = 2.7, xmax = 3.3, ymin = 175 + 5, ymax = 175 + 290)+
-  annotation_raster(p.n, xmin = 1.75, xmax = 2.25, ymin = 169 + 5, ymax = 169 + 150)+
-  annotation_raster(c.f, xmin = 0.6, xmax = 1.4, ymin = 150 + 5, ymax = 150 + 290) +
+  annotation_raster(d.spp, xmin = 9.65, xmax = 10.35, ymin = 993, ymax = 995 + 210)+
+  annotation_raster(g.g, xmin = 8.6,xmax = 9.4,ymin = 322, ymax = 345 + 270)+
+  annotation_raster(p.m, xmin = 7.5, xmax = 8.5, ymin = 321, ymax = 339 + 350)+
+  annotation_raster(l.m, xmin = 6.6, xmax = 7.4, ymin = 250 + 5, ymax = 268 + 255)+
+  annotation_raster(l.r, xmin = 5.65, xmax = 6.35, ymin = 226 + 10, ymax = 230 + 270)+
+  annotation_raster(p.t, xmin = 4.6, xmax = 5.4, ymin = 209 + 5, ymax = 213 + 290)+
+  annotation_raster(c.c, xmin = 3.6, xmax = 4.4, ymin = 192 + 5, ymax = 195 + 250)+
+  annotation_raster(p.n, xmin = 2.75, xmax = 3.25, ymin = 166 + 5, ymax = 175 + 150)+
+  annotation_raster(n.h, xmin = 1.7, xmax = 2.3, ymin = 148 + 5, ymax = 169 + 290)+
+  annotation_raster(c.f, xmin = 0.6, xmax = 1.4, ymin = 148 + 5, ymax = 150 + 290) +
   annotate(geom = "text", x = 1, y = 1000, label = "n = 167", fontface = "italic")
 bar.top.10.raro
 
@@ -247,7 +247,8 @@ bar.top.10.meso <-ggplot(maxn.10.meso %>% mutate(scientific = str_replace_all(.$
                                                                      "punctulatus" = "punctulatus*", "sebae" = "sebae*",
                                                                      "chrysophrys"="chrysophrys*", "grandoculis"="grandoculis*",
                                                                      "rubrioperculatus"="rubrioperculatus*",
-                                                                     "areolatus" = "areolatus*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
+                                                                     "areolatus" = "areolatus*", 
+                                                                     "Gymnocranius spp" = "Gymnocranius spp*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",colour="black",fill="lightgrey",position=position_dodge())+
   ylim (0, 110)+
   labs(title = "Mesophotic assemblage (30-70m)") +
@@ -260,16 +261,16 @@ bar.top.10.meso <-ggplot(maxn.10.meso %>% mutate(scientific = str_replace_all(.$
   theme.larger.text+
   annotation_raster(d.spp, xmin = 9.7, xmax = 10.3, ymin = 93, ymax = 93 + 17)+
   annotation_raster(l.v, xmin = 8.65,xmax = 9.35,ymin = 66, ymax = 66 + 20)+
-  annotation_raster(c.g, xmin = 7.6, xmax = 8.4, ymin = 31 + 1, ymax = 31 + 33)+
-  annotation_raster(l.p, xmin = 6.7, xmax = 7.3, ymin = 28 + 1, ymax = 28 + 20)+
-  annotation_raster(g.s, xmin = 5.5, xmax = 6.5, ymin = 27 + 1, ymax = 27 + 36)+
-  annotation_raster(g.g, xmin = 4.65, xmax = 5.35, ymin = 26, ymax = 26 + 20)+
+  annotation_raster(g.g, xmin = 7.65, xmax = 8.35, ymin = 34 + 1, ymax = 31 + 25)+
+  annotation_raster(c.g, xmin = 6.5, xmax = 7.5, ymin = 31 + 1, ymax = 28 + 33)+
+  annotation_raster(l.p, xmin = 5.75, xmax = 6.25, ymin = 28 + 1, ymax = 27 + 20)+
+  annotation_raster(g.s, xmin = 4.5, xmax = 5.5, ymin = 27+1, ymax = 26 + 35)+
   annotation_raster(l.s, xmin = 3.55, xmax = 4.45, ymin = 25, ymax = 25 + 25)+
   annotation_raster(l.r, xmin = 2.75, xmax = 3.25, ymin = 21 + 1, ymax = 21 + 20)+
-  annotation_raster(l.sc, xmin = 1.8, xmax = 2.2, ymin = 21, ymax = 21 + 30)+
+  annotation_raster(l.sc, xmin = 1.8, xmax = 2.2, ymin = 21, ymax = 21 + 27)+
   annotation_raster(e.a, xmin = 0.65, xmax = 1.35, ymin = 16, ymax = 16 + 20) +
   annotate(geom = "text", x = 1, y = 90, label = "n = 14", fontface = "italic")
-# bar.top.10.meso
+bar.top.10.meso
 
 #save out plot
 ggsave(paste0("figures/fish/", name, "_mesophotic.stacked.bar.plot.png"), bar.top.10.meso, dpi = 600, width = 7, height = 8)
@@ -334,6 +335,10 @@ fished.raro <- maxn.raro %>%
 
 # workout total maxn for each species ---
 maxn.fished.meso <- fished.meso %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("sp1"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("sp1"), "spp", species)) %>%
   mutate(scientific = paste(genus,species,sep=" "))%>%
   group_by(scientific)%>%
   dplyr::summarise(maxn=sum(maxn)) %>%
@@ -343,8 +348,10 @@ maxn.fished.meso <- fished.meso %>%
   glimpse()
 
 maxn.fished.raro <- fished.raro %>%
-  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "sp1", species)) %>%
-  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "sp1", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("sp1"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("sp1"), "spp", species)) %>%
   mutate(scientific = paste(genus,species,sep=" ")) %>%
   group_by(scientific) %>%
   dplyr::summarise(maxn=sum(maxn)) %>%
@@ -423,20 +430,20 @@ bar.fished.meso <-ggplot(maxn.fished.meso %>% mutate(scientific = str_replace_al
   theme_collapse+
   theme.larger.text+
   annotation_raster(l.v, xmin = 9.7, xmax = 10.3, ymin = 66, ymax = 66 + 13)+
-  annotation_raster(l.p, xmin = 8.65,xmax = 9.35,ymin = 28 + 1, ymax = 28 + 20)+
-  annotation_raster(g.g, xmin = 7.65, xmax = 8.35, ymin = 26 + 1, ymax = 26 + 18)+
+  annotation_raster(g.g, xmin = 8.65,xmax = 9.35,ymin = 34 + 1, ymax = 28 + 20)+
+  annotation_raster(l.p, xmin = 7.65, xmax = 8.35, ymin = 28 + 1, ymax = 26 + 18)+
   annotation_raster(l.s, xmin = 6.55, xmax = 7.45, ymin = 25 + 1, ymax = 25 + 22)+
-  annotation_raster(g.g, xmin = 5.7, xmax = 6.3, ymin = 8 + 1, ymax = 8 + 15)+
-  annotation_raster(l.n, xmin = 4.6, xmax = 5.4, ymin = 6 + 1, ymax = 6 + 25)+
-  annotation_raster(p.m, xmin = 3.55, xmax = 4.45, ymin = 5, ymax = 5 + 30)+
-  annotation_raster(l.r, xmin = 2.75, xmax = 3.25, ymin = 5 + 1, ymax = 5 + 15)+
-  annotation_raster(a.s, xmin = 1.7, xmax = 2.3, ymin = 4 + 1, ymax = 4 + 13)+
-  annotation_raster(c.c, xmin = 0.65, xmax = 1.35, ymin = 3 + 1, ymax = 3 + 20) +
+  annotation_raster(l.n, xmin = 5.6, xmax = 6.4, ymin = 6 + 1, ymax = 8 + 15)+
+  annotation_raster(p.m, xmin = 4.6, xmax = 5.4, ymin = 5 + 1, ymax = 6 + 25)+
+  annotation_raster(l.r, xmin = 3.65, xmax = 4.35, ymin = 5 + 1, ymax = 5 + 20)+
+  annotation_raster(a.s, xmin = 2.7, xmax = 3.3, ymin = 4 + 1, ymax = 5 + 15)+
+  annotation_raster(c.c, xmin = 1.6, xmax = 2.4, ymin = 3 + 1, ymax = 4 + 16)+
+  annotation_raster(l.r, xmin = 0.65, xmax = 1.35, ymin = 2 + 1, ymax = 3 + 20) +
   annotate(geom = "text", x = 1, y = 60, label = "n = 14", fontface = "italic")
-# bar.fished.meso
+bar.fished.meso
 
 #save out plot
-ggsave(paste0("figures/fish/", name, "_mesophotic.fished..stacked.bar.plot.png"), bar.fished.meso, dpi = 600, width = 7, height = 8)
+ggsave(paste0("figures/fish/", name, "_mesophotic.fished.stacked.bar.plot.png"), bar.fished.meso, dpi = 600, width = 7, height = 8)
 
 # Rariphotic
 # Load fish pics
@@ -485,16 +492,16 @@ bar.fished.raro<-ggplot(maxn.fished.raro %>% mutate(scientific = str_replace_all
   theme(axis.text.y = element_text(face="italic"))+
   theme_collapse+
   theme.larger.text+
-  annotation_raster(p.m, xmin = 9.6, xmax = 10.4, ymin = 345, ymax = 345 + 100)+
-  annotation_raster(g.g, xmin = 8.65,xmax = 9.35,ymin = 339 + 1, ymax = 339 + 75)+
-  annotation_raster(l.m, xmin = 7.55, xmax = 8.45, ymin = 268 + 1, ymax = 268 + 100)+
-  annotation_raster(p.t, xmin = 6.65, xmax = 7.35, ymin = 213 + 1, ymax = 213 + 100)+
-  annotation_raster(a.s, xmin = 5.7, xmax = 6.3, ymin = 136 + 1, ymax = 136 + 60)+
-  annotation_raster(l.s, xmin = 4.6, xmax = 5.4, ymin = 89 + 1, ymax = 89 + 100)+
-  annotation_raster(l.r, xmin = 3.65, xmax = 4.35, ymin = 75+1, ymax = 75 + 100)+
-  annotation_raster(l.n, xmin = 2.6, xmax = 3.4, ymin = 41 + 1, ymax = 41 + 100)+
-  annotation_raster(l.p, xmin = 1.7, xmax = 2.3, ymin = 19 + 1, ymax = 19 + 75)+
-  annotation_raster(d.c, xmin = 0.65, xmax = 1.35, ymin = 19 + 1, ymax = 19 + 65) +
+  annotation_raster(g.g, xmin = 9.65, xmax = 10.35, ymin = 322, ymax = 345 + 70)+
+  annotation_raster(p.m, xmin = 8.55,xmax = 9.45,ymin = 321 + 1, ymax = 339 + 100)+
+  annotation_raster(l.m, xmin = 7.65, xmax = 8.35, ymin = 250 + 1, ymax = 268 + 85)+
+  annotation_raster(p.t, xmin = 6.65, xmax = 7.35, ymin = 209 + 1, ymax = 213 + 100)+
+  annotation_raster(a.s, xmin = 5.7, xmax = 6.3, ymin = 134 + 1, ymax = 136 + 60)+
+  annotation_raster(l.s, xmin = 4.55, xmax = 5.45, ymin = 73 + 1, ymax = 89 + 85)+
+  annotation_raster(l.r, xmin = 3.65, xmax = 4.35, ymin = 72 + 1, ymax = 75 + 100)+
+  annotation_raster(l.n, xmin = 2.6, xmax = 3.4, ymin = 38 + 1, ymax = 41 + 100)+
+  annotation_raster(d.c, xmin = 1.65, xmax = 2.35, ymin = 19 + 1, ymax = 19 + 65)+
+  annotation_raster(l.p, xmin = 0.7, xmax = 1.3, ymin = 18 + 1, ymax = 19 + 75) +
   annotate(geom = "text", x = 1, y = 300, label = "n = 167", fontface = "italic")
 bar.fished.raro
 
