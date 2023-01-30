@@ -71,8 +71,10 @@ samps.raro <- maxn.raro %>%
 # workout total maxn for each species ---
 # Mesophotic (30 - 70m)
 maxn.10.meso <- maxn.meso %>%
-  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "sp1", species)) %>%
-  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "sp1", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("sp1"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("sp1"), "spp", species)) %>%
   mutate(scientific=paste(genus,species,sep=" "))%>%
   group_by(scientific)%>%
   dplyr::summarise(maxn=sum(maxn))%>%
@@ -83,8 +85,10 @@ maxn.10.meso <- maxn.meso %>%
 
 # Rariphotic (70 - 200m)
 maxn.10.raro <- maxn.raro %>%
-  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "sp1", species)) %>%
-  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "sp1", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("grandoculis", "griseus"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("filamentosus", "typus"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Gymnocranius" & species %in% c("sp1"), "spp", species)) %>%
+  dplyr::mutate(species = ifelse(genus %in% "Pristipomoides" & species %in% c("sp1"), "spp", species)) %>%
   mutate(scientific=paste(genus,species,sep=" "))%>%
   group_by(scientific)%>%
   dplyr::summarise(maxn=sum(maxn))%>%
@@ -165,7 +169,8 @@ bar.top.10.raro <-ggplot(maxn.10.raro %>% mutate(scientific = str_replace_all(.$
   c("fulvoguttatus"="fulvoguttatus*", "gymnostethus"="gymnostethus*",
     "chrysophrys"="chrysophrys*", "grandoculis"="grandoculis*",
     "rubrioperculatus"="rubrioperculatus*","miniatus"="miniatus*",
-    "multidens"="multidens*", "sp1" = "sp1*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
+    "multidens"="multidens*", "Gymnocranius spp" = "Gymnocranius spp*",
+    "Pristipomoides spp" = "Pristipomoides spp*"))), aes(x=reorder(scientific,maxn), y=maxn)) +   
   geom_bar(stat="identity",colour="black",fill="lightgrey",position=position_dodge())+
   # ylim (0, 1150)+
   coord_flip()+
@@ -188,7 +193,7 @@ bar.top.10.raro <-ggplot(maxn.10.raro %>% mutate(scientific = str_replace_all(.$
   annotation_raster(p.n, xmin = 1.75, xmax = 2.25, ymin = 169 + 5, ymax = 169 + 150)+
   annotation_raster(c.f, xmin = 0.6, xmax = 1.4, ymin = 150 + 5, ymax = 150 + 290) +
   annotate(geom = "text", x = 1, y = 1000, label = "n = 167", fontface = "italic")
-# bar.top.10.raro
+bar.top.10.raro
 
 #save out plot
 ggsave(paste0("figures/fish/", name, "_rariphotic.stacked.bar.plot.png"), bar.top.10.raro, dpi = 600, width = 7, height = 8)
