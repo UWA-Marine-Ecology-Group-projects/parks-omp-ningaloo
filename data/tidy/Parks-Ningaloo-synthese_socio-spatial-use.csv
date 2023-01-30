@@ -1,0 +1,6 @@
+metric,survey.group,benchmark.to.compare.with,network,location,year,Mean,Lower.ci,Upper.ci
+Awarenes of an AMP in area,boat.ramp.recfishing,yes,AMP,Ningaloo,2020,21.7,14.5,31
+Correctly name an AMP,boat.ramp.recfishing,yes,AMP,Ningaloo,2020,0,0,17.8
+Supportive of AMP NPZ,boat.ramp.recfishing,yes,AMP,Ningaloo,2020,90.6,82.9,95.1
+AMP NPZ benefit environment,boat.ramp.recfishing,yes,AMP,Ningaloo,2020,84.9,76.3,90.9
+AMP NPZ negatively effect my fishing,boat.ramp.recfishing,yes,AMP,Ningaloo,2020,2.83,0.734,8.65
