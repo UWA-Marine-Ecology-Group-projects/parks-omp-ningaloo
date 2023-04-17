@@ -58,10 +58,12 @@ species <- dat %>%
   dplyr::select(family, genus, species, scientific) %>%
   distinct() %>%
   left_join(master) %>%
+  dplyr::mutate(australian.common.name = str_to_title(australian.common.name)) %>%
   left_join(caabdump, by = "genus") %>%
   dplyr::mutate(caab = ifelse(is.na(caab), spcode, caab)) %>%
   arrange(scientific) %>%
-  dplyr::select() %>%
+  dplyr::filter(!scientific %in% c("Unknown unknown")) %>%
+  dplyr::select(scientific, australian.common.name, caab) %>%
   dplyr::rename("Scientific name" = scientific,
                 "Common name" = australian.common.name,
                 "CAAB code" = caab) %>%
