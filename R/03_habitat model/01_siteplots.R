@@ -194,8 +194,7 @@ nrm_fills <- scale_fill_manual(values = c(
   name = "Habtiat classification")
 
 terr_fills <- scale_fill_manual(values = c("National Park" = "#c4cea6",          # Set the colours for terrestrial parks
-                                            "Nature Reserve" = "#e4d0bb"),
-                                 guide = "none")
+                                            "Nature Reserve" = "#e4d0bb"))
 
 # assign mpa colours - full levels are saved at end of script for future ref
 nmpa_cols <- scale_color_manual(values = c("Habitat Protection Zone" = "#fff8a3",
@@ -218,8 +217,8 @@ p2 <- ggplot() +
   nrm_fills +
   new_scale_fill() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
-  geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
-  terr_fills +
+  # geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
+  # terr_fills +
   new_scale_fill() +
   geom_sf(data = wampa %>% dplyr::filter(!waname %in% "Unassigned"), fill = NA, aes(colour = waname), size = 0.4) +
   wampa_cols +
@@ -283,6 +282,7 @@ p3 <- ggplot() +
   new_scale_fill() +
   geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
   terr_fills +
+  labs(fill = "Terrestrial Managed Areas") +
   new_scale_fill() +
   geom_sf(data = nmpa, aes(fill = ZoneName), alpha = 4/5, colour = NA) +
   geom_sf(data = gmpa, aes(fill = ZoneName), alpha = 0.2, colour = NA) +
@@ -299,8 +299,11 @@ p3 <- ggplot() +
            y = c(-21.9323, -22.7212)) +
   coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +                   
   theme_minimal() +
-  theme(legend.justification = "top")
-# p3
+  theme(legend.justification = "top",
+        legend.text = element_text(size = 7),
+        legend.title = element_text(size = 8),
+        legend.spacing = unit(0.01, "cm"))
+p3
 
 # inset map
 p3.1 <- ggplot(data = aus) +
@@ -317,11 +320,11 @@ p3.1 <- ggplot(data = aus) +
 # p3.1
 
 # plot both 
-p3 + inset_element(p3.1, left = 1.01, right = 1.6, top = 0.4, bottom = -0.01)  
+p3 + inset_element(p3.1, left = 1.01, right = 1.6, top = 0.3, bottom = -0.01)  
 # + plot_layout(widths = c(0.8, 2.2))
 
 ggsave(paste(paste0('figures/spatial/', name) , 'broad-site-plot.png', 
-             sep = "-"), dpi = 200, width = 8, height = 6)
+             sep = "-"), dpi = 200, width = 6, height = 6)
 
 # 4. Site zoom plot - including sampling points (p4)
 metadata <- read.csv("data/tidy/Parks-Ningaloo-synthesis_random-points_broad.habitat.csv") %>%
@@ -348,7 +351,7 @@ p4 <- ggplot() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
   new_scale_fill() +  
   geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
-  labs(fill = "State Managed Areas") +
+  labs(fill = "Terrestrial Managed Areas") +
   terr_fills +
   new_scale_fill() +
   geom_sf(data = mpa, aes(fill = ZoneName), alpha = 3/5, colour = NA) +
@@ -382,7 +385,7 @@ kef$NAME <- factor(kef$NAME, levels = c( "Cuvier Abyssal Plain canyons",  "Ninga
                                          "Exmouth Plateau", "Ancient coastline", "Continental slope fish"))
 kef_fills <- scale_fill_manual(values = c("Continental slope fish" = "#ffb677",                          
                                           "Cuvier Abyssal Plain canyons" = "#6db6ff",
-                                          "Ancient coastline" = "#ffff6d",                             
+                                          "Ancient coastline" = "#dbdb2e", #ffff6d                            
                                           "Exmouth Plateau" = "#b66dff",
                                           "Ningaloo Reef" = "#ff6db6"))
 
@@ -391,7 +394,7 @@ heri <- st_read("data/spatial/shapefiles/world_heritage_public.shp") %>%
 
 p5 <- ggplot() +
   geom_sf(data = ausc, fill = "seashell2", colour = "grey80", size = 0.1) +
-  geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA, show.legend = F) +
+  geom_sf(data = terrnp, aes(fill = leg_catego), alpha = 4/5, colour = NA) +
   labs(fill = "Terrestrial Managed Areas") +
   terr_fills +
   new_scale_fill() +
@@ -415,10 +418,12 @@ p5 <- ggplot() +
   # coord_sf(xlim = c(113.4, 114.35), ylim = c(-23.6, -21.5)) +  
   coord_sf(xlim = c(113.369121533, 114.458190005), ylim = c(-24.033532778, -21.573710932)) +
   theme_minimal()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(size = 7))
 
 png(filename = paste(paste0('figures/spatial/', name) , 'key-ecological-features.png',
-                     sep = "-"), units = "in", res = 200, width = 8, height = 6)
+                     sep = "-"), units = "in", res = 200, width = 6, height = 6)
 p5
 dev.off()
 
