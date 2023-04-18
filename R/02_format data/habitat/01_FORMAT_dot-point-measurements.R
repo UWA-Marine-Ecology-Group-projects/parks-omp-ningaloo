@@ -197,6 +197,32 @@ broad.points <- habitat %>%
   ga.clean.names() %>%
   glimpse
 
+detailed.points <- habitat %>%
+  dplyr::mutate(id = 1:nrow(habitat)) %>% # Key for tidyr::spread
+  dplyr::select(-c(relief, image.row, 
+                   image.col, fieldofview, relief.file))%>%
+  dplyr::filter(!broad%in%c("",NA,"Unknown","Open.Water","Open Water")) %>%
+  dplyr::mutate(detailed = paste("broad",broad,morphology, type, sep = ".")) %>%
+  dplyr::mutate(count = 1) %>%
+  dplyr::select(-c(broad, morphology, type)) %>%
+  dplyr::group_by(campaignid, sample) %>%
+  tidyr::spread(key = detailed, value = count,fill = 0) %>%
+  dplyr::group_by(campaignid, sample) %>%
+  dplyr::summarise_all(funs(sum)) %>%
+  ungroup() %>%
+  dplyr::select(-id) %>%
+  dplyr::mutate(broad.total.points.annotated=rowSums(.[,3:(ncol(.))],na.rm = TRUE )) %>%
+  dplyr::mutate(`broad.Unconsolidated.Pebble / gravel (biogenic).` = `broad.Unconsolidated.Pebble / gravel (biogenic).` + `broad.Unconsolidated.Pebble.gravel (biogenic)`,
+                `broad.Unconsolidated.Pebble / gravel (gravel 2-10mm).` = `broad.Unconsolidated.Pebble / gravel (gravel 2-10mm).` + `broad.Unconsolidated.Pebble.gravel (gravel 2-10mm)`,
+                `broad.Unconsolidated.Sand / mud (coarse sand).` = `broad.Unconsolidated.Sand / mud (coarse sand).` + `broad.Unconsolidated.Sand.mud (coarse sand)`,
+                `broad.Unconsolidated.Sand / mud (fine sand).` = `broad.Unconsolidated.Sand / mud (fine sand).` + `broad.Unconsolidated.Sand.mud (fine sand)`) %>%
+  dplyr::select(-c(`broad.Unconsolidated.Pebble.gravel (biogenic)`,
+                   `broad.Unconsolidated.Pebble.gravel (gravel 2-10mm)`,
+                   `broad.Unconsolidated.Sand.mud (coarse sand)`,
+                   `broad.Unconsolidated.Sand.mud (fine sand)`)) %>%
+  ga.clean.names() %>%
+  glimpse
+
 # Create relief----
 relief.grid <- habitat %>%
   dplyr::filter(!broad %in% c("Open Water","Unknown")) %>%
@@ -231,5 +257,7 @@ habitat.broad.points <- metadata %>%
   glimpse()
 
 write.csv(habitat.broad.points,file = paste0("data/tidy/",study,"_random-points_broad.habitat.csv"), 
+          row.names=FALSE)
+write.csv(detailed.points,file = paste0("data/staging/",study,"_random-points_detailed.habitat.csv"), 
           row.names=FALSE)
 setwd(working.dir)

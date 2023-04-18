@@ -1,7 +1,7 @@
 ###
 # Project: Parks OMP Ningaloo
-# Data:    BRUV and BOSS fish MaxN and length data
-# Task:    Format data for use in FSSgam model selection
+# Data:    BRUV and BOSS fish MaxN data
+# Task:    Generate full species table with CAAB codes
 # Author:  Claude Spencer
 # Date:    April 2023
 ##
