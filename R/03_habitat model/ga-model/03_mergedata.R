@@ -29,8 +29,8 @@ hab  <- read.csv("data/tidy/Parks-Ningaloo-synthesis_random-points_broad.habitat
 # Set up CRS and load spatial covariates from 02_spatial_layers.R 
 wgscrs <- "+proj=longlat +datum=WGS84 +south"                                    # Latlong projection 
 preds  <- readRDS(paste(paste0('data/spatial/rasters/', name), 
-                       'spatial_covariates.rds', sep = "_"))
-preds <- rast(preds)
+                       'ga_spatial_covariates.rds', sep = "_"))
+# preds <- rast(preds)
 plot(preds)
 
 # Align crs and check samples over bathy and extract terrain data
@@ -51,4 +51,4 @@ allhab <- habi_df %>%
 
 # Save the output
 saveRDS(allhab, paste(paste0('data/tidy/', name), 
-                      'habitat-bathy-derivatives.rds', sep = "_"))
+                      'ga_habitat-bathy-derivatives.rds', sep = "_"))
