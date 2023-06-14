@@ -103,5 +103,5 @@ dom.habs <- st_as_sf(pred_stars, as_points = FALSE, merge = TRUE) %>%
                 "2" = "inverts")) 
 plot(dom.habs)
 
-st_write(dom.habs, paste0("output/habitat/", name, "_predicted-dominant-habitat.shp"),
+st_write(dom.habs, paste0("output/gam-habitat/", name, "_predicted-dominant-habitat.shp"),
          append = F)
