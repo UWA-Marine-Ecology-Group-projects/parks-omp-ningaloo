@@ -163,3 +163,12 @@ summary(spreddf)                                                                
 
 # saveRDS(preddf, "output/broad_fish_predictions.rds")
 saveRDS(spreddf, "output/fssgam-fish/site_fish_predictions.rds")
+
+prasts <- readRDS("output/fssgam-fish/site_fish_predictions.rds") %>%
+  dplyr::select(x, y, p_legal) %>%
+  rast(crs = sppcrs)
+
+name <- "parks-ningaloo"
+
+terra::writeRaster(prasts, paste0("output/fssgam-fish/", name, "_", names(prasts), ".tif"),
+                   overwrite = T)
