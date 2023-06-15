@@ -80,6 +80,9 @@ saveRDS(preddf, paste0("output/gam-habitat/", name, "_predicted-habitat.rds"))
 
 # Some little bits for Tim's workshop
 # Save out as a raster
+prasts <- prasts %>%
+  mask(dep.mask)
+
 raster::writeRaster(prasts[[1]], paste0("output/gam-habitat/",name,"_predicted_sand.tif"),
                     overwrite = T)
 
@@ -87,12 +90,17 @@ raster::writeRaster(prasts[[2]], paste0("output/gam-habitat/",name,"_predicted_i
                     overwrite = T)
 
 # Convert it to a shapefile
+dep.mask <- preds[[1]] %>%
+  clamp(lower = -250, values = F)
+
 dom_rast <- preddf %>%
   dplyr::select(x, y, dom_tag) %>%
   dplyr::mutate(dom_tag = dplyr::recode(dom_tag,
                                         "sand" = "1",
                                         "inverts" = "2")) %>%
-  rast(type = "xyz", crs = "epsg:4326") 
+  rast(type = "xyz", crs = "epsg:4326") %>%
+  crop(ext(dep.mask)) %>%
+  mask(dep.mask)
 plot(dom_rast)
 # Don't think I need this step?
 pred_stars <- st_as_stars(dom_rast)
