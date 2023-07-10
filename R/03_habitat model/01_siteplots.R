@@ -80,6 +80,14 @@ wampa$waname <- dplyr::recode(wampa$waname,
                                "Special Purpose Zone",
                               "MMA" = 'Marine Management Area' )
 
+wampa$waname <- factor(wampa$waname, levels = c("Unassigned", 
+                                                "Marine Management Area",
+                                                "Conservation Area",
+                                                "General Use Zone",
+                                                "Recreation Area",
+                                                "Sanctuary Zone",
+                                                "Special Purpose Zone"))
+
 wampa <- st_crop(wampa, e)                                                      # Crop to the study area
 wasanc <- wampa[wampa$ZONE_TYPE %in% "Sanctuary Zone (IUCN IA)", ]
 
