@@ -2,7 +2,7 @@
 # Project: Parks - Abrolhos Post-Survey
 # Data:    Relief data (scored during fish counts)
 # Task:    Kriging relief
-# author:  Kingsley Griffin
+# author:  Kingsley Griffin & Claude Spencer
 # date:    Oct 2021
 ##
 
