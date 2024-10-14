@@ -81,6 +81,8 @@ ausc <- st_transform(ausc, sppcrs)
 
 # Commonwealth parks
 aumpa  <- st_read("data/spatial/shapefiles/AustraliaNetworkMarineParks.shp")    # All aus mpas
+aumpa_ruz <- aumpa %>%
+  dplyr::filter(ResName %in% "Ningaloo" & ZoneName %in% "Recreational Use Zone")
 mpa <- st_crop(aumpa, e)                                                        # Crop to the study area
 mpa <- st_transform(mpa, sppcrs)
 # Reorder levels so everything plots nicely
@@ -116,9 +118,9 @@ cwatr <- st_read("data/spatial/shapefiles/amb_coastal_waters_limit.shp")       #
 cwatr <- st_crop(cwatr, e)  
 cwatr <- st_transform(cwatr, sppcrs)
 
-broadbath <- readRDS(paste(paste0('data/spatial/rasters/', name), 'spatial_covariates.rds', sep = "_"))
-broadbath <- rast(broadbath)
-broadbath_t <- project(broadbath, sppcrs)                                       # Dodgy but doing just for plot
+broadbath <- readRDS(paste(paste0('data/spatial/rasters/', name), 'ga_spatial_covariates.rds', sep = "_"))
+# broadbath <- rast(broadbath)
+broadbath_t <- project(broadbath, sppcrs)                                       
 
 # Bathymetry
 bathdf <- as.data.frame(broadbath_t[[1]], na.rm = T, xy = T)
@@ -135,8 +137,9 @@ p1 <- ggplot() +
   # geom_contour(data = bathdf, aes(x, y, z = Z),                              
   #              breaks = c(-82, -125), colour = "white") +                     # Just have a look where old coastlines are
   geom_sf(data = ausc, fill = "seashell2", colour = "black", size = 0.1) +
-  geom_sf(data = npz, fill = NA, colour = "#7bbc63") +                          # Add national park zones
-  geom_sf(data = sanc, fill = NA, colour = "#bfd054") +                         # Add national park zones
+  geom_sf(data = aumpa_ruz, fill = NA, colour = "#ffb36b", linewidth = 0.5) +
+  geom_sf(data = npz, fill = NA, colour = "#7bbc63", linewidth = 0.5) +                          # Add national park zones
+  geom_sf(data = sanc, fill = NA, colour = "#bfd054", linewidth = 0.5) +                         # Add national park zones
   geom_sf(data = cwatr, fill = NA, colour = "red", size = 0.3) +
   # geom_contour(data = bathdf, aes(x = x, y = y, z = Z),                         # Contour lines
   #              breaks = c(- 30, -70, - 200),                                    # Contour breaks - change to binwidth for regular contours

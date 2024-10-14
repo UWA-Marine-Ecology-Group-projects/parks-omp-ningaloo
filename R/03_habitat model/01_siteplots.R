@@ -253,7 +253,7 @@ dev.off()
 # 3. Location overview plot - includes parks zones and an aus inset (p3)
 # assign mpa colours - full levels are saved at end of script for future ref
 nmpa_fills <- scale_fill_manual(values = c("National Park Zone" = "#7bbc63",
-                                          "Multiple Use Zone" = "#b9e6fb",
+                                          # "Multiple Use Zone" = "#b9e6fb",
                                           "Recreational Use Zone" = "#ffb36b"
                                           # "Habitat Protection Zone" = "#fff8a3"
 ), 

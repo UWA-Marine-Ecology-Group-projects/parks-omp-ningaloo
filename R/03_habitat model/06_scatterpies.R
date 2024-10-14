@@ -41,9 +41,8 @@ ausc <- st_crop(aus, e)
 aumpa  <- st_read("data/spatial/shapefiles/AustraliaNetworkMarineParks.shp")    # All aus mpas
 mpa <- st_crop(aumpa, e)                                                        # Crop to the study area
 # Reorder levels so everything plots nicely
-aumpa$ZoneName <- factor(aumpa$ZoneName, levels = c("Multiple Use Zone", 
-                                                    "Special Purpose Zone",
-                                                    "National Park Zone"))
+aumpa_ruz <- aumpa %>%
+  dplyr::filter(ResName %in% "Ningaloo" & ZoneName %in% "Recreational Use Zone")
 npz <- mpa[mpa$ZoneName %in% "National Park Zone", ]                            # Just National Park Zones
 
 # State parks
@@ -118,11 +117,12 @@ gg.scatterpie <- ggplot() +
   depth_fills +
   new_scale_fill()+
   geom_sf(data = aus, fill = "seashell2", colour = "black", size = 0.1) +
-  geom_sf(data = wasanc ,fill = "#bfd054", alpha = 2/5, color = NA) +
+  geom_sf(data = wasanc, fill = "#bfd054", alpha = 2/5, color = NA) +
   wampa_fills +
   labs(fill = "State Marine Parks") +
   new_scale_fill() +
   geom_sf(data = npz, fill = "#7bbc63",alpha = 2/5, color = NA) +
+  geom_sf(data = aumpa_ruz, fill = NA, colour = "#ffb36b", linewidth = 0.5) +
   geom_sf(data = cwatr, colour = "firebrick", alpha = 4/5, size = 0.3) +
   new_scale_fill() +
   geom_scatterpie(aes(x = x, y = y, group = grouping), data = dat,
