@@ -36,7 +36,7 @@ fabund <- bind_rows(dat1,dat2)                                                  
 
 preddf <- readRDS(paste(paste0('data/spatial/rasters/raw bathymetry/', name), 
                         'spatial_covariates.rds', sep = "_")) %>%
-  rast() %>%
+  # rast() %>%
   as.data.frame(xy = T, na.rm = T) %>%
   dplyr::rename(depth = Z) %>%
   glimpse()
@@ -98,12 +98,12 @@ summary(m_sublegal)
 
 # predict, rasterise and plot
 preddf <- cbind(preddf, 
-                "p_totabund" = predict(m_totabund, preddf, type = "response"),
-                "p_richness" = predict(m_richness, preddf, type = "response"),
-                "p_legal" = predict(m_legal, preddf, type = "response"),
-                "p_sublegal" = predict(m_sublegal, preddf, type = "response"))
+                "p_totabund" = predict(m_totabund, preddf, type = "response", se.fit = T),
+                "p_richness" = predict(m_richness, preddf, type = "response", se.fit = T),
+                "p_legal" = predict(m_legal, preddf, type = "response", se.fit = T),
+                "p_sublegal" = predict(m_sublegal, preddf, type = "response", se.fit = T))
 
-prasts <- rasterFromXYZ(preddf[, c(3, 4, 13:16)]) 
+prasts <- rasterFromXYZ(preddf[, c(3, 4, 13:20)]) 
 plot(prasts)
 
 ## No need for this anymore, just used the masked habitat predictions to start with
@@ -112,10 +112,10 @@ plot(prasts)
 # plot(sprast)
 
 dev.off()
-plot(prasts$p_totabund)
-plot(prasts$p_richness)
-plot(prasts$p_legal)
-plot(prasts$p_sublegal)
+# plot(prasts$p_totabund)
+# plot(prasts$p_richness)
+# plot(prasts$p_legal)
+# plot(prasts$p_sublegal)
 
 # Mask out the state SZs
 # State parks
@@ -146,6 +146,7 @@ wasanc <- wampa[wampa$waname %in% "Sanctuary Zone", ]
 wasanc <- vect(wasanc)
 
 prasts <- rast(prasts)
+crs(prasts) <- "epsg:32749"
 prasts <- mask(prasts, wasanc, inverse = T)
 plot(prasts)
 
@@ -164,11 +165,11 @@ summary(spreddf)                                                                
 # saveRDS(preddf, "output/broad_fish_predictions.rds")
 saveRDS(spreddf, "output/fssgam-fish/site_fish_predictions.rds")
 
-prasts <- readRDS("output/fssgam-fish/site_fish_predictions.rds") %>%
-  dplyr::select(x, y, p_legal) %>%
-  rast(crs = sppcrs)
-
-name <- "parks-ningaloo"
+# prasts <- readRDS("output/fssgam-fish/site_fish_predictions.rds") %>%
+#   dplyr::select(x, y, p_legal) %>%
+#   rast(crs = sppcrs)
+# 
+# name <- "parks-ningaloo"
 
 terra::writeRaster(prasts, paste0("output/fssgam-fish/", name, "_", names(prasts), ".tif"),
                    overwrite = T)
