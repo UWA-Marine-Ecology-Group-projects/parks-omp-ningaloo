@@ -58,7 +58,7 @@ unique(dat$dom_tag)
 
 stack <- readRDS(paste(paste0('data/spatial/rasters/raw bathymetry/', name),      # This is ignored - too big!
                        'spatial_covariates.rds', sep = "_")) %>%
-  rast() %>%
+  # rast() %>%
   brick()
 rpc = rasterPCA(stack, nComp = 1 , spca = TRUE, nSamples = 5000) ### first PCA component of the raster stack to estimate spatial AC
 

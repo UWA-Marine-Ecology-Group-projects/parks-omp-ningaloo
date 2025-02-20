@@ -27,18 +27,17 @@ dat <- readRDS(paste(paste0('data/tidy/', name),
   glimpse()
 
 stack <- readRDS(paste(paste0('data/spatial/rasters/raw bathymetry/', name),      # This is ignored - too big!
-                       'spatial_covariates.rds', sep = "_")) %>%
-  rast()
+                       'spatial_covariates.rds', sep = "_"))
 
 pred_class <- rast(paste0("output/rf-habitat/", name, "_nesp_predicted-habitat.tif"))  # %>%
   # focal(w = c(9,9), fun = "modal") %>%
   # focal(w = c(9,9), fun = "modal") # Filtered multiple times to get rid of artefacts
 
 pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%
-  dplyr::rename(layer_value = "category") %>%                                   # SOmetimes changes? package conflict?
+  dplyr::rename(layer_value = "Parks-Ningaloo-synthesis_nesp_predicted-habitat") %>%  # Sometimes changes? package conflict?
   dplyr::mutate(layer_value = dplyr::recode(layer_value,
-                                     "sand" = "Sand",
-                                     "inverts" = "Sessile invertebrates")) %>%
+                                     "2" = "Sand",
+                                     "1" = "Sessile invertebrates")) %>%
   glimpse()
 
 # pred_classdf <- as.data.frame(pred_class, xy = T, na.rm = T) %>%

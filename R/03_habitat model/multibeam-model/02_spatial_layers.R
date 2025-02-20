@@ -55,6 +55,6 @@ plot(preds)
 names(preds)[1] <- "Z"
 
 # Save the output
-preds <- terra::wrap(preds)
+# preds <- terra::wrap(preds)
 saveRDS(preds, paste(paste0('data/spatial/rasters/raw bathymetry/', name),      # This is ignored - too big!
                      'spatial_covariates.rds', sep = "_")) 

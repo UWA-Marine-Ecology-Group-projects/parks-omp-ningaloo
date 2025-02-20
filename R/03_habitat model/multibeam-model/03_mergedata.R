@@ -32,7 +32,7 @@ wgscrs <- "+proj=longlat +datum=WGS84 +south"                                   
 preds  <- readRDS(paste(paste0('data/spatial/rasters/raw bathymetry/', name), 
                         'spatial_covariates.rds', sep = "_"))
 
-preds <- rast(preds)
+# preds <- rast(preds)
 plot(preds)
 
 # Align crs and check samples over bathy and extract terrain data
